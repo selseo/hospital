@@ -3,7 +3,7 @@
   var today = moment();
 
   function Calendar(selector) {
-  	//console.log(events);
+    //console.log(events);
     this.el = document.querySelector(selector);
     this.changelist = [];
     this.current = moment().date(1);
@@ -257,16 +257,16 @@
       toggleButtonInput.type = 'checkbox';
       var patientSlot = createElement('span', '', ev.count + '/15');
       if(ev.eventName == 'Available')
-      	toggleButtonInput.checked = 'checked';
+        toggleButtonInput.checked = 'checked';
       
       toggleButtonInput.addEventListener('click', function(){
-      	if($(this).is(":checked")) {
-      		$(this).parent().parent().next().html('Available');
-      		if($(this).parent().parent().parent().is(':first-child')){
-      			$('#ev'+ (2*ev.d-1)).removeClass('red').addClass('green');
-      			ev.eventName = 'Available';
+        if($(this).is(":checked")) {
+          $(this).parent().parent().next().html('Available');
+          if($(this).parent().parent().parent().is(':first-child')){
+            $('#ev'+ (2*ev.d-1)).removeClass('red').addClass('green');
+            ev.eventName = 'Available';
             console.log(ev.d);
-      			self.changelist[(2*ev.d-1)] = 'Available';
+            self.changelist[(2*ev.d-1)] = 'Available';
             if(ev.calendar == 'Not Available')
              self.changelist[(2*ev.d-1)] = 'Available';
            else 
@@ -283,9 +283,9 @@
     } else {
       $(this).parent().parent().next().html('Not Available');
       if($(this).parent().parent().parent().is(':first-child')){
-      			// change dot color
-      			$('#ev'+ (2*ev.d-1)).removeClass('green').addClass('red');
-      			ev.eventName = 'Not Available';
+            // change dot color
+            $('#ev'+ (2*ev.d-1)).removeClass('green').addClass('red');
+            ev.eventName = 'Not Available';
             if(ev.calendar == 'Available')
               self.changelist[(2*ev.d-1)] = 'Not Available';
             else 
@@ -363,7 +363,7 @@ this.el.appendChild(legend);
 }
 
 Calendar.prototype.drawChanges = function() {
-  	// Change List
+    // Change List
     $("#change-list-div").empty();
     var self = this;
     var changes = createElement('ul', 'change-list');
@@ -437,56 +437,95 @@ Calendar.prototype.drawChanges = function() {
   }
 
   Calendar.prototype.getEventByMonth = function() {
-  	// console.log('get new event for month ' + (this.current.clone().month()+1));
-  	var thisMonthEvents = [];
+    // console.log('get new event for month ' + (this.current.clone().month()+1));
+    var thisMonthEvents = [];
 
-  	var endOfMonth = this.current.clone().endOf('month').date();
-  	// init time slots
-  	for(var idx=0; idx<endOfMonth; idx+=1){
-  		thisMonthEvents.push({eventName: 'Not Available', calendar: 'Not Available', color: 'red', d: idx+1, count: 0});
-  		thisMonthEvents.push({eventName: 'Not Available', calendar: 'Not Available', color: 'red', d: idx+1, count: 0});
-  	}
-  	// fetching registed time from backend
-  	var preparedData = getPrepareData();
+    var endOfMonth = this.current.clone().endOf('month').date();
+    // init time slots
+    for(var idx=0; idx<endOfMonth; idx+=1){
+      thisMonthEvents.push({eventName: 'Not Available', calendar: 'Not Available', color: 'red', d: idx+1, count: 0});
+      thisMonthEvents.push({eventName: 'Not Available', calendar: 'Not Available', color: 'red', d: idx+1, count: 0});
+    }
+    // fetching registed time from backend
+    var preparedData = getPrepareData();
 
-  	preparedData.forEach(function(pd){
-  		thisMonthEvents[((2*pd.date - 1)) + pd.period].eventName = thisMonthEvents[((2*pd.date - 1)) + pd.period].calendar = 'Available';
-  		//thisMonthEvents[(2*(pd.d - 1)) + pd.p].calendar = 'Available';
-  		thisMonthEvents[((2*pd.date - 1)) + pd.period].color = 'green';
+    preparedData.forEach(function(pd){
+      thisMonthEvents[((2*pd.date - 1)) + pd.period].eventName = thisMonthEvents[((2*pd.date - 1)) + pd.period].calendar = 'Available';
+      //thisMonthEvents[(2*(pd.d - 1)) + pd.p].calendar = 'Available';
+      thisMonthEvents[((2*pd.date - 1)) + pd.period].color = 'green';
       thisMonthEvents[((2*pd.date - 1)) + pd.period].count = pd.count;
-  	});
-  	return thisMonthEvents;
+    });
+    return thisMonthEvents;
   }
 
   Calendar.prototype.save = function() {
-  	// console.log('save triggered for ' + this.current.month() + '/' + this.current.year());
+    // console.log('save triggered for ' + this.current.month() + '/' + this.current.year());
     // $('#failed-save-text').show();
     console.log(this.changelist);
-    this.changelist = []; // this line must be removed after finish the code below
-  	// TODO : fire the http post request to server
-    // if(this.changelist.length > 0) {
-    //   $.ajax({
-    //     type: "POST",
-    //     data: data, // construct data in your preferred format
-    //     url: "", // TODO : pls add url here
-    //     success: function(e){
-    //       this.changelist = [];
-    //       alert('Save change(s) successfully!');
-    //     },
-    //     error: function(e){
-    //       alert('Failed to save change(s), please try again later ..');
-    //     }
-    //   })  
-    // }
+    var self = this;
+    //this.changelist = []; // this line must be removed after finish the code below
+    // TODO : fire the http post request to server
+    var saveData = [];
+    this.changelist.forEach(function(ev, index){
+      saveData.push({
+        date: Math.floor((index+1)/2),
+        period: index % 2 == 1 ? 0 : 1,
+        status: ev == 'Available'? 1 : 0 
+      })
+    });
+    console.log(saveData);
+    if(this.changelist.length > 0) {
+      $.ajaxSetup({ 
+             beforeSend: function(xhr, settings) {
+                 function getCookie(name) {
+                     var cookieValue = null;
+                     if (document.cookie && document.cookie != '') {
+                         var cookies = document.cookie.split(';');
+                         for (var i = 0; i < cookies.length; i++) {
+                             var cookie = jQuery.trim(cookies[i]);
+                             // Does this cookie string begin with the name we want?
+                             if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                                 cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                                 break;
+                             }
+                         }
+                     }
+                     return cookieValue;
+                 }
+                 if (!(/^http:.*/.test(settings.url) || /^https:.*/.test(settings.url))) {
+                     // Only send the token to relative URLs i.e. locally.
+                     xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
+                 }
+             } 
+        });
+      $.ajax({
+        type: "POST",
+        url: "timetable/save/",
+        data: {
+          "slist": JSON.stringify(saveData),
+          "month": (self.current.month()+1),
+          "year": self.current.year()
+        },
+        success: function(e){
+          this.changelist = [];
+          alert('Save change(s) successfully!');
+          console.log(e);
+        },
+        error: function(e,f,g){
+          // alert('Failed to save change(s), please try again later ..');
+          console.log(e)
+        }
+      })  
+    }
   }
 
-  Calendar.prototype.discard = function(){
-    console.log('discard');
-    this.changelist = [];
-  }
+Calendar.prototype.discard = function(){
+  console.log('discard');
+  this.changelist = [];
+}
 
-  function getPrepareData() {
-  	// TODO : fetch and making data in this form
+function getPrepareData() {
+    // TODO : fetch and making data in this form
     // prefered format : a json object with three values each, 
     //                   d - date (0-31) | p - period (0: morning | 1: afternoon) | c - patient count (int)
     //              Note that this is just sample vars, you may refactor each variable depends on what u recieved from backend
@@ -500,21 +539,22 @@ Calendar.prototype.drawChanges = function() {
     //      alert('Can\'t get your timetable'); // TODO : handle this case
     //   }
     // })
-    
+
     // TODO : remove two lines below when finish above section
     preparedData = [{date: 2, period: 0, count: 10}, {date: 2, period: 1, count: 5}, {date: 5, period: 0, count: 5}, 
-                    {date: 9, period: 0, count: 10}, {date: 9, period: 1, count: 15}];
+    {date: 9, period: 0, count: 10}, {date: 9, period: 1, count: 15}];
     return preparedData;
   }
-}();
 
-!function() {
+    }();
 
-  function addDate(ev) {
+    !function() {
 
-  }
+      function addDate(ev) {
 
-  var calendar = new Calendar('#calendar');
+      }
 
-}();
+      var calendar = new Calendar('#calendar');
+
+    }();
 
