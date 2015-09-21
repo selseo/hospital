@@ -21,5 +21,5 @@ urlpatterns = [
     url(r'^app/', include('appointment.urls', namespace="appointment")),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^register/', include('ptregister.urls', namespace="ptregister")),
-
+    url(r'^timetable/', include('doctor_timetable.urls', namespace="doctor_timetable")),   
 ]

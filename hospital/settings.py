@@ -41,6 +41,7 @@ INSTALLED_APPS = (
     'appointment',
     'djfrontend',
     'djfrontend.skeleton',
+    'doctor_timetable',
 )
 
 MIDDLEWARE_CLASSES = (
