@@ -37,10 +37,14 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'ptregister',
-    'appointment',
+    #third party library
     'djfrontend',
     'djfrontend.skeleton',
+    #for form + bootstrap form
+    'crispy_forms',
+    'ptregister',
+    'appointment',
+
 )
 
 MIDDLEWARE_CLASSES = (
@@ -113,3 +117,5 @@ STATICFILES_DIRS = (
     os.path.join(BASE_DIR, "static_in_pro" , "our_static"),
     #'/var/www/static/',
 )
+
+CRISPY_TEMPLATE_PACK = 'bootstrap3'
