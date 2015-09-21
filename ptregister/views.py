@@ -24,3 +24,4 @@ def submit(request):
     )
     npatient.save()
     return render(request, 'default/register.html',)
+
