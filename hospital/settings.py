@@ -40,10 +40,12 @@ INSTALLED_APPS = (
     #third party library
     'djfrontend',
     'djfrontend.skeleton',
+
     #for form + bootstrap form
     'crispy_forms',
     'ptregister',
     'appointment',
+     'doctor_timetable',
 
 )
 
