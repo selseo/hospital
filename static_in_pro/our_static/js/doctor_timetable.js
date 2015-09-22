@@ -248,9 +248,7 @@
       var div = createElement('div', 'event');
       var square = createElement('div', 'event-category ' + ev.color);
       var span = createElement('span', '', ev.eventName);
-      // add here
-      // replace square with toggle button if possible
-      // <section class="model-6"><div class="checkbox"><input type="checkbox"/><label></label></div></section>
+
       var toggleButtonSection = createElement('section', 'toggle-button');
       var toggleButtonDiv = createElement('div', 'checkbox');
       var toggleButtonInput = createElement('input','');
@@ -367,10 +365,7 @@ Calendar.prototype.drawChanges = function() {
     $("#change-list-div").empty();
     var self = this;
     var changes = createElement('ul', 'change-list');
-    // if(this.changelist.length == 0) {
-    //   changes.appendChild(createElement('li', '', 'None'));
-    // }
-    // console.log(this.changelist.length);
+
     this.changelist.forEach(function(cl, index){
      var tmp = createElement('li', '', (self.current.year() + '/' + (self.current.month()+1) + 
       '/' + (Math.floor((index+1)/2)) + (index%2==1? ' - Morning ' : ' - Afternoon ') + 'is set to ' + cl));
@@ -381,10 +376,7 @@ Calendar.prototype.drawChanges = function() {
     var discardButton = createElement('button', 'discard-change-button', 'Discard');
     var buttonDiv = createElement('div', 'button-div');
     var saveText = createElement('div', 'save-text');
-    // var saveTextSuccess = createElement('span', '', 'Save change(s) successfully!');
-    // saveTextSuccess.id = 'success-save-text';
-    // var saveTextFail = createElement('span', '', 'Failed to save change(s)');
-    // saveTextFail.id = 'fail-save-text';
+
     saveButton.addEventListener('click', function(){
       self.save();
       self.drawChanges();
@@ -395,18 +387,12 @@ Calendar.prototype.drawChanges = function() {
       self.drawChanges();
     });
 
-    // buttonDiv.appendChild(saveTextSuccess);
-    // buttonDiv.appendChild(saveTextFail);
     buttonDiv.appendChild(saveText);
     buttonDiv.appendChild(saveButton);
     buttonDiv.appendChild(discardButton);
     $('#change-list-div').append(heading);
     $('#change-list-div').append(changes);
-    // $('#change-list-div').append(saveButton);
-    // $('#change-list-div').append(discardButton);
     $('#change-list-div').append(buttonDiv);
-    // $('#success-save-text').hide();
-    // $('#fail-save-text').hide();
   }
 
   Calendar.prototype.nextMonth = function() {
@@ -437,9 +423,7 @@ Calendar.prototype.drawChanges = function() {
   }
 
   Calendar.prototype.getEventByMonth = function() {
-    // console.log('get new event for month ' + (this.current.clone().month()+1));
     var thisMonthEvents = [];
-
     var endOfMonth = this.current.clone().endOf('month').date();
     // init time slots
     for(var idx=0; idx<endOfMonth; idx+=1){
@@ -447,24 +431,19 @@ Calendar.prototype.drawChanges = function() {
       thisMonthEvents.push({eventName: 'Not Available', calendar: 'Not Available', color: 'red', d: idx+1, count: 0});
     }
     // fetching registed time from backend
-    var preparedData = getPrepareData();
+    var preparedData = getPrepareData(this);
 
     preparedData.forEach(function(pd){
-      thisMonthEvents[((2*pd.date - 1)) + pd.period].eventName = thisMonthEvents[((2*pd.date - 1)) + pd.period].calendar = 'Available';
-      //thisMonthEvents[(2*(pd.d - 1)) + pd.p].calendar = 'Available';
-      thisMonthEvents[((2*pd.date - 1)) + pd.period].color = 'green';
-      thisMonthEvents[((2*pd.date - 1)) + pd.period].count = pd.count;
+      thisMonthEvents[((2*pd.date - 2)) + pd.period].eventName = thisMonthEvents[((2*pd.date - 2)) + pd.period].calendar = 'Available';
+      thisMonthEvents[((2*pd.date - 2)) + pd.period].color = 'green';
+      thisMonthEvents[((2*pd.date - 2)) + pd.period].count = pd.count;
     });
     return thisMonthEvents;
   }
 
   Calendar.prototype.save = function() {
-    // console.log('save triggered for ' + this.current.month() + '/' + this.current.year());
-    // $('#failed-save-text').show();
     console.log(this.changelist);
     var self = this;
-    //this.changelist = []; // this line must be removed after finish the code below
-    // TODO : fire the http post request to server
     var saveData = [];
     this.changelist.forEach(function(ev, index){
       saveData.push({
@@ -500,7 +479,7 @@ Calendar.prototype.drawChanges = function() {
         });
       $.ajax({
         type: "POST",
-        url: "timetable/save/",
+        url: "/timetable/save/",
         data: {
           "slist": JSON.stringify(saveData),
           "month": (self.current.month()+1),
@@ -508,12 +487,12 @@ Calendar.prototype.drawChanges = function() {
         },
         success: function(e){
           this.changelist = [];
+           self.drawChanges();
+          //self.changelist = [];
           alert('Save change(s) successfully!');
-          console.log(e);
         },
         error: function(e,f,g){
-          // alert('Failed to save change(s), please try again later ..');
-          console.log(e)
+          alert('Failed to save change(s), please try again later ..');
         }
       })  
     }
@@ -524,25 +503,33 @@ Calendar.prototype.discard = function(){
   this.changelist = [];
 }
 
-function getPrepareData() {
-    // TODO : fetch and making data in this form
-    // prefered format : a json object with three values each, 
-    //                   d - date (0-31) | p - period (0: morning | 1: afternoon) | c - patient count (int)
-    //              Note that this is just sample vars, you may refactor each variable depends on what u recieved from backend
-    // $.ajax({
-    //   type: "GET",
-    //   url: "", // TODO : pls add url here
-    //   success: function(e){
-    //     return e;
-    //   },
-    //   error: function(e){
-    //      alert('Can\'t get your timetable'); // TODO : handle this case
-    //   }
-    // })
-
-    // TODO : remove two lines below when finish above section
-    preparedData = [{date: 2, period: 0, count: 10}, {date: 2, period: 1, count: 5}, {date: 5, period: 0, count: 5}, 
-    {date: 9, period: 0, count: 10}, {date: 9, period: 1, count: 15}];
+function getPrepareData(date) {
+    var  preparedData = [];
+    $.ajax({
+      type: "GET",
+      url: "/timetable/getdata/",
+      data : {
+          "month": (date.current.month()+1),
+          "year": date.current.year()
+        },
+      success: function(e){
+        for(var x in e){
+          if(e[x].fields.time1){
+            pd = {date: e[x].fields.date, period: 0, count: "XXX"};
+            preparedData.push(pd);
+          }
+          if(e[x].fields.time2){
+            pd = {date: e[x].fields.date, period: 1, count: "XXX"};
+            preparedData.push(pd);
+          }
+        }
+        console.log(preparedData);
+      },
+      error: function(e){
+         alert('Can\'t get your timetable');
+      },
+      async:false,
+    })
     return preparedData;
   }
 
