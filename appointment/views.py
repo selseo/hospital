@@ -5,6 +5,7 @@ from .forms import AppForm
 
 import json
 from django.http import JsonResponse
+from .models import Department
 
 # Create your views here.
 def index(request):
@@ -34,5 +35,6 @@ def show(request):
     # if a GET (or any other method) we'll create a blank form
     else:
         form = AppForm()
+        department = Department.objects.all()
 
-    return render(request, 'default/appointment.html', {'form': form})
+    return render(request, 'default/appointment.html', {'department': department,'form':form})

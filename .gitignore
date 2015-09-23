@@ -46,5 +46,6 @@ Temporary Items
 # Django stuff:
 *.log
 *.pot
+**.pyc
 *.egg-info
 __pycache__

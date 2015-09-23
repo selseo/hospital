@@ -1,0 +1,23 @@
+[
+  {
+    "model": "appointment.department",
+    "pk": 1,
+    "fields": {
+      "name": "John"
+    }
+  },
+  {
+    "model": "appointment.department",
+    "pk": 2,
+    "fields": {
+      "name": "Jim"
+    }
+  },
+  {
+    "model": "appointment.department",
+    "pk": 3,
+    "fields": {
+      "name": "Jack"
+    }
+  }
+]
