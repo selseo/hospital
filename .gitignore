@@ -41,3 +41,10 @@ $RECYCLE.BIN/
 Network Trash Folder
 Temporary Items
 .apdisk
+
+
+# Django stuff:
+*.log
+*.pot
+*.egg-info
+__pycache__

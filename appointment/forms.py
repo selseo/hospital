@@ -3,12 +3,12 @@ from django.forms.extras.widgets import SelectDateWidget
 
 BIRTH_YEAR_CHOICES = ('1980', '1981', '1982')
 FAVORITE_COLORS_CHOICES = (
-    ('เช้า', 'Blue'),
-    ('green', 'Green'),
-    ('black', 'Black'),
+    ('1', 'เช้า'),
+    ('2', 'บ่าย'),
 )
 
 class AppForm(forms.Form):
+	
 	Doctor = forms.CharField(required=True,max_length=100)
 	Doctor.widget.attrs['class'] = 'form-control'
 
