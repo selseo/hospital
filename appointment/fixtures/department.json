@@ -3,21 +3,70 @@
     "model": "appointment.department",
     "pk": 1,
     "fields": {
-      "name": "John"
+      "name": "Accident and emergency"
     }
   },
   {
     "model": "appointment.department",
     "pk": 2,
     "fields": {
-      "name": "Jim"
+      "name": "Anaesthetics"
     }
   },
   {
     "model": "appointment.department",
     "pk": 3,
     "fields": {
-      "name": "Jack"
+      "name": "Breast screening"
+    }
+  },
+  {
+    "model": "appointment.department",
+    "pk": 4,
+    "fields": {
+      "name": "Chaplaincy"
+    }
+  },
+  {
+    "model": "appointment.department",
+    "pk": 5,
+    "fields": {
+      "name": "Critical care"
+    }
+  },
+  {
+    "model": "appointment.department",
+    "pk": 6,
+    "fields": {
+      "name": "Diagnostic imaging"
+    }
+  },
+   {
+    "model": "appointment.department",
+    "pk": 7,
+    "fields": {
+      "name": "Discharge lounge"
+    }
+  },
+  {
+    "model": "appointment.department",
+    "pk": 8,
+    "fields": {
+      "name": "Ear nose and throat (ENT)"
+    }
+  },
+  {
+    "model": "appointment.department",
+    "pk": 9,
+    "fields": {
+      "name": "Elderly services department"
+    }
+  },
+    {
+    "model": "appointment.department",
+    "pk": 10,
+    "fields": {
+      "name": "General surgery"
     }
   }
 ]
