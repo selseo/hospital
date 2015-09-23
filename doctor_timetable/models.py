@@ -16,7 +16,7 @@ class Doctor(models.Model):
     class Meta:
         unique_together = (('drusername'),('dridcard'),('dremail'),)
     def __str__(self): 
-        return str(self.id)+" "+str(self.name)+" "+str(self.surname)
+        return str(self.id)+" "+str(self.drname)+" "+str(self.drsurname)
 class timeTable(models.Model):
 	dr=models.ForeignKey('Doctor');
 	date = models.DateField();

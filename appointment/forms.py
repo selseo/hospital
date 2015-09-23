@@ -1,8 +1,10 @@
 from django import forms
 from django.forms.extras.widgets import SelectDateWidget
 from .models import Department
+from doctor_timetable.models import Doctor
 
 department = Department.objects.all()
+doctor = Doctor.objects.all()
 BIRTH_YEAR_CHOICES = ('1980', '1981', '1982')
 FAVORITE_COLORS_CHOICES = (
     ('1', 'เช้า'),
@@ -11,8 +13,9 @@ FAVORITE_COLORS_CHOICES = (
 
 class AppForm(forms.Form):
 	Department = forms.ModelChoiceField(queryset=department,to_field_name="name")
-
-	Doctor = forms.CharField(required=True,max_length=100)
+	
+	Doctor = forms.ModelChoiceField(queryset=doctor,to_field_name="drname")
+	#Doctor = forms.CharField(required=True,max_length=100)
 	Date = forms.DateField(widget=SelectDateWidget())
 	Time = forms.MultipleChoiceField(required=True,
 		widget=forms.CheckboxSelectMultiple, 
