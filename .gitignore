@@ -49,3 +49,11 @@ Temporary Items
 **.pyc
 *.egg-info
 __pycache__
+doctor_timetable/migrations/0001_initial.py
+doctor_timetable/migrations/0002_auto_20150923_1705.py
+doctor_timetable/migrations/0003_auto_20150923_1751.py
+doctor_timetable/migrations/__init__.py
+appointment/migrations/0001_initial.py
+appointment/migrations/__init__.py
+ptregister/migrations/0001_initial.py
+ptregister/migrations/__init__.py
