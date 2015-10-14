@@ -9,8 +9,8 @@ department = Department.objects.all()
 doctor = Doctor.objects.all()
 BIRTH_YEAR_CHOICES = ('1980', '1981', '1982')
 FAVORITE_COLORS_CHOICES = (
-    ('1', 'เช้า'),
-    ('2', 'บ่าย'),
+    ('1', 'Morning'),
+    ('2', 'Afternoon'),
 )
 
 class AppForm(forms.Form):

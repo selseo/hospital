@@ -30,6 +30,8 @@ def index(request):
 	time = timeTable.objects.filter(dr=doctor)
 	return render(request, 'doctor_timetable/index.html',{'doctor':doctor,'time':time})
 
+from django.views.decorators.csrf import csrf_exempt
+@csrf_exempt
 def save(request):
 	data = json.loads(request.POST['slist'])
 

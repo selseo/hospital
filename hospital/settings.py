@@ -45,7 +45,7 @@ INSTALLED_APPS = (
     'crispy_forms',
     'ptregister',
     'appointment',
-     'doctor_timetable',
+    'doctor_timetable',
 
 )
 
