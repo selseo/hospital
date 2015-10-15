@@ -23,13 +23,13 @@ def show(request):
         if form.is_valid():
             # process the data in form.cleaned_data as required
             # ...
-
+            
             data = {'form': form.cleaned_data , 'hello': 'world'}
             return HttpResponse(json.dumps(data), content_type='application/json')
 
             # redirect to a new URL:
             #return HttpResponseRedirect('/app/')
-			
+        return HttpResponse("Fake save : Invalid Form Input!")
             
 
     # if a GET (or any other method) we'll create a blank form
