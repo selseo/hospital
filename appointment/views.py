@@ -36,13 +36,13 @@ def show(request):
         if form.is_valid():
             # process the data in form.cleaned_data as required
             # ...
-
+            
             data = {'form': form.cleaned_data , 'hello': 'world'}
             return HttpResponse(json.dumps(data), content_type='application/json')
 
             # redirect to a new URL:
             #return HttpResponseRedirect('/app/')
-			
+        return HttpResponse("Fake save : Invalid Form Input!")
             
 
     # if a GET (or any other method) we'll create a blank form
@@ -51,5 +51,8 @@ def show(request):
         department = Department.objects.all()
 
     return render(request, 'default/appointment.html', {'department': department,'form':form})
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> 3b383a78be6e1b3dde118b35540083a97a42bf7c

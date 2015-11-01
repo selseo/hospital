@@ -9,6 +9,7 @@ from django.http import JsonResponse
 from django.core import serializers
 import math
 import json
+from django.views.decorators.csrf import csrf_exempt
 # Create your views here.
 
 def index(request):
@@ -30,6 +31,7 @@ def index(request):
 	time = timeTable.objects.filter(dr=doctor)
 	return render(request, 'doctor_timetable/index.html',{'doctor':doctor,'time':time})
 
+@csrf_exempt
 def save(request):
 	data = json.loads(request.POST['slist'])
 
@@ -79,10 +81,17 @@ def save(request):
 					time2 = False;
 					table = timeTable.objects.create(dr=doctor,date=Date,time1=time1,time2=time2,patientnum=0)
 					table.save()
-			
-			
 	return HttpResponse('')
+
 def getData(request):
+	doctor = Doctor.objects.get(drusername="test")
+	time = timeTable.objects.filter(dr=doctor, date__month=request.GET.get('month'), date__year=request.GET.get('year'))
+	for t in time :
+		t.date = t.date.day
+	time2 = serializers.serialize('json', time)
+	return HttpResponse(time2, content_type='application/json')
+
+def getData2(request):
 	doctor = Doctor.objects.get(drusername="test")
 	time = timeTable.objects.filter(dr=doctor, date__month=request.GET.get('month'), date__year=request.GET.get('year'))
 	for t in time :

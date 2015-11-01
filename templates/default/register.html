@@ -117,44 +117,45 @@
             <fieldset>
                 <legend>Register Form</legend>
                 <div>
-                    Firstname : <input type="text" name="ptname" placeholder="First Name"/>
-                </div>
+                    <div><label> Firstname : </label></div><p><div><input type="text" name="ptname" pattern="[A-Za-z.]{2,}" placeholder="First Name" required/></div>
+                </div><p>
                 <div>
-                    Lastname : <input type="text" name="ptsurname" placeholder="Last Name"/>
-                </div>
+                    <div><label>Lastname : </label></div><p><div><input type="text" name="ptsurname" pattern="[A-Za-z.]{2,}" placeholder="Last Name" required/></div>
+                </div><p>
                 <div>
-                    Username : <input type="text" name="ptusername" placeholder="First Name"/>
-                </div>
+                    <div><label>Username : </label></div><p><div><input type="text" name="ptusername" pattern="[a-z0-9]{4,}" placeholder="Username" required/></div>
+                </div><p>
                 <div>
-                    Password : <input type="password" name="ptpassword" placeholder="Password"/>
-                </div>
+                    <div><label>Password : </label></div><p><div><input type="password" name="ptpassword" pattern="[a-z0-9]{6,}" placeholder="Password" required/></div>
+                </div><p>
                 <div>
-                    Re-Password : <input type="password" name="ptpassword2" placeholder="Re-Password"/>
-                </div>
+                    <div><label>Re-Password : </label></label></div><p><div><input type="password" name="ptpassword2" pattern="[a-z0-9]{6,}" placeholder="Re-Password" required/></div>
+                </div><p>
                 <div>
-                  Sex : <input type="radio" name="ptsex" value="m">male
+                <label>Sex : </label><input type="radio" name="ptsex" value="m">male
                   <input type="radio" name="ptsex" value="f">female
                 </div>
+                <p>
                 <div>
-                    ID Card No. : <input type="text" name="ptidcard" placeholder="ID Card Num"/>
-                </div>
+                    <div><label>ID Card No. : </label></div><p><div><input type="text" name="ptidcard" pattern="[0-9]{5,}" placeholder="ID Card Num"/ required></div>
+                </div><p>
                 <div class="element-date">
-              		<label class="title">Birthdate : </label>
+              		<label class="title">Birthdate : </label><p>
               		<div class="item-cont">
-              			<input class="large" data-format="yyyy-mm-dd" type="date" name="ptbirthdate" placeholder="Birthdate"/>
+              			<input class="large" data-format="yyyy-mm-dd" type="date" name="ptbirthdate" placeholder="Birthdate"/ required>
               			<span class="icon-place"></span>
               		</div>
-              	</div>
+              	</div><p>
                 <div>
-                    Tel. : <input class="large" type="text" pattern="[+]?[\.\s\-\(\)\*\#0-9]{3,}" maxlength="24" name="ptphone" placeholder="Phone" value=""/>
-                </div>
+                    <div><label>Tel. : </label></div><p><div><input class="large" type="text" pattern="[+]?[\.\s\-\(\)\*\#0-9]{3,}" required maxlength="24" name="ptphone" placeholder="Phone" value=""/></div>
+                </div><p>
                 <div>
-                    E-mail : <input type="text" name="ptemail" placeholder="E-mail"/>
-                </div>
+                    <div><label>E-mail : </label></div><p><div><input type="text" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$" required name="ptemail" placeholder="E-mail"/></div>
+                </div><p>
                 <div class="element-textarea">
-              		<label class="title">Address : </label>
+              		<label class="title">Address : </label><p>
               		<div class="item-cont">
-              			<textarea class="medium" name="ptaddress" cols="20" rows="5" placeholder="Address"></textarea>
+              			<textarea class="medium" name="ptaddress" cols="20" rows="5" placeholder="Address" required></textarea>
               			<span class="icon-place"></span>
               		</div>
               	</div>
