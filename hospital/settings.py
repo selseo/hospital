@@ -48,6 +48,7 @@ INSTALLED_APPS = (
     'ptregister',
     'appointment',
     'doctor_timetable',
+    'testTheme',
 
 )
 
