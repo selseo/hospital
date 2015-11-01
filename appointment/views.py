@@ -51,8 +51,3 @@ def show(request):
         department = Department.objects.all()
 
     return render(request, 'default/appointment.html', {'department': department,'form':form})
-<<<<<<< HEAD
-
-
-=======
->>>>>>> 3b383a78be6e1b3dde118b35540083a97a42bf7c

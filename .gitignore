@@ -58,6 +58,9 @@ appointment/migrations/0001_initial.py
 appointment/migrations/__init__.py
 ptregister/migrations/0001_initial.py
 ptregister/migrations/__init__.py
+hospital/__pycache__/
+appointment/__pycache__/*.pyc
+
 *.pyc
 *.sqlite3
 
