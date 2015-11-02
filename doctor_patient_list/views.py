@@ -2,7 +2,7 @@ from django.shortcuts import get_object_or_404, render
 from django.http import HttpResponseRedirect,HttpResponse 
 from django.core.urlresolvers import reverse
 from django.views import generic
-from .models import Doctor,timeTable
+from doctor_timetable.models import Doctor,timeTable
 from django.contrib.auth.hashers import make_password
 from datetime import datetime
 from django.http import JsonResponse
@@ -29,7 +29,7 @@ def index(request):
 		)
 		doctor.save()
 	time = timeTable.objects.filter(dr=doctor)
-	return render(request, 'doctor_timetable/index.html',{'doctor':doctor,'time':time})
+	return render(request, 'doctor_patient_list/index.html',{'doctor':doctor,'time':time})
 
 
 def getData(request):

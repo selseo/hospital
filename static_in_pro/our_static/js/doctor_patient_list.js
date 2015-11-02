@@ -1,59 +1,59 @@
-!function () {
-    'use strict';
-    var today = moment();
+!function() {
 
-    function Calendar(selector) {
-        //console.log(events);
-        this.el = document.querySelector(selector);
-        this.changelist = [];
-        this.current = moment().date(1);
-        this.events = this.getEventByMonth();
-        this.draw();
-        var current = document.querySelector('.today');
-        if (current) {
-            var self = this;
-            window.setTimeout(function () {
-                self.openDay(current);
-            }, 500);
-        }
-    }
+  var today = moment();
 
-    Calendar.prototype.draw = function () {
-        //Create Header
-        this.drawHeader();
-
-        //Draw Month
-        this.drawMonth();
-
-        this.drawLegend();
-
-        this.drawChanges();
-    }
-
-    Calendar.prototype.drawHeader = function() {
+  function Calendar(selector) {
+    //console.log(events);
+    this.el = document.querySelector(selector);
+    this.changelist = [];
+    this.current = moment().date(1);
+    this.events = this.getEventByMonth();
+    this.draw();
+    var current = document.querySelector('.today');
+    if(current) {
       var self = this;
-      if(!this.header) {
-        //Create the header elements
-        this.header = createElement('div', 'header');
-        this.header.className = 'header';
-
-        this.title = createElement('h1');
-
-        var right = createElement('div', 'right');
-        right.addEventListener('click', function() { self.nextMonth(); });
-
-        var left = createElement('div', 'left');
-        left.addEventListener('click', function() { self.prevMonth(); });
-
-        //Append the Elements
-        this.header.appendChild(this.title); 
-        this.header.appendChild(right);
-        this.header.appendChild(left);
-        this.el.appendChild(this.header);
-      }
-
-      this.title.innerHTML = this.current.format('MMMM YYYY');
+      window.setTimeout(function() {
+        self.openDay(current);
+      }, 500);
     }
+  }
+
+  Calendar.prototype.draw = function() {
+    //Create Header
+    this.drawHeader();
+
+    //Draw Month
+    this.drawMonth();
+
+    this.drawLegend();
+
+    this.drawChanges();
+  }
+
+  Calendar.prototype.drawHeader = function() {
+    var self = this;
+    if(!this.header) {
+      //Create the header elements
+      this.header = createElement('div', 'header');
+      this.header.className = 'header';
+
+      this.title = createElement('h1');
+
+      var right = createElement('div', 'right');
+      right.addEventListener('click', function() { self.nextMonth(); });
+
+      var left = createElement('div', 'left');
+      left.addEventListener('click', function() { self.prevMonth(); });
+
+      //Append the Elements
+      this.header.appendChild(this.title); 
+      this.header.appendChild(right);
+      this.header.appendChild(left);
+      this.el.appendChild(this.header);
+    }
+
+    this.title.innerHTML = this.current.format('MMMM YYYY');
+  }
 
   Calendar.prototype.drawMonth = function() {
     var self = this;
@@ -164,7 +164,7 @@
         }
         return memo;
       }, []);
-      // TODO : checkout this
+
       todaysEvents.forEach(function(ev, index) {
         var evSpan = createElement('span', ev.color);
         evSpan.id =  'ev' + ((2*ev.d-1) + (index % 2));
@@ -364,28 +364,43 @@ Calendar.prototype.drawChanges = function() {
     // Change List
     $("#change-list-div").empty();
     var self = this;
-    var changes = createElement('ul', 'change-list');
-    // TODO : edit changelist
-    this.changelist.forEach(function(cl, index){
-     var tmp = createElement('li', '', (self.current.year() + '/' + (self.current.month()+1) + 
-      '/' + (Math.floor((index+1)/2)) + (index%2==1? ' - Morning ' : ' - Afternoon ') + 'is set to ' + cl));
-     changes.appendChild(tmp);
-   })
-    var heading = createElement('h3', '', 'Patient List');
 
+    var heading = createElement('h3', '', 'Patient List');
+    var morning = createElement('div', 'morning-div');
+    var afternoon = createElement('div', 'afternoon-div');
+    var morningPatient = this.listMorningPatient();
+    var afternoonPatient = this.listAfternoonPatient();
+
+    morning.appendChild(morningPatient);
+    afternoon.appendChild(afternoonPatient);
     $('#change-list-div').append(heading);
-    $('#change-list-div').append(changes);
+    $('#change-list-div').append(morning);
+    $('#change-list-div').append(afternoon);
+  }
+
+  Calendar.prototype.listMorningPatient = function() {
+    var patientList = createElement('ul', 'morning-list');
+    // TODO : do a for each loop to append all patients in this period to patientList
+    return patientList;
+  }
+
+  Calendar.prototype.listAfternoonPatient = function() {
+    var patientList = createElement('ul', 'afternoon');
+
+    return patientList;
   }
 
   Calendar.prototype.nextMonth = function() {
     this.current.add('months', 1);
     this.next = true;
+    this.save();
     this.draw();
   }
 
   Calendar.prototype.prevMonth = function() {
     this.current.subtract('months', 1);
     this.next = false;
+    this.save();
     this.draw();
   }
 
@@ -410,61 +425,65 @@ Calendar.prototype.drawChanges = function() {
       thisMonthEvents.push({eventName: 'Not Available', calendar: 'Not Available', color: 'red', d: idx+1, count: 0});
       thisMonthEvents.push({eventName: 'Not Available', calendar: 'Not Available', color: 'red', d: idx+1, count: 0});
     }
-    // fetching patient details from server-side
-    var preparedData = loadData(this);
-    this.markAvailable(preparedData.available);
-    this.listPatient(preparedData.patients)
+    // fetching registed time from backend
+    var preparedData = getPrepareData(this);
+    console.log(thisMonthEvents);
+    preparedData['available'].forEach(function(pd){
+      // thisMonthEvents[((2*pd.date - 2)) + pd.period].eventName = thisMonthEvents[((2*pd.date - 2)) + pd.period].calendar = 'Available';
+      // thisMonthEvents[((2*pd.date - 2)) + pd.period].color = 'green';
+      // thisMonthEvents[((2*pd.date - 2)) + pd.period].count = pd.count;
+    });
+    // this.listPatient(preparedData.patients)
     return thisMonthEvents;
   }
 
-  Calendar.prototype.markAvailable = function(available) {
-    // this function will mark all available periods in currently selected month regarding to data loaded
-
-    available.forEach(function(pd){
-      thisMonthEvents[((2*pd.date - 2)) + pd.period].eventName = thisMonthEvents[((2*pd.date - 2)) + pd.period].calendar = 'Available';
-      thisMonthEvents[((2*pd.date - 2)) + pd.period].color = 'green';
-    });
-  }
-
-  Calendar.prototype.listPatient = function(patients, date) {
-    // this function will list all patients appointed in currently selected date on patient-list-div
-  }
-
-function loadData(date) {
-    let preparedData = [];
-    // $.ajax({
-    //   type: "GET",
-    //   url: "/checktimetable/getdata/",
-    //   data : {
-    //       "month": (date.current.month()+1),
-    //       "year": date.current.year()
-    //     },
-    //   success: function(e){
-    //     // TODO : do some logic here by adding results to preparedData's array
-    //     // should get two kinds of data -> 1. doctor available period for red/green dot in calendar and
-    //     //                                 2. patient details for each period
-    //     console.log(preparedData);
-    //   },
-    //   error: function(e){
-    //      alert('Can\'t fetch your timetable');
-    //      console.log(e);
-    //   },
-    //   async:false,
-    // })
-    preparedData = {
-      'available' : [
-        {date: '', period: ''}
-      ],
-      'patients' : [
-        {date: '', period: '', patients: []}
-      ]
-    }
+function getPrepareData(date) {
+    var  preparedData = [];
+    $.ajax({
+      type: "GET",
+      url: "/patientlist/getdata/",
+      data : {
+          "month": (date.current.month()+1),
+          "year": date.current.year()
+        },
+      success: function(e){
+        // for(var x in e.available){
+        //   if(e[x].fields.time1){
+        //     pd = {date: e[x].fields.date, period: 0, count: "XXX"};
+        //     preparedData.push(pd);
+        //   }
+        //   if(e[x].fields.time2){
+        //     pd = {date: e[x].fields.date, period: 1, count: "XXX"};
+        //     preparedData.push(pd);
+        //   }
+        // }
+        preparedData = {
+                        'available' : [
+                          {date: '', period: ''}
+                        ],
+                        'patients' : [
+                          {date: '', period: '', patients: []}
+                        ]
+                      }
+        console.log(preparedData);
+      },
+      error: function(e){
+         alert('Can\'t get your timetable');
+      },
+      async:false,
+    })
     return preparedData;
   }
 
     }();
 
     !function() {
+
+      function addDate(ev) {
+
+      }
+
       var calendar = new Calendar('#calendar');
+
     }();
 

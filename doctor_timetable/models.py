@@ -13,15 +13,19 @@ class Doctor(models.Model):
     dremail=models.CharField(max_length=50)
     drnum=models.CharField(max_length=10)
     drphone=models.CharField(max_length=12)
+    created=models.DateTimeField(auto_now_add=True)
     class Meta:
         unique_together = (('drusername'),('dridcard'),('dremail'),)
-    def __str__(self): 
-        return str(self.id)+" "+str(self.drname)+" "+str(self.drsurname)
+        def __str__(self): 
+            return str(self.id)+" "+str(self.drname)+" "+str(self.drsurname)
+
 class timeTable(models.Model):
-	dr=models.ForeignKey('Doctor');
-	date = models.DateField();
-	time1 = models.BooleanField();
-	time2 = models.BooleanField();
-	patientnum = models.IntegerField(default=0);
-	def __str__(self):
-		return str(dr.id)+" "+str(dr.drname)+" "+str(date)
+    dr=models.ForeignKey('Doctor')
+    date = models.DateField()
+    time1 = models.BooleanField()
+    time2 = models.BooleanField()
+    patientnum = models.IntegerField(default=0)
+    created = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+      return str(dr.id)+" "+str(dr.drname)+" "+str(date)
