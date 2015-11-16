@@ -39,7 +39,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     #third party library
     'djfrontend',
-    'djfrontend.skeleton',
+    #'djfrontend.skeleton',
 
     #for form + bootstrap form
     'crispy_forms',
