@@ -38,20 +38,14 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     #third party library
-<<<<<<< HEAD
     #'djfrontend',
-    #'djfrontend.skeleton',
-    #for form + bootstrap form
-    #'crispy_forms',
-=======
-    'djfrontend',
     #'djfrontend.skeleton',
 
     #for form + bootstrap form
-    'crispy_forms',
+    #'crispy_forms',
     #rest API
     'rest_framework',
->>>>>>> b5b4b87cbb1c924c5b18b62e294eeff172974691
+
     'ptregister',
     'appointment',
     'doctor_timetable',
