@@ -27,6 +27,8 @@ class UserProfile(models.Model):
     sex=models.CharField(max_length=1)
     idcard=models.CharField(max_length=20)
     phone=models.CharField(max_length=15)
+    #0=patient 1=doctor 2=nurse 3=officer 4=pharmacist 5=admin
+    role=models.IntegerField(max_length=1)
 
     # Override the __unicode__() method to return out something meaningful!
     def __unicode__(self):

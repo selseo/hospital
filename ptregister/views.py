@@ -1,6 +1,6 @@
 from django.http import HttpResponseRedirect, HttpResponse
 from django.http import Http404
-from .models import Patient
+from .models import Patient,UserProfile
 from django.template import RequestContext, loader
 from django.shortcuts import get_object_or_404, render
 from django.core.urlresolvers import reverse
@@ -53,6 +53,7 @@ def register(request):
             # This delays saving the model until we're ready to avoid integrity problems.
             profile = profile_form.save(commit=False)
             profile.user = user
+            profile.role=0
 
             # Did the user provide a profile picture?
             # If so, we need to get it from the input form and put it in the UserProfile model.
@@ -90,7 +91,14 @@ def some_view(request):
 
 @login_required
 def restricted(request):
-    return HttpResponse("Since you're logged in, you can see this text!")
+    if getUserProfile(request.user).role==1:
+        return HttpResponse("You are Doctor")
+    else :
+        return HttpResponse("Since you're logged in, you can see this text!")
+
+#Method for get user profile
+def getUserProfile(user):
+    return UserProfile.objects.get(user=user)
 
 @login_required
 def user_logout(request):
