@@ -38,14 +38,14 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     #third party library
-    'djfrontend',
-    'djfrontend.skeleton',
-
+    #'djfrontend',
+    #'djfrontend.skeleton',
     #for form + bootstrap form
-    'crispy_forms',
+    #'crispy_forms',
     'ptregister',
     'appointment',
      'doctor_timetable',
+
 
 )
 
@@ -74,7 +74,7 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
             ],
-                
+
         },
     },
 ]
@@ -119,5 +119,7 @@ STATICFILES_DIRS = (
     os.path.join(BASE_DIR, "static_in_pro" , "our_static"),
     #'/var/www/static/',
 )
+
+LOGIN_URL = '/default/login/'
 
 CRISPY_TEMPLATE_PACK = 'bootstrap3'

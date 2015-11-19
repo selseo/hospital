@@ -17,9 +17,11 @@ from django.conf.urls import include, url
 from django.contrib import admin
 from appointment import views
 urlpatterns = [
+    
     url(r'^default/', include('ptregister.urls', namespace="ptregister")),
     url(r'^app/', include('appointment.urls', namespace="appointment")),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^register/', include('ptregister.urls', namespace="ptregister")),
-    url(r'^timetable/', include('doctor_timetable.urls', namespace="doctor_timetable")),   
+    url(r'^timetable/', include('doctor_timetable.urls', namespace="doctor_timetable")),
+    
 ]
