@@ -8,7 +8,7 @@
 	<!-- Main jumbotron for a primary marketing message or call to action -->
   	<div class="jumbotron">
   		<div class="container">
-  			<h1>Make Appointment</h1><h1>
+  			<h1>Make Appointment</h1>
   			<p>ทำการนัดหมาย <a class="btn btn-info btn-sm" href="#" role="button">Back to home page</a></p>
   		</div>
   	</div>
@@ -18,8 +18,10 @@
   	<div class="container" ng-app="makeApp" ng-controller="makeAppController">
   		<!-- Example row of columns -->
   		<div class="row">
+
   			<div class="col-md-6 col-md-offset-3">
   				<h2>Form</h2>
+          <h1 ng-model="a"></h1>
   				<form action="/app/show/" method="post">
 				    {% csrf_token %}
 				    {{ form | crispy }}

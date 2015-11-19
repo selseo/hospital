@@ -38,13 +38,24 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     #third party library
+<<<<<<< HEAD
     #'djfrontend',
     #'djfrontend.skeleton',
     #for form + bootstrap form
     #'crispy_forms',
+=======
+    'djfrontend',
+    #'djfrontend.skeleton',
+
+    #for form + bootstrap form
+    'crispy_forms',
+    #rest API
+    'rest_framework',
+>>>>>>> b5b4b87cbb1c924c5b18b62e294eeff172974691
     'ptregister',
     'appointment',
-     'doctor_timetable',
+    'doctor_timetable',
+    'testTheme',
 
 
 )
@@ -123,3 +134,11 @@ STATICFILES_DIRS = (
 LOGIN_URL = '/default/login/'
 
 CRISPY_TEMPLATE_PACK = 'bootstrap3'
+
+REST_FRAMEWORK = {
+    # Use Django's standard `django.contrib.auth` permissions,
+    # or allow read-only access for unauthenticated users.
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
+    ]
+}

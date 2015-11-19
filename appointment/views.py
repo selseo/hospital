@@ -5,14 +5,27 @@ from .forms import AppForm
 
 import json
 from django.http import JsonResponse
-from .models import Department
+from .models import Department,Dee
+
+#for restframework
+from rest_framework import viewsets
+from .serializers import DepartmentSerializer, DeeSerializer
+
+#for restframework
+class DepartmentViewset(viewsets.ModelViewSet):
+    queryset = Department.objects.all()
+    serializer_class = DepartmentSerializer
+
+class DeeViewset(viewsets.ModelViewSet):
+    queryset = Dee.objects.all()
+    serializer_class = DeeSerializer
 
 # Create your views here.
 def index(request):
     return HttpResponse("Hello, world. You're at the polls index.")
 
-# def show(request):
-#     return render(request, 'default/appointment.html')
+def doctor(request):
+    return HttpResponse(json.dumps(['foo', {'bar': ('baz', None, 1.0, 2)}]))
 
 def show(request):
     # if this is a POST request we need to process the form data
@@ -23,13 +36,13 @@ def show(request):
         if form.is_valid():
             # process the data in form.cleaned_data as required
             # ...
-
+            
             data = {'form': form.cleaned_data , 'hello': 'world'}
             return HttpResponse(json.dumps(data), content_type='application/json')
 
             # redirect to a new URL:
             #return HttpResponseRedirect('/app/')
-			
+        return HttpResponse("Fake save : Invalid Form Input!")
             
 
     # if a GET (or any other method) we'll create a blank form
