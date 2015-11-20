@@ -21,9 +21,21 @@ def index(request):
     # Place the list in our context_dict dictionary which will be passed to the template engine.
     #category_list = Category.objects.order_by('-likes')[:10]
     #context_dict = {'categories': category_list}
-
+    if request.user.is_authenticated():
+            if getUserProfile(request.user).role==0:
+                return render(request, 'default/index.html')
+            if getUserProfile(request.user).role==1:
+                return render(request, 'theme/doctor/index.html')
+            if getUserProfile(request.user).role==2:
+                return HttpResponse("You are Nurse")
+            if getUserProfile(request.user).role==3:
+                return HttpResponse("You are Officer")
+            if getUserProfile(request.user).role==4:
+                return HttpResponse("You are Pharmacist")
+            if getUserProfile(request.user).role==5:
+                return HttpResponse("You are Admin")
     # Render the response and send it back!
-    return render(request, 'default/index.html')
+    return render(request, 'theme/login.html')
 
 def register(request):
 
@@ -147,4 +159,4 @@ def user_login(request):
     else:
         # No context variables to pass to the template system, hence the
         # blank dictionary object...
-        return render(request, 'default/login.html', {})
+        return render(request, 'theme/login.html', {})
