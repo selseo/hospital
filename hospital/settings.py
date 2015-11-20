@@ -49,7 +49,10 @@ INSTALLED_APPS = (
     'appointment',
     'doctor_timetable',
     'testTheme',
-    'Authentication'
+    'Authentication',
+    'Visit',
+    'Medicine',
+    'Disease',
 
 
 )
