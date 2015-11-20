@@ -61,6 +61,8 @@ ptregister/migrations/__init__.py
 hospital/__pycache__/
 !/appointment/__pycache__/*.pyc
 
+
+
 *.pyc
 *.sqlite3
 
