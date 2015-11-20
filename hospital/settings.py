@@ -15,7 +15,6 @@ import os
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.8/howto/deployment/checklist/
 
@@ -51,7 +50,9 @@ INSTALLED_APPS = (
     'doctor_timetable',
     'testTheme',
     'Authentication',
-    'Visit'
+    'Visit',
+    'Medicine',
+    'Disease',
 
 
 )
@@ -72,7 +73,8 @@ ROOT_URLCONF = 'hospital.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'templates')],
+        'DIRS': [os.path.join(BASE_DIR, 'templates'),
+                os.path.join(BASE_DIR, 'Visit/views')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
