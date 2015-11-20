@@ -25,7 +25,7 @@
     //Draw Month
     this.drawMonth();
 
-    this.drawLegend();
+    // this.drawLegend();
 
     this.drawChanges();
   }
@@ -371,6 +371,7 @@ Calendar.prototype.drawChanges = function() {
       '/' + (Math.floor((index+1)/2)) + (index%2==1? ' - Morning ' : ' - Afternoon ') + 'is set to ' + cl));
      changes.appendChild(tmp);
    })
+    var headingdiv = createElement('div', 'header');
     var heading = createElement('h3', '', 'Unsaved Changes');
     var saveButton = createElement('button', 'save-change-button', 'Save');
     var discardButton = createElement('button', 'discard-change-button', 'Discard');
@@ -390,7 +391,8 @@ Calendar.prototype.drawChanges = function() {
     buttonDiv.appendChild(saveText);
     buttonDiv.appendChild(saveButton);
     buttonDiv.appendChild(discardButton);
-    $('#change-list-div').append(heading);
+    headingdiv.appendChild(heading);
+    $('#change-list-div').append(headingdiv);
     $('#change-list-div').append(changes);
     $('#change-list-div').append(buttonDiv);
   }
