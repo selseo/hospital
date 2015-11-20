@@ -1,6 +1,6 @@
 from django.http import HttpResponseRedirect, HttpResponse
 from django.http import Http404
-from .models import Patient,UserProfile
+from .models import UserProfile
 from django.template import RequestContext, loader
 from django.shortcuts import get_object_or_404, render
 from django.core.urlresolvers import reverse
@@ -10,7 +10,7 @@ from django.shortcuts import render
 from django.contrib.auth import authenticate, login,logout
 from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib.auth.decorators import login_required
-from ptregister.forms import UserForm, UserProfileForm
+from Authentication.forms import UserForm, UserProfileForm
 
 # Create your views here.
 
@@ -147,6 +147,4 @@ def user_login(request):
     else:
         # No context variables to pass to the template system, hence the
         # blank dictionary object...
-        return render(request, 'theme/login.html', {})
-
-
+        return render(request, 'default/login.html', {})
