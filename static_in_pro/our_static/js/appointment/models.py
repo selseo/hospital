@@ -16,7 +16,7 @@ class Dee(models.Model):
    	    return self.name
 
 class Appointment(models.Model):
-    doctor=models.ForeignKey('doctor_timetable.Doctor')
+    doctor=models.ForeignKey('Doctor')
     patient=models.ForeignKey(Patient)
     symptom=models.CharField(max_length=100)
     cause=models.CharField(max_length=100)

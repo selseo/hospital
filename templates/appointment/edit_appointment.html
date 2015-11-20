@@ -1,0 +1,157 @@
+{% extends "theme/base.html" %}
+{% load staticfiles %}
+
+
+
+{% block content %}
+   
+                    <!-- Dashboard Header -->
+                    <!-- For an image header add the class 'content-header-media' and an image as in the following example -->
+                    <div class="content-header content-header-media" style="height: 125px;">
+                        <div class="header-section">
+                            <div class="row">
+                                <!-- Main Title (hidden on small devices for the statistics to fit) -->
+                                <div class="col-md-4 col-lg-6 hidden-xs hidden-sm">
+                                    <h1>Welcome <strong>Pharmacist</strong>
+                                        <br><small>Mr. Peerapat Lumyai</small></h1>
+                                </div>
+                                <!-- END Main Title -->
+
+                                <!-- Top Stats -->
+                                <div class="col-md-8 col-lg-6">
+                                    <div class="row text-center">
+                                        <div class="col-xs-4 col-sm-3">
+                                            <h2 class="animation-hatch">
+                                                <strong>3</strong><br>
+                                                <small><i class="fa fa-calendar-o"></i> day</small>
+                                            </h2>
+                                        </div>
+                                        <div class="col-xs-4 col-sm-3">
+                                            <h2 class="animation-hatch">
+                                                <strong>November</strong><br>
+                                                <small> month</small>
+                                            </h2>
+                                        </div>
+                                        <div class="col-xs-4 col-sm-3">
+                                            <h2 class="animation-hatch">
+                                                <strong>2558</strong><br>
+                                                <small>year</small>
+                                            </h2>
+                                        </div>
+                                        <!-- We hide the last stat to fit the other 3 on small devices -->
+                                        <div class="col-sm-3 hidden-xs">
+                                            <h2 class="animation-hatch">
+                                                <strong>29&deg; C</strong><br>
+                                                <small><i class="fa fa-map-marker"></i> Bangkok</small>
+                                            </h2>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- END Top Stats -->
+                            </div>
+                        </div>
+                    </div>
+                    <!-- END Dashboard Header -->
+
+                  
+                    <!-- start edit -->
+                    <!-- Widgets Row --> 
+                    <div class="row">
+                        <div class="col-md-12">
+                            <!-- Your Plan Widget -->
+                            <div class="widget">
+                                <div class="widget-extra themed-background-dark">
+                                    <div class="widget-options">
+                                        <div class="btn-group btn-group-xs">
+                                            <a href="javascript:void(0)" class="btn btn-default" data-toggle="tooltip" title="Edit Widget"><i class="fa fa-pencil"></i></a>
+                                            <a href="javascript:void(0)" class="btn btn-default" data-toggle="tooltip" title="Quick Settings"><i class="fa fa-cog"></i></a>
+                                        </div>
+                                    </div>
+                                    <h3 class="widget-content-light">
+                                        <strong>Upcoming</strong> Appointment
+                                    </h3>
+                                </div>
+                                <div class="widget-extra-full">
+                                    <div class="row text-center">
+                                        <div class="col-xs-12 col-lg-12">
+                                            <h3>
+                                                <div class="col-xs-4 col-lg-4">
+                                                    <strong>Date</strong> <small id="upcoming-date">-</small>
+                                                </div>
+                                                <div class="col-xs-4 col-lg-4">
+                                                    <strong>Doctor</strong> <small id="upcoming-doctor">-</small><br>
+                                                </div>
+                                                <div class="col-xs-4 col-lg-4">
+                                                    <strong>Department</strong> <small id="upcoming-department">-</small><br>
+                                                </div>
+                                                <div class="col-xs-12 col-lg-12">
+                                                    </br>
+                                                    <small><i class="fa fa-clock-o "></i> Please be on time and check-in at receptionist when you arrived</small>
+                                                </div>
+                                            </h3>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- END Your Plan Widget -->
+                            <div class="block">
+                                <!-- Interactive Title -->
+                                <div class="block-title">
+                                    <!-- Interactive block controls (initialized in js/app.js -> interactiveBlocks()) -->
+                                    <div class="block-options pull-right">
+                                        <a href="javascript:void(0)" class="btn btn-alt btn-sm btn-primary" data-toggle="block-toggle-content"><i class="fa fa-arrows-v"></i></a>
+                                        <a href="javascript:void(0)" class="btn btn-alt btn-sm btn-primary" data-toggle="block-toggle-fullscreen"><i class="fa fa-desktop"></i></a>
+                                        
+                                    </div>
+                                    <h2><strong>Appointment</strong> List</h2>
+                                </div>
+                                <!-- END Interactive Title -->
+
+                                <!-- Interactive Content -->
+                                <!-- The content you will put inside div.block-content, will be toggled -->
+                                <div class="block-content">
+                                   <div class="table-responsive">
+                                        <table class="table table-vcenter table-striped">
+                                            <thead>
+                                                <tr>
+                                                    
+                                                    <th>Date</th>
+                                                    <th>Period</th>
+                                                    <th>Doctor</th>
+                                                    <th>Department</th>
+                                                    <th>Status</th>
+                                                    <th style="width: 150px;" class="text-center">Actions</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="appointment-table">
+                                                <!-- this part is generated by drawappointment() in cancel_appointment.js -->
+                                            </tbody>
+                                        </table>
+
+                                        <div class="text-center">
+                                            <ul class="pagination">
+                                                <!-- this part is generated by drawPagination() in cancel_appointment.js -->
+                                            </ul>
+                                        </div>
+                                        
+                                    </div>
+                                </div>
+                                <!-- END Interactive Content -->
+                            </div>
+                            
+                        </div>
+                      
+                    </div>
+                    <!-- END Widgets Row -->
+        
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.5.1/moment.min.js"></script>
+{% load staticfiles %}
+<script type="text/javascript" src="{% static 'js/jquery-2.1.3.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/jquery-ui-1.11.2.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/moment-2.5.1.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/appointment/appointment.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/appointment/patient.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/appointment/edit_appointment.js' %}"></script>
+{% endblock %}
