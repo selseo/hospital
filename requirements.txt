@@ -2,4 +2,4 @@ djangorestframework
 markdown       # Markdown support for the browsable API.
 django-filter  # Filtering support
 django-frontend #djfrontend for frontend , bootstrap library
-django-crispy-forms --upgrade
+django-crispy-forms
