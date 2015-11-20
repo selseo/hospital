@@ -2,8 +2,8 @@
 -moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box;
 }
 
-body {
- overflow: hidden;
+.timetable-wrapper {
+ /*overflow: hidden;*/
  font-family: 'HelveticaNeue-UltraLight', 'Helvetica Neue UltraLight', 'Helvetica Neue', Arial, Helvetica, sans-serif;
  font-weight: 100;
  color: rgba(255, 255, 255, 1);
@@ -27,7 +27,7 @@ body {
 #change-list-div {
   width: 420px;
   margin: 0 auto;
-  height: 570px;
+  height: 590px;
   display: inline-block;
   float: left;
   background: rgba(66, 66, 66, 1);
@@ -47,10 +47,11 @@ body {
   transform: translate3d(0, 0, 0);
   width: 420px;
   margin: 0 auto;
-  height: 570px;
+  height: 590px;
   overflow: hidden;
   display: inline-block;
   float: left;
+  background: #4A4A4A;
 }
 
 .header {
@@ -516,4 +517,14 @@ section {
   position: absolute;
   right: 20px;
   bottom: 20px;
+}
+
+.underline {
+  font-size: 15px;
+  margin-left: 25px !important;
+}
+
+.patient-wrapper {
+  height: 85%;
+  overflow: auto;
 }

@@ -5,8 +5,9 @@
   function Calendar(selector) {
     //console.log(events);
     this.el = document.querySelector(selector);
-    this.changelist = [];
+    this.patients = [];
     this.current = moment().date(1);
+    this.selectedDate = moment().date();
     this.events = this.getEventByMonth();
     this.draw();
     var current = document.querySelector('.today');
@@ -136,7 +137,10 @@
     //Outer Day
     var outer = createElement('div', this.getDayClass(day));
     outer.addEventListener('click', function() {
+      // console.log(parseInt($(this).children()[1].id));
+      self.selectedDate = parseInt($(this).children()[1].id);
       self.openDay(this);
+      self.drawChanges();
     });
 
     //Day Name
@@ -248,66 +252,10 @@
       var div = createElement('div', 'event');
       var square = createElement('div', 'event-category ' + ev.color);
       var span = createElement('span', '', ev.eventName);
-
-      var toggleButtonSection = createElement('section', 'toggle-button');
-      var toggleButtonDiv = createElement('div', 'checkbox');
-      var toggleButtonInput = createElement('input','');
-      toggleButtonInput.type = 'checkbox';
       var patientSlot = createElement('span', '', ev.count + '/15');
-      if(ev.eventName == 'Available')
-        toggleButtonInput.checked = 'checked';
-      
-      toggleButtonInput.addEventListener('click', function(){
-        if($(this).is(":checked")) {
-          $(this).parent().parent().next().html('Available');
-          if($(this).parent().parent().parent().is(':first-child')){
-            $('#ev'+ (2*ev.d-1)).removeClass('red').addClass('green');
-            ev.eventName = 'Available';
-            console.log(ev.d);
-            self.changelist[(2*ev.d-1)] = 'Available';
-            if(ev.calendar == 'Not Available')
-             self.changelist[(2*ev.d-1)] = 'Available';
-           else 
-            delete self.changelist[(2*ev.d-1)];
-        } else {
-         $('#ev'+ ((2*ev.d-1)+1)).removeClass('red').addClass('green');
-         ev.eventName = 'Available';
-         self.changelist[(2*ev.d-1)+1] = 'Available';
-         if(ev.calendar == 'Not Available')
-           self.changelist[(2*ev.d-1)+1] = 'Available';
-         else 
-          delete self.changelist[(2*ev.d-1)+1];
-      }
-    } else {
-      $(this).parent().parent().next().html('Not Available');
-      if($(this).parent().parent().parent().is(':first-child')){
-            // change dot color
-            $('#ev'+ (2*ev.d-1)).removeClass('green').addClass('red');
-            ev.eventName = 'Not Available';
-            if(ev.calendar == 'Available')
-              self.changelist[(2*ev.d-1)] = 'Not Available';
-            else 
-              delete self.changelist[(2*ev.d-1)];
-          } else {
-           $('#ev'+ ((2*ev.d-1)+1)).removeClass('green').addClass('red');
-           ev.eventName = 'Not Available';
-           if(ev.calendar == 'Available')
-            self.changelist[(2*ev.d-1)+1] = 'Not Available';
-          else 
-            delete self.changelist[(2*ev.d-1)+1];
-        }
-      }
-      self.drawChanges();
-    })
-var toggleButtonLabel = createElement('label', '');
-
-toggleButtonDiv.appendChild(toggleButtonInput);
-toggleButtonDiv.appendChild(toggleButtonLabel);
-toggleButtonSection.appendChild(toggleButtonDiv);
-div.appendChild(toggleButtonSection);
-div.appendChild(span);
-div.appendChild(patientSlot);
-wrapper.appendChild(div);
+      div.appendChild(span);
+      div.appendChild(patientSlot);
+      wrapper.appendChild(div);
 });
 
 if(!events.length) {
@@ -361,46 +309,137 @@ this.el.appendChild(legend);
 }
 
 Calendar.prototype.drawChanges = function() {
+    var preparedData = getPrepareData(this);
+    var self = this;
+    var tmp = preparedData['patients'];
+    self.patients = [];
+    tmp.forEach(function(p){
+      if(p.date == self.selectedDate) {
+        self.patients.push(p);
+      }
+    });
     // Change List
     $("#change-list-div").empty();
+    console.log($('#change-list-div'));
     var self = this;
 
     var heading = createElement('h3', '', 'Patient List');
+    var patientWrapper = createElement('div', 'patient-wrapper');
     var morning = createElement('div', 'morning-div');
     var afternoon = createElement('div', 'afternoon-div');
+    var morningHeading = createElement('h3', 'underline', 'Morning');
+    var afternoonHeading = createElement('h3', 'underline', 'Afternoon');
     var morningPatient = this.listMorningPatient();
     var afternoonPatient = this.listAfternoonPatient();
 
+    morning.appendChild(morningHeading);
     morning.appendChild(morningPatient);
+    afternoon.appendChild(afternoonHeading);
     afternoon.appendChild(afternoonPatient);
-    $('#change-list-div').append(heading);
-    $('#change-list-div').append(morning);
-    $('#change-list-div').append(afternoon);
+    patientWrapper.appendChild(morning);
+    patientWrapper.appendChild(afternoon);
+    $('#change-list-div').append(heading)
+    $('#change-list-div').append(patientWrapper);
   }
 
   Calendar.prototype.listMorningPatient = function() {
-    var patientList = createElement('ul', 'morning-list');
-    // TODO : do a for each loop to append all patients in this period to patientList
+    var self = this;
+    var patientList = createElement('ul', 'morning');
+    // console.log(this.selectedDate);
+    this.patients.forEach(function(pt){
+        if(pt.period == 0 && pt.patients.length > 0) {
+          pt.patients.forEach(function(patient){
+             var tmp_list = createElement('li', 'pid' + patient.id, patient.firstname + ' ' + patient.lastname);
+              tmp_list.addEventListener('click', function(){
+                var pid = (this.className.substr(3));
+                
+                var patientInfo = self.getPatientInfo(pid); 
+                $('#m-name').html(patientInfo['name']);
+                $('#m-age').html(patientInfo['age']);
+                $('#m-gender').html(patientInfo['gender']);
+                $('#m-height').html(patientInfo['height']);
+                $('#m-weight').html(patientInfo['weight']);
+                $('#m-causes').html(patientInfo['symtoms']);
+                $('#m-symtoms').html(patientInfo['causes']);
+                // -------------------------
+                
+                $('#modal-user-detail').modal('show');
+              })
+              patientList.appendChild(tmp_list);
+          });
+        }
+    });
     return patientList;
   }
 
+  // <a href="#modal-user-settings" data-toggle="modal" class="enable-tooltip" data-placement="bottom" title="Settings">
   Calendar.prototype.listAfternoonPatient = function() {
+    var self = this;
     var patientList = createElement('ul', 'afternoon');
-
+    // console.log(this.patients);
+    this.patients.forEach(function(pt){
+        if(pt.period == 1 && pt.patients.length > 0) {
+          pt.patients.forEach(function(patient){
+              var tmp_list = createElement('li', 'pid' + patient.id, patient.firstname + ' ' + patient.lastname);
+              tmp_list.addEventListener('click', function(){
+                var pid = (this.className.substr(3));
+                
+                var patientInfo = self.getPatientInfo(pid); 
+                $('#m-name').html(patientInfo['name']);
+                $('#m-age').html(patientInfo['age']);
+                $('#m-gender').html(patientInfo['gender']);
+                $('#m-height').html(patientInfo['height']);
+                $('#m-weight').html(patientInfo['weight']);
+                $('#m-causes').html(patientInfo['symtoms']);
+                $('#m-symtoms').html(patientInfo['causes']);
+                // -------------------------
+                
+                $('#modal-user-detail').modal('show');
+              })
+              patientList.appendChild(tmp_list);
+          });
+        }
+    });
     return patientList;
+  }
+
+  Calendar.prototype.getPatientInfo = function(pid){
+    
+    $.ajax({
+      type: "GET",
+      url: "/patientlist/getpatientbyid/",
+      data : {
+          "id": '1'
+        },
+      success: function(e){
+          console.log(e);
+      },
+      error: function(a,b,c) {
+        console.log(c);
+      },
+    async:false,
+    });
+    var pdata = {
+      'name' : 'John Doe',
+      'age' : '21',
+      'gender' : 'M',
+      'height' : '175',
+      'weight' : '60',
+      'symtoms' : 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s',
+      'causes' : 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s' 
+    }
+    return pdata;
   }
 
   Calendar.prototype.nextMonth = function() {
     this.current.add('months', 1);
     this.next = true;
-    this.save();
     this.draw();
   }
 
   Calendar.prototype.prevMonth = function() {
     this.current.subtract('months', 1);
     this.next = false;
-    this.save();
     this.draw();
   }
 
@@ -418,6 +457,7 @@ Calendar.prototype.drawChanges = function() {
   }
 
   Calendar.prototype.getEventByMonth = function() {
+    var self = this;
     var thisMonthEvents = [];
     var endOfMonth = this.current.clone().endOf('month').date();
     // init time slots
@@ -427,13 +467,22 @@ Calendar.prototype.drawChanges = function() {
     }
     // fetching registed time from backend
     var preparedData = getPrepareData(this);
-    console.log(thisMonthEvents);
+
+    var tmp = preparedData['patients'];
+    self.patients = [];
+    tmp.forEach(function(p){
+      if(p.date == self.selectedDate) {
+        self.patients.push(p);
+      }
+    })
+
+    console.log(this.current.clone().date());
     preparedData['available'].forEach(function(pd){
-      // thisMonthEvents[((2*pd.date - 2)) + pd.period].eventName = thisMonthEvents[((2*pd.date - 2)) + pd.period].calendar = 'Available';
-      // thisMonthEvents[((2*pd.date - 2)) + pd.period].color = 'green';
-      // thisMonthEvents[((2*pd.date - 2)) + pd.period].count = pd.count;
+      // console.log(((2*pd.date - 2)) + pd.period);
+      thisMonthEvents[((2*pd.date - 2)) + pd.period].eventName = thisMonthEvents[((2*pd.date - 2)) + pd.period].calendar = 'Available';
+      thisMonthEvents[((2*pd.date - 2)) + pd.period].color = 'green';
+      thisMonthEvents[((2*pd.date - 2)) + pd.period].count = pd.count;
     });
-    // this.listPatient(preparedData.patients)
     return thisMonthEvents;
   }
 
@@ -459,13 +508,46 @@ function getPrepareData(date) {
         // }
         preparedData = {
                         'available' : [
-                          {date: '', period: ''}
+                          {date: 2, period: 1, count: '10'}
                         ],
                         'patients' : [
-                          {date: '', period: '', patients: []}
+                          {date: 3, period: 1, patients: [
+                                                            {id: '1', firstname: 'a', lastname: 'z'},
+                                                            {id: '2', firstname: 's', lastname: 'x'},
+                                                            {id: '3', firstname: 'd', lastname: 'c'},
+                                                            {id: '4', firstname: 'f', lastname: 'v'},
+                                                            {id: '4', firstname: 'f', lastname: 'v'},
+                                                            {id: '4', firstname: 'f', lastname: 'v'},
+                                                            {id: '4', firstname: 'f', lastname: 'v'},
+                                                            {id: '4', firstname: 'f', lastname: 'v'},
+                                                            {id: '4', firstname: 'f', lastname: 'v'},
+                                                            {id: '4', firstname: 'f', lastname: 'v'},
+                                                            {id: '4', firstname: 'f', lastname: 'v'},
+                                                            {id: '4', firstname: 'f', lastname: 'v'},
+                                                            {id: '4', firstname: 'f', lastname: 'v'},
+                                                            {id: '4', firstname: 'f', lastname: 'v'},
+                                                            {id: '4', firstname: 'f', lastname: 'v'},
+                                                           ]},
+                          {date: 3, period: 0, patients: [
+                                                            {id: '5', firstname: 'q', lastname: 'z'},
+                                                            {id: '6', firstname: 'w', lastname: 'x'},
+                                                            {id: '7', firstname: 'e', lastname: 'c'},
+                                                            {id: '8', firstname: 'r', lastname: 'v'},
+
+                                                            {id: '4', firstname: 'f', lastname: 'v'},
+                                                            {id: '4', firstname: 'f', lastname: 'v'},
+                                                            {id: '4', firstname: 'f', lastname: 'v'},
+                                                            {id: '4', firstname: 'f', lastname: 'v'},
+                                                            {id: '4', firstname: 'f', lastname: 'v'},
+                                                            {id: '4', firstname: 'f', lastname: 'v'},
+                                                            {id: '4', firstname: 'f', lastname: 'v'},
+                                                            {id: '4', firstname: 'f', lastname: 'v'},
+                                                            {id: '4', firstname: 'f', lastname: 'v'},
+                                                            {id: '4', firstname: 'f', lastname: 'v'},
+                                                           ]}
                         ]
                       }
-        console.log(preparedData);
+        // console.log(preparedData);
       },
       error: function(e){
          alert('Can\'t get your timetable');
@@ -479,9 +561,29 @@ function getPrepareData(date) {
 
     !function() {
 
-      function addDate(ev) {
-
-      }
+$.ajaxSetup({ 
+             beforeSend: function(xhr, settings) {
+                 function getCookie(name) {
+                     var cookieValue = null;
+                     if (document.cookie && document.cookie != '') {
+                         var cookies = document.cookie.split(';');
+                         for (var i = 0; i < cookies.length; i++) {
+                             var cookie = jQuery.trim(cookies[i]);
+                             // Does this cookie string begin with the name we want?
+                             if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                                 cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                                 break;
+                             }
+                         }
+                     }
+                     return cookieValue;
+                 }
+                 if (!(/^http:.*/.test(settings.url) || /^https:.*/.test(settings.url))) {
+                     // Only send the token to relative URLs i.e. locally.
+                     xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
+                 }
+             } 
+        });
 
       var calendar = new Calendar('#calendar');
 

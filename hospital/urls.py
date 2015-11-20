@@ -22,8 +22,8 @@ urlpatterns = [
     url(r'^app/', include('appointment.urls', namespace="appointment")),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^register/', include('ptregister.urls', namespace="ptregister")),
-    url(r'^timetable/', include('doctor_timetable.urls', namespace="doctor_timetable")), 
+    # url(r'^timetable/', include('doctor_timetable.urls', namespace="doctor_timetable")), 
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     url(r'^test/',include('testTheme.urls',namespace="testTheme")),
-    url(r'^patientlist/', include('doctor_patient_list.urls', namespace="doctor_patient_list"))  
+    # url(r'^patientlist/', include('doctor_patient_list.urls', namespace="doctor_patient_list"))  
 ]

@@ -47,7 +47,6 @@ INSTALLED_APPS = (
     'rest_framework',
     'ptregister',
     'appointment',
-    'doctor_timetable',
     'testTheme',
 
 )
