@@ -147,6 +147,6 @@ def user_login(request):
     else:
         # No context variables to pass to the template system, hence the
         # blank dictionary object...
-        return render(request, 'default/login.html', {})
+        return render(request, 'theme/login.html', {})
 
 
