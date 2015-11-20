@@ -19,7 +19,7 @@ class Patient(models.Model):
 #Create Common User Profile
 class UserProfile(models.Model):
     # This line is required. Links UserProfile to a User model instance.
-    user = models.OneToOneField(User)
+    #user = models.OneToOneField(User)
 
     # The additional attributes we wish to include.
     firstname=models.CharField(max_length=50)
