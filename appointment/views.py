@@ -1,15 +1,17 @@
-from django.shortcuts import render
-from django.http import HttpResponse
-
+from django.shortcuts import render, get_object_or_404
+from django.http import HttpResponse, HttpResponseRedirect
+from django.contrib.auth.hashers import make_password
 from .forms import AppForm
 
 import json
 from django.http import JsonResponse
-from .models import Department,Dee
+from .models import Department,Dee,Doctor,timeTable
+from ptregister.models import Patient
 
 #for restframework
 from rest_framework import viewsets
 from .serializers import DepartmentSerializer, DeeSerializer
+from django.views.decorators.csrf import csrf_exempt
 
 #for restframework
 class DepartmentViewset(viewsets.ModelViewSet):
@@ -50,4 +52,62 @@ def show(request):
         form = AppForm()
         department = Department.objects.all()
 
-    return render(request, 'default/appointment.html', {'department': department,'form':form})
+    return render(request, 'appointment/appointment.html', {'department': department,'form':form})
+
+def appointmentbystaff(request):
+    return render(request, 'appointment/appointmentbystaff.html', {'appointment': []})
+
+
+def editappointment(request):
+    return render(request, 'appointment/edit_appointment.html', {'appointment': []})
+
+def editappointmentbystaff(request):
+    return render(request, 'appointment/edit_appointmentbystaff.html', {'appointment': []})
+
+
+def reschedule(request, aid):
+    return render(request, 'appointment/reschedule.html', {'appointment': []})
+
+
+def cancel(request, aid):
+    return render(request, 'appointment/cancel.html', {'appointment': []})
+
+
+def patientlist(request):
+    doctor = Doctor.objects.filter(drusername="test")
+    if doctor.count()==0:
+        doctor=Doctor.objects.create(
+            drusername="test",
+            drpassword=make_password(password="test",hasher='sha1'),
+            drphone="021234567",
+            drname="John",
+            drsurname="Smith",
+            drsex='m',
+            drbirthdate="1990-12-12",
+            dridcard="1234567890123",
+            draddress="aaa",
+            dremail="test@example.com"
+        )
+        doctor.save()
+    time = timeTable.objects.filter(dr=doctor)
+    return render(request, 'appointment/patientlist.html',{'doctor':doctor,'time':time})
+
+def timetable(request):
+    doctor = Doctor.objects.filter(drusername="test")
+    if doctor.count()==0:
+        doctor=Doctor.objects.create(
+            drusername="test",
+            drpassword=make_password(password="test",hasher='sha1'),
+            drphone="021234567",
+            drname="John",
+            drsurname="Smith",
+            drsex='m',
+            drbirthdate="1990-12-12",
+            dridcard="1234567890123",
+            draddress="aaa",
+            dremail="test@example.com"
+        )
+        doctor.save()
+    time = timeTable.objects.filter(dr=doctor)
+    return render(request, 'appointment/timetable.html',{'doctor':doctor,'time':time})
+

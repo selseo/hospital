@@ -1,7 +1,7 @@
 from django import forms
 from django.forms.extras.widgets import SelectDateWidget
 from .models import Department
-from doctor_timetable.models import Doctor
+from .models import Doctor
 from .models import Dee
 
 dee = Dee.objects.all()
