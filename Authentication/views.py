@@ -27,7 +27,7 @@ def index(request):
             if getUserProfile(request.user).role==1:
                 return render(request, 'theme/doctor/index.html')
             if getUserProfile(request.user).role==2:
-                return HttpResponse("You are Nurse")
+                return HttpResponseRedirect('/visit/nurse')
             if getUserProfile(request.user).role==3:
                 return HttpResponse("You are Officer")
             if getUserProfile(request.user).role==4:
