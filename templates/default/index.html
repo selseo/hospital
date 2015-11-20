@@ -1,0 +1,15 @@
+{% extends 'default/base.html' %}
+
+{% load staticfiles %}
+
+{% block title %}Rango{% endblock %}
+
+{% block body_block %}
+{% if user.is_authenticated %}
+  <h1>You are log in as {{ user.username }}!</h1>
+{% else %}
+  <h1>First Page</h1>
+{% endif %}
+
+
+{% endblock %}
