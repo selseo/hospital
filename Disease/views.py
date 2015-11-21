@@ -6,7 +6,7 @@ from django.core import serializers
 # Create your views here.
 @csrf_exempt
 def index(request):
-	return render(request,'admin/disease.html',{'table':Disease.objects.all()})
+	return render(request,'admin/disease.html',{'table':Disease.objects.all(),'length':Disease.objects.count(),'avail':Disease.objects.filter(availability=True).count()})
 @csrf_exempt
 def addDisease(request):
     if request.method == 'POST':
@@ -17,9 +17,9 @@ def addDisease(request):
     		DRG = request.POST["DRG"]
     		disease = Disease.objects.create(name=name,ICD10=ICD10,SNOMED=SNOMED,DRG=DRG)
     		disease.save()
-    		return render(request,'admin/disease.html',{'table':Disease.objects.all(),'message':'Add Disease Success!'})
+    		return render(request,'admin/disease.html',{'table':Disease.objects.all(),'message':'Add Disease Success!','length':Disease.objects.count(),'avail':Disease.objects.filter(availability=True).count()})
     	else :
-    		return render(request,'admin/disease.html',{'table':Disease.objects.all(),'message':'Add Disease Fail! Please recheck diseases name and ICD10'})
+    		return render(request,'admin/disease.html',{'table':Disease.objects.all(),'message':'Add Disease Fail! Please recheck diseases name and ICD10','length':Disease.objects.count(),'avail':Disease.objects.filter(availability=True).count()})
 
 @csrf_exempt
 def setAvailability(request):
