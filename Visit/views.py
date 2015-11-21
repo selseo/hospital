@@ -66,5 +66,5 @@ def seed(request):
     status=str(random.randrange(0,4)),
     note=str(random.randrange(13,103452350)),)
         v.save()
-        PatientVisitInfo.objects.filter(appointment=a).update(lastUpdate=v.lastUpdate-timedelta(hours=random.randrange(0,200)))
+        PatientVisitInfo.objects.filter(appointment=a).update(lastUpdate=v.lastUpdate-timedelta(hours=random.randrange(0,50)))
     return render(request, 'seed.html')
