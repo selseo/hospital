@@ -1,5 +1,5 @@
 from django.db import models
-from ptregister.models import Patient
+from Authentication.models  import Patient
 
 # Create your models here.
 class Department(models.Model):

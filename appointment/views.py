@@ -5,8 +5,8 @@ from .forms import AppForm
 
 import json
 from django.http import JsonResponse
-from .models import Department,Dee,Doctor,timeTable,Appointment
-from ptregister.models import Patient
+from .models import Department,Dee,Doctor,timeTable
+from Authentication.models  import Patient
 from datetime import datetime
 
 #for restframework
@@ -75,27 +75,10 @@ def cancel(request, aid):
 
 
 def patientlist(request):
-    return render(request, 'appointment/patientlist.html')
-
-def getpatientlist(request):
-    # this below line should be replaced with session
-    doctor = Doctor.objects.get(drusername="test")
-    # Prepare data
-    year = request.GET.get('year')
-    month = request.GET.get('month')
-    date = request.GET.get('date')
-    # move below line to manager class
-    availableDate = str(date)+"-"+str(month)+"-"+str(year)    
-    d = datetime.strptime(availableDate, "%d-%m-%Y")
-
-    # get timetable first to refer appointment
-    timetable = timeTable.objects.filter(doctor_id=doctor, date=d)
-    # patient = Patient.appointment_set.filter(timetable_id=timetable)
-    patient = Patient.objects.filter(appointment__timetable_id=timetable)
-   
-    # patientlist = Appointment.objects.filter(doctor_id=doctor, date__month=month, date__year=year)
-    result = serializers.serialize('json', patient)
-    return HttpResponse(result, content_type='application/json')
+    doctor = Doctor.objects.filter(drusername="test")
+    
+    time = timeTable.objects.filter(doctor_id=doctor)
+    return render(request, 'appointment/patientlist.html',{'doctor':doctor,'time':time})
 
 def timetable(request):
     return render(request, 'appointment/timetable.html')
@@ -128,50 +111,3 @@ def gettimetable(request):
         t.date = t.date.day
     result = serializers.serialize('json', time)
     return HttpResponse(result, content_type='application/json')
-
-
-def seedPatient(request):
-#     0|id|integer|1||1
-# 1|ptusername|varchar(20)|1||0
-# 2|ptpassword|varchar(20)|1||0
-# 3|ptname|varchar(50)|1||0
-# 4|ptsurname|varchar(50)|1||0
-# 5|ptsex|varchar(1)|1||0
-# 6|ptbirthdate|varchar(12)|1||0
-# 7|ptidcard|varchar(16)|1||0
-# 8|ptaddress|varchar(200)|1||0
-# 9|ptemail|varchar(50)|1||0
-# 10|ptnum|varchar(10)|1||0
-# 11|ptphone|varchar(12)|1||0
-    p = Patient.objects.create(
-        ptusername="patient01",
-        ptpassword="1234",
-        ptname="John",
-        ptsurname="Doe",
-        ptsex="m",
-        ptbirthdate="1990-01-01",
-        ptidcard="1234567890123",
-        ptaddress="none",
-        ptemail="user01@hosp",
-        ptnum="1",
-        ptphone="9999999999"
-        )
-    p.save()
-    return HttpResponse('done')
-
-def seedAppointment(request):
-    # 0|id|integer|1||1
-    # 1|patient_id_id|integer|1||0
-    # 2|timetable_id_id|integer|1||0
-    # 3|symptom|varchar(100)|1||0
-    # 4|cause|varchar(100)|1||0
-    patient=Patient.objects.get(ptname="John")
-    timetable=timeTable.objects.all()[0]
-    a = Appointment.objects.create(
-        patient_id=patient,
-        timetable_id=timetable,
-        symptom='symptom',
-        cause='cause'
-        )
-    a.save()
-    return HttpResponse('done')
