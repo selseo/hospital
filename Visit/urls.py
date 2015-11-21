@@ -8,6 +8,7 @@ urlpatterns = [
 
     url(r'^nurse/$', nurse.index, name='nurse-index'),
     url(r'^nurse/view$', nurse.view, name='nurse-view'),
+    url(r'^nurse/edit$', nurse.edit, name='nurse-edit'),
 
 
 ]
