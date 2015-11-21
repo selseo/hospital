@@ -76,21 +76,8 @@ def cancel(request, aid):
 
 def patientlist(request):
     doctor = Doctor.objects.filter(drusername="test")
-    if doctor.count()==0:
-        doctor=Doctor.objects.create(
-            drusername="test",
-            drpassword=make_password(password="test",hasher='sha1'),
-            drphone="021234567",
-            drname="John",
-            drsurname="Smith",
-            drsex='m',
-            drbirthdate="1990-12-12",
-            dridcard="1234567890123",
-            draddress="aaa",
-            dremail="test@example.com"
-        )
-        doctor.save()
-    time = timeTable.objects.filter(dr=doctor)
+    
+    time = timeTable.objects.filter(doctor_id=doctor)
     return render(request, 'appointment/patientlist.html',{'doctor':doctor,'time':time})
 
 def timetable(request):
@@ -119,8 +106,8 @@ def gettimetable(request):
     doctor = Doctor.objects.get(drusername="test")
     year = request.GET.get('year')
     month = request.GET.get('month')
-    time = timeTable.objects.filter(dr=doctor, date__month=month, date__year=year)
+    time = timeTable.objects.filter(doctor_id=doctor, date__month=month, date__year=year)
     for t in time :
         t.date = t.date.day
     result = serializers.serialize('json', time)
-    return HttpResponse(json.dumps(result), content_type='application/json')
+    return HttpResponse(result, content_type='application/json')

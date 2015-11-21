@@ -463,9 +463,9 @@ Calendar.prototype.drawChanges = function() {
         },
         success: function(e){
           console.log(e);
-          this.changelist = [];
-           self.drawChanges();
-          //self.changelist = [];
+          self.changelist = [];
+          self.drawChanges();
+          
           alert('Save change(s) successfully!');
         },
         error: function(rs, e){
@@ -491,18 +491,15 @@ function getPrepareData(date) {
           "year": date.current.year()
         },
       success: function(e){
-        console.log(e);
-        for(var x in e){
-          if(e[x].fields.time1){
-            pd = {date: e[x].fields.date, period: 0, count: "XXX"};
-            preparedData.push(pd);
+        // console.log(e);
+        e.forEach(function(pd){
+          if(pd.fields.morning){
+            preparedData.push({date: pd.fields.date, period: 0, count: "XXX"});
           }
-          if(e[x].fields.time2){
-            pd = {date: e[x].fields.date, period: 1, count: "XXX"};
-            preparedData.push(pd);
+          if(pd.fields.afternoon){
+            preparedData.push({date: pd.fields.date, period: 1, count: "XXX"});
           }
-        }
-        // console.log(preparedData);
+        })
       },
       error: function(rs, e){
          console.log(rs.responseText);
