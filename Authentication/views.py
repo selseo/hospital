@@ -34,6 +34,7 @@ def index(request):
                 return HttpResponse("You are Pharmacist")
             if getUserProfile(request.user).role==5:
                 return HttpResponse("You are Admin")
+
     # Render the response and send it back!
     return render(request, 'theme/login.html')
 
