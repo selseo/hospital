@@ -6,4 +6,4 @@ class Disease(models.Model):
 	SNOMED=models.CharField(max_length=20,null=True)
 	DRG=models.CharField(max_length=20,null=True)
 	name=models.CharField(max_length=20,null=True)
-	availability=models.BooleanField()
+	availability=models.BooleanField(default=True)
