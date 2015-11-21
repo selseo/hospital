@@ -13,68 +13,96 @@
         </div> -->
         <div class="col-md-8 col-md-offset-2">
             <!-- Login Container -->
-            <div id="login-container" style="top:167px;">
+            <div id="login-container" style="top:120px;">
                 <!-- Login Title -->
                 <div class="login-title text-center" style="background:#1BBAE1 none repeat scroll 0% 0%">
                     <h1><i class="gi gi-flash"></i> <strong>SE hospital</strong> <i class="gi gi-flash"></i> 
-                        <br><small>Please <strong>Login</strong> or <strong>Register</strong></small></h1>
+                        <br><small>Please <strong>Register</strong> or 
+                        <a href="/default/login/"><span class="badge">Login here!</span></a>
+                    </small></h1>
                 </div>
                 <!-- END Login Title -->
 
                 <!-- Login Block -->
                 <div class="block push-bit">
                     <!-- Register Form -->
-                    <form action="login_alt.html#register" method="post" id="form-register" class="form-horizontal display-none">
+                    <form id="user_form" method="post" action="/default/register/" 
+                    enctype="multipart/form-data" class="form-horizontal ">
+                        {% csrf_token %}
+                        {% if user_form.errors or profile_form.errors %}
+                        <div class="alert alert-danger alert-dismissable">
+                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                            <h4><i class="fa fa-times-circle"></i> Error</h4> 
+                            <!-- Oh no! Update <a href="javascript:void(0)" class="alert-link">failed</a>! -->
+                            <p>{{ user_form.errors.as_text }}</p> <br>
+                            <p>{{ profile_form.errors.as_text }}</p>
+                        </div>
+                        {% endif %}
+                        <div class="form-group">
+                            <div class="col-xs-12">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="fa fa-user"></i></span>
+                                    {{ user_form.username}}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-xs-12">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="gi gi-asterisk"></i></span>
+                                    {{ user_form.password}}
+                                </div>
+                            </div>
+                        </div>
                         <div class="form-group">
                             <div class="col-xs-6">
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="gi gi-user"></i></span>
-                                    <input type="text" id="register-firstname" name="register-firstname" class="form-control input-lg" placeholder="Firstname">
+                                    <!-- <input type="text" id="register-firstname" name="register-firstname" class="form-control input-lg" placeholder="Firstname"> -->
+                                    {{ profile_form.firstname}}
                                 </div>
                             </div>
                             <div class="col-xs-6">
-                                <input type="text" id="register-lastname" name="register-lastname" class="form-control input-lg" placeholder="Lastname">
+                               {{ profile_form.lastname}}
                             </div>
                         </div>
                         <div class="form-group">
                             <div class="col-xs-12">
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="gi gi-envelope"></i></span>
-                                    <input type="text" id="register-email" name="register-email" class="form-control input-lg" placeholder="Email">
+                                    {{ user_form.email}}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-xs-6">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="gi gi-asterisk"></i></span>
+                                    {{ profile_form.sex}}
+                                </div>
+                            </div>
+                            <div class="col-xs-6">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="fa fa-fax"></i></span>
+                                    {{ profile_form.phone}}
                                 </div>
                             </div>
                         </div>
                         <div class="form-group">
                             <div class="col-xs-12">
                                 <div class="input-group">
-                                    <span class="input-group-addon"><i class="gi gi-asterisk"></i></span>
-                                    <input type="password" id="register-password" name="register-password" class="form-control input-lg" placeholder="Password">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="col-xs-12">
-                                <div class="input-group">
-                                    <span class="input-group-addon"><i class="gi gi-asterisk"></i></span>
-                                    <input type="password" id="register-password-verify" name="register-password-verify" class="form-control input-lg" placeholder="Verify Password">
+                                    <span class="input-group-addon"><i class="fa fa-credit-card"></i></span>
+                                    {{ profile_form.idcard}}
                                 </div>
                             </div>
                         </div>
                         <div class="form-group form-actions">
                             <div class="col-xs-6">
-                                <a href="#modal-terms" data-toggle="modal" class="register-terms">Terms</a>
-                                <label class="switch switch-primary" data-toggle="tooltip" title="Agree to the terms">
-                                    <input type="checkbox" id="register-terms" name="register-terms">
-                                    <span></span>
-                                </label>
+                               <small>Do you have an account?</small> <a href="/default/login/" id="link-register"><small>Login</small></a>
                             </div>
                             <div class="col-xs-6 text-right">
-                                <button type="submit" class="btn btn-sm btn-success"><i class="fa fa-plus"></i> Register Account</button>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="col-xs-12 text-center">
-                                <small>Do you have an account?</small> <a href="javascript:void(0)" id="link-register"><small>Login</small></a>
+                                <button type="submit"  type="submit" name="submit" value="Register" class="btn btn-sm btn-success"><i class="fa fa-plus"></i> Register Account</button>
+                                <!-- <input type="submit" name="submit" value="Register" /> -->
                             </div>
                         </div>
                     </form>

@@ -93,7 +93,7 @@ def register(request):
 
     # Render the template depending on the context.
     return render(request,
-            'default/register.html',
+            'theme/register.html',
             {'user_form': user_form, 'profile_form': profile_form, 'registered': registered} )
 
 def some_view(request):
