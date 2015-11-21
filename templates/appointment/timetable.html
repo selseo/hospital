@@ -46,79 +46,8 @@
 
   </form>
 
-  <div id="modal-user-detail" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <!-- Modal Header -->
-            <div class="modal-header text-center">
-                <h2 class="modal-title"><i class="fa fa-male"></i> Patient Detail</h2>
-            </div>
-            <!-- END Modal Header -->
-
-            <!-- Modal Body -->
-            <div class="modal-body">
-                <form action="index.html" method="post" enctype="multipart/form-data" class="form-horizontal form-bordered" onsubmit="return false;">
-                    <fieldset>
-                        <legend>Patient Info</legend>
-                        <div class="form-group">
-                            <label class="col-md-4 control-label">Full Name</label>
-                            <div class="col-md-8">
-                                <p class="form-control-static" id="m-name">Loading ...</p>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-md-4 control-label">Age</label>
-                            <div class="col-md-2">
-                                <p class="form-control-static" id="m-age">Loading ...</p>
-                            </div>
-                            <label class="col-md-2 control-label">Gender</label>
-                            <div class="col-md-4">
-                                <p class="form-control-static" id="m-gender">Loading ...</p>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-md-4 control-label">Height</label>
-                            <div class="col-md-2">
-                                <p class="form-control-static" id="m-height">Loading ...</p>
-                            </div>
-                            <label class="col-md-2 control-label">Weight</label>
-                            <div class="col-md-4">
-                                <p class="form-control-static" id="m-weight">Loading ...</p>
-                            </div>
-                        </div>
-                    </fieldset>
-                    <fieldset>
-                        <legend>Causes and Symtoms</legend>
-                        <div class="form-group">
-                            <label class="col-md-4 control-label">Causes</label>
-                            <div class="col-md-8">
-                                <p class="form-control-static" id="m-causes">Loading ...</p>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-md-4 control-label">Symtoms</label>
-                            <div class="col-md-8">
-                                <p class="form-control-static" id="m-symtoms">Loading ...</p>
-                            </div>
-                        </div>
-                    </fieldset>
-                    <div class="form-group form-actions">
-                        <div class="col-xs-12 text-right">
-                            <button type="button" class="btn btn-sm btn-default" data-dismiss="modal">Close</button>
-                        </div>
-                    </div>
-                </form>
-            </div>
-            <!-- END Modal Body -->
-        </div>
-    </div>
-</div>
-
 
 </div>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.5.1/moment.min.js"></script>
 {% load staticfiles %}
 <script type="text/javascript" src="{% static 'js/jquery-2.1.3.js' %}"></script>
 <script type="text/javascript" src="{% static 'js/jquery-ui-1.11.2.js' %}"></script>

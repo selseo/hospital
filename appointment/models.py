@@ -1,5 +1,5 @@
 from django.db import models
-from ptregister.models import Patient
+from Authentication.models  import Patient
 
 # Create your models here.
 class Department(models.Model):
@@ -37,7 +37,7 @@ class TimetableManager(models.Manager):
         # Firstly, check whether this time period ever existed in database or not
         #  If not, create new one
         #  else delete it
-        
+
         av = self.filter(doctor_id=doctor, date=d, period='m' if available['period'] == 0 else 'a')
         if av.count() == 0:
             self.create(doctor_id=doctor,date=d, period='m' if available['period'] == 0 else 'a', patientnum=0)    

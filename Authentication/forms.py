@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth.models import User
-from Authentication.models import UserProfile
+from Authentication.models import UserProfile,Patient
 
 
 class UserForm(forms.ModelForm):

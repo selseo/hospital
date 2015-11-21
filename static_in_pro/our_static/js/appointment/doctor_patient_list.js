@@ -26,7 +26,7 @@
     //Draw Month
     this.drawMonth();
 
-    this.drawLegend();
+    // this.drawLegend();
 
     this.drawChanges();
   }
@@ -256,79 +256,80 @@
       div.appendChild(span);
       div.appendChild(patientSlot);
       wrapper.appendChild(div);
-});
+    });
 
-if(!events.length) {
-  var div = createElement('div', 'event empty');
-  var span = createElement('span', '', 'No Events');
+    if(!events.length) {
+      var div = createElement('div', 'event empty');
+      var span = createElement('span', '', 'No Events');
 
-  div.appendChild(span);
-  wrapper.appendChild(div);
-}
+      div.appendChild(span);
+      wrapper.appendChild(div);
+    }
 
-if(currentWrapper) {
-  currentWrapper.className = 'events out';
-  currentWrapper.addEventListener('webkitAnimationEnd', function() {
-    currentWrapper.parentNode.removeChild(currentWrapper);
-    ele.appendChild(wrapper);
-  });
-  currentWrapper.addEventListener('oanimationend', function() {
-    currentWrapper.parentNode.removeChild(currentWrapper);
-    ele.appendChild(wrapper);
-  });
-  currentWrapper.addEventListener('msAnimationEnd', function() {
-    currentWrapper.parentNode.removeChild(currentWrapper);
-    ele.appendChild(wrapper);
-  });
-  currentWrapper.addEventListener('animationend', function() {
-    currentWrapper.parentNode.removeChild(currentWrapper);
-    ele.appendChild(wrapper);
-  });
-} else {
-  ele.appendChild(wrapper);
-}
-}
-
-Calendar.prototype.drawLegend = function() {
- var self = this;
- var legend = createElement('div', 'legend');
- var calendars = this.events.map(function(e) {
-  return e.calendar + '|' + e.color;
-}).reduce(function(memo, e) {
-  if(memo.indexOf(e) === -1) {
-    memo.push(e);
+    if(currentWrapper) {
+      currentWrapper.className = 'events out';
+      currentWrapper.addEventListener('webkitAnimationEnd', function() {
+        currentWrapper.parentNode.removeChild(currentWrapper);
+        ele.appendChild(wrapper);
+      });
+      currentWrapper.addEventListener('oanimationend', function() {
+        currentWrapper.parentNode.removeChild(currentWrapper);
+        ele.appendChild(wrapper);
+      });
+      currentWrapper.addEventListener('msAnimationEnd', function() {
+        currentWrapper.parentNode.removeChild(currentWrapper);
+        ele.appendChild(wrapper);
+      });
+      currentWrapper.addEventListener('animationend', function() {
+        currentWrapper.parentNode.removeChild(currentWrapper);
+        ele.appendChild(wrapper);
+      });
+    } else {
+      ele.appendChild(wrapper);
+    }
   }
-  return memo;
-}, []).forEach(function(e) {
-  var parts = e.split('|');
-  var entry = createElement('span', 'entry ' +  parts[1], parts[0]);
-  legend.appendChild(entry);
-});
 
-this.el.appendChild(legend);
+  Calendar.prototype.drawLegend = function() {
+   var self = this;
+   var legend = createElement('div', 'legend');
+   var calendars = this.events.map(function(e) {
+    return e.calendar + '|' + e.color;
+  }).reduce(function(memo, e) {
+    if(memo.indexOf(e) === -1) {
+      memo.push(e);
+    }
+    return memo;
+  }, []).forEach(function(e) {
+    var parts = e.split('|');
+    var entry = createElement('span', 'entry ' +  parts[1], parts[0]);
+    legend.appendChild(entry);
+  });
+
+  this.el.appendChild(legend);
 }
 
 Calendar.prototype.drawChanges = function() {
-    var preparedData = getPrepareData(this);
-    var self = this;
-    var tmp = preparedData['patients'];
-    self.patients = [];
-    tmp.forEach(function(p){
-      if(p.date == self.selectedDate) {
-        self.patients.push(p);
-      }
-    });
+  var preparedData = getPrepareData(this);
+  var self = this;
+  var tmp = preparedData['patients'];
+  self.patients = [];
+  tmp.forEach(function(p){
+    if(p.date == self.selectedDate) {
+      self.patients.push(p);
+    }
+  });
     // Change List
     $("#change-list-div").empty();
-    console.log($('#change-list-div'));
+    // console.log($('#change-list-div'));
     var self = this;
 
+    var headingdiv = createElement('div', 'header');
     var heading = createElement('h3', '', 'Patient List');
     var patientWrapper = createElement('div', 'patient-wrapper');
     var morning = createElement('div', 'morning-div');
     var afternoon = createElement('div', 'afternoon-div');
-    var morningHeading = createElement('h3', 'underline', 'Morning');
-    var afternoonHeading = createElement('h3', 'underline', 'Afternoon');
+    var morningHeading = createElement('h4', 'period-header', 'Morning');
+    var afternoonHeading = createElement('h4', 'period-header', 'Afternoon');
     var morningPatient = this.listMorningPatient();
     var afternoonPatient = this.listAfternoonPatient();
 
@@ -338,36 +339,37 @@ Calendar.prototype.drawChanges = function() {
     afternoon.appendChild(afternoonPatient);
     patientWrapper.appendChild(morning);
     patientWrapper.appendChild(afternoon);
-    $('#change-list-div').append(heading)
+    headingdiv.appendChild(heading);
+    $('#change-list-div').append(headingdiv);
     $('#change-list-div').append(patientWrapper);
   }
 
   Calendar.prototype.listMorningPatient = function() {
     var self = this;
-    var patientList = createElement('ul', 'morning');
+    var patientList = createElement('ol', 'morning');
     // console.log(this.selectedDate);
     this.patients.forEach(function(pt){
-        if(pt.period == 0 && pt.patients.length > 0) {
-          pt.patients.forEach(function(patient){
-             var tmp_list = createElement('li', 'pid' + patient.id, patient.firstname + ' ' + patient.lastname);
-              tmp_list.addEventListener('click', function(){
-                var pid = (this.className.substr(3));
-                
-                var patientInfo = self.getPatientInfo(pid); 
-                $('#m-name').html(patientInfo['name']);
-                $('#m-age').html(patientInfo['age']);
-                $('#m-gender').html(patientInfo['gender']);
-                $('#m-height').html(patientInfo['height']);
-                $('#m-weight').html(patientInfo['weight']);
-                $('#m-causes').html(patientInfo['symtoms']);
-                $('#m-symtoms').html(patientInfo['causes']);
+      if(pt.period == 0 && pt.patients.length > 0) {
+        pt.patients.forEach(function(patient){
+         var tmp_list = createElement('li', 'pid' + patient.id, patient.firstname + ' ' + patient.lastname);
+         tmp_list.addEventListener('click', function(){
+          var pid = (this.className.substr(3));
+
+          var patientInfo = self.getPatientInfo(pid); 
+          $('#m-name').html(patientInfo['name']);
+          $('#m-age').html(patientInfo['age']);
+          $('#m-gender').html(patientInfo['gender']);
+          $('#m-height').html(patientInfo['height']);
+          $('#m-weight').html(patientInfo['weight']);
+          $('#m-causes').html(patientInfo['symtoms']);
+          $('#m-symtoms').html(patientInfo['causes']);
                 // -------------------------
                 
                 $('#modal-user-detail').modal('show');
               })
-              patientList.appendChild(tmp_list);
-          });
-        }
+         patientList.appendChild(tmp_list);
+       });
+      }
     });
     return patientList;
   }
@@ -375,49 +377,49 @@ Calendar.prototype.drawChanges = function() {
   // <a href="#modal-user-settings" data-toggle="modal" class="enable-tooltip" data-placement="bottom" title="Settings">
   Calendar.prototype.listAfternoonPatient = function() {
     var self = this;
-    var patientList = createElement('ul', 'afternoon');
+    var patientList = createElement('ol', 'afternoon');
     // console.log(this.patients);
     this.patients.forEach(function(pt){
-        if(pt.period == 1 && pt.patients.length > 0) {
-          pt.patients.forEach(function(patient){
-              var tmp_list = createElement('li', 'pid' + patient.id, patient.firstname + ' ' + patient.lastname);
-              tmp_list.addEventListener('click', function(){
-                var pid = (this.className.substr(3));
-                
-                var patientInfo = self.getPatientInfo(pid); 
-                $('#m-name').html(patientInfo['name']);
-                $('#m-age').html(patientInfo['age']);
-                $('#m-gender').html(patientInfo['gender']);
-                $('#m-height').html(patientInfo['height']);
-                $('#m-weight').html(patientInfo['weight']);
-                $('#m-causes').html(patientInfo['symtoms']);
-                $('#m-symtoms').html(patientInfo['causes']);
+      if(pt.period == 1 && pt.patients.length > 0) {
+        pt.patients.forEach(function(patient){
+          var tmp_list = createElement('li', 'pid' + patient.id, patient.firstname + ' ' + patient.lastname);
+          tmp_list.addEventListener('click', function(){
+            var pid = (this.className.substr(3));
+
+            var patientInfo = self.getPatientInfo(pid); 
+            $('#m-name').html(patientInfo['name']);
+            $('#m-age').html(patientInfo['age']);
+            $('#m-gender').html(patientInfo['gender']);
+            $('#m-height').html(patientInfo['height']);
+            $('#m-weight').html(patientInfo['weight']);
+            $('#m-causes').html(patientInfo['symtoms']);
+            $('#m-symtoms').html(patientInfo['causes']);
                 // -------------------------
                 
                 $('#modal-user-detail').modal('show');
               })
-              patientList.appendChild(tmp_list);
-          });
-        }
+          patientList.appendChild(tmp_list);
+        });
+      }
     });
     return patientList;
   }
 
   Calendar.prototype.getPatientInfo = function(pid){
-    
+
     $.ajax({
       type: "GET",
       url: "/patientlist/getpatientbyid/",
       data : {
-          "id": '1'
-        },
+        "id": '1'
+      },
       success: function(e){
-          console.log(e);
+        console.log(e);
       },
       error: function(a,b,c) {
         console.log(c);
       },
-    async:false,
+      async:false,
     });
     var pdata = {
       'name' : 'John Doe',
@@ -486,106 +488,99 @@ Calendar.prototype.drawChanges = function() {
     return thisMonthEvents;
   }
 
-function getPrepareData(date) {
+  function getPrepareData(date) {
     var  preparedData = [];
     $.ajax({
       type: "GET",
-      url: "/patientlist/getdata/",
+      url: "/app/getpatientlist/",
       data : {
-          "month": (date.current.month()+1),
-          "year": date.current.year()
-        },
+        "month": (date.current.month()+1),
+        "year": date.current.year(),
+        "date" : 21
+      },
       success: function(e){
-        // for(var x in e.available){
-        //   if(e[x].fields.time1){
-        //     pd = {date: e[x].fields.date, period: 0, count: "XXX"};
-        //     preparedData.push(pd);
-        //   }
-        //   if(e[x].fields.time2){
-        //     pd = {date: e[x].fields.date, period: 1, count: "XXX"};
-        //     preparedData.push(pd);
-        //   }
-        // }
-        preparedData = {
-                        'available' : [
-                          {date: 2, period: 1, count: '10'}
-                        ],
-                        'patients' : [
-                          {date: 3, period: 1, patients: [
-                                                            {id: '1', firstname: 'a', lastname: 'z'},
-                                                            {id: '2', firstname: 's', lastname: 'x'},
-                                                            {id: '3', firstname: 'd', lastname: 'c'},
-                                                            {id: '4', firstname: 'f', lastname: 'v'},
-                                                            {id: '4', firstname: 'f', lastname: 'v'},
-                                                            {id: '4', firstname: 'f', lastname: 'v'},
-                                                            {id: '4', firstname: 'f', lastname: 'v'},
-                                                            {id: '4', firstname: 'f', lastname: 'v'},
-                                                            {id: '4', firstname: 'f', lastname: 'v'},
-                                                            {id: '4', firstname: 'f', lastname: 'v'},
-                                                            {id: '4', firstname: 'f', lastname: 'v'},
-                                                            {id: '4', firstname: 'f', lastname: 'v'},
-                                                            {id: '4', firstname: 'f', lastname: 'v'},
-                                                            {id: '4', firstname: 'f', lastname: 'v'},
-                                                            {id: '4', firstname: 'f', lastname: 'v'},
-                                                           ]},
-                          {date: 3, period: 0, patients: [
-                                                            {id: '5', firstname: 'q', lastname: 'z'},
-                                                            {id: '6', firstname: 'w', lastname: 'x'},
-                                                            {id: '7', firstname: 'e', lastname: 'c'},
-                                                            {id: '8', firstname: 'r', lastname: 'v'},
-
-                                                            {id: '4', firstname: 'f', lastname: 'v'},
-                                                            {id: '4', firstname: 'f', lastname: 'v'},
-                                                            {id: '4', firstname: 'f', lastname: 'v'},
-                                                            {id: '4', firstname: 'f', lastname: 'v'},
-                                                            {id: '4', firstname: 'f', lastname: 'v'},
-                                                            {id: '4', firstname: 'f', lastname: 'v'},
-                                                            {id: '4', firstname: 'f', lastname: 'v'},
-                                                            {id: '4', firstname: 'f', lastname: 'v'},
-                                                            {id: '4', firstname: 'f', lastname: 'v'},
-                                                            {id: '4', firstname: 'f', lastname: 'v'},
-                                                           ]}
-                        ]
-                      }
+        console.log(e);
         // console.log(preparedData);
       },
-      error: function(e){
-         alert('Can\'t get your timetable');
-      },
-      async:false,
-    })
-    return preparedData;
-  }
+      error: function(rs, e){
+        console.log(rs.responseText);
+       // alert('Can\'t get your timetable');
+     },
+     async:false,
+   })
+preparedData = {
+          'available' : [
+          {date: 2, period: 1, count: '10'}
+          ],
+          'patients' : [
+          {date: 3, period: 1, patients: [
+            {id: '1', firstname: 'a', lastname: 'z'},
+            {id: '2', firstname: 's', lastname: 'x'},
+            {id: '3', firstname: 'd', lastname: 'c'},
+            {id: '4', firstname: 'f', lastname: 'v'},
+            {id: '4', firstname: 'f', lastname: 'v'},
+            {id: '4', firstname: 'f', lastname: 'v'},
+            {id: '4', firstname: 'f', lastname: 'v'},
+            {id: '4', firstname: 'f', lastname: 'v'},
+            {id: '4', firstname: 'f', lastname: 'v'},
+            {id: '4', firstname: 'f', lastname: 'v'},
+            {id: '4', firstname: 'f', lastname: 'v'},
+            {id: '4', firstname: 'f', lastname: 'v'},
+            {id: '4', firstname: 'f', lastname: 'v'},
+            {id: '4', firstname: 'f', lastname: 'v'},
+            {id: '4', firstname: 'f', lastname: 'v'},
+            ]},
+            {date: 3, period: 0, patients: [
+              {id: '5', firstname: 'q', lastname: 'z'},
+              {id: '6', firstname: 'w', lastname: 'x'},
+              {id: '7', firstname: 'e', lastname: 'c'},
+              {id: '8', firstname: 'r', lastname: 'v'},
 
-    }();
+              {id: '4', firstname: 'f', lastname: 'v'},
+              {id: '4', firstname: 'f', lastname: 'v'},
+              {id: '4', firstname: 'f', lastname: 'v'},
+              {id: '4', firstname: 'f', lastname: 'v'},
+              {id: '4', firstname: 'f', lastname: 'v'},
+              {id: '4', firstname: 'f', lastname: 'v'},
+              {id: '4', firstname: 'f', lastname: 'v'},
+              {id: '4', firstname: 'f', lastname: 'v'},
+              {id: '4', firstname: 'f', lastname: 'v'},
+              {id: '4', firstname: 'f', lastname: 'v'},
+              ]}
+              ]
+            }
+return preparedData;
+}
 
-    !function() {
+}();
 
-$.ajaxSetup({ 
-             beforeSend: function(xhr, settings) {
-                 function getCookie(name) {
-                     var cookieValue = null;
-                     if (document.cookie && document.cookie != '') {
-                         var cookies = document.cookie.split(';');
-                         for (var i = 0; i < cookies.length; i++) {
-                             var cookie = jQuery.trim(cookies[i]);
+!function() {
+
+  $.ajaxSetup({ 
+   beforeSend: function(xhr, settings) {
+     function getCookie(name) {
+       var cookieValue = null;
+       if (document.cookie && document.cookie != '') {
+         var cookies = document.cookie.split(';');
+         for (var i = 0; i < cookies.length; i++) {
+           var cookie = jQuery.trim(cookies[i]);
                              // Does this cookie string begin with the name we want?
                              if (cookie.substring(0, name.length + 1) == (name + '=')) {
-                                 cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                                 break;
+                               cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                               break;
                              }
+                           }
                          }
-                     }
-                     return cookieValue;
-                 }
-                 if (!(/^http:.*/.test(settings.url) || /^https:.*/.test(settings.url))) {
+                         return cookieValue;
+                       }
+                       if (!(/^http:.*/.test(settings.url) || /^https:.*/.test(settings.url))) {
                      // Only send the token to relative URLs i.e. locally.
                      xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
-                 }
-             } 
-        });
+                   }
+                 } 
+               });
 
-      var calendar = new Calendar('#calendar');
+var calendar = new Calendar('#calendar');
 
-    }();
+}();
 

@@ -4,9 +4,19 @@ from .models import Disease
 from django.views.decorators.csrf import csrf_exempt
 from django.core import serializers
 # Create your views here.
+
+########################### please remove comment syntax to use authen ####################
 @csrf_exempt
 def index(request):
-	return render(request,'admin/disease.html',{'table':Disease.objects.all(),'length':Disease.objects.count(),'avail':Disease.objects.filter(availability=True).count()})
+
+	#if request.user.is_authenticated():
+        #if getUserProfile(request.user).role==5:
+			return render(request,'admin/disease.html',{'table':Disease.objects.all(),'length':Disease.objects.count(),'avail':Disease.objects.filter(availability=True).count()})
+		#else :
+            #return HttpResponseRedirect('/default/')
+    #else :
+        #return HttpResponseRedirect('/default/')
+	
 @csrf_exempt
 def addDisease(request):
     if request.method == 'POST':

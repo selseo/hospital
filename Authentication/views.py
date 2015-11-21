@@ -33,7 +33,7 @@ def index(request):
             if getUserProfile(request.user).role==4:
                 return HttpResponse("You are Pharmacist")
             if getUserProfile(request.user).role==5:
-                return HttpResponse("You are Admin")
+                return HttpResponseRedirect('/default/admin')
 
     # Render the response and send it back!
     return render(request, 'theme/login.html')
@@ -165,3 +165,9 @@ def user_login(request):
         # No context variables to pass to the template system, hence the
         # blank dictionary object...
             return render(request, 'theme/login.html', {})
+
+# def admin_index(request):
+#     #comment
+
+# def doctor_index(request):
+#     #comment
