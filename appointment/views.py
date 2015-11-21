@@ -7,12 +7,13 @@ import json
 from django.http import JsonResponse
 from .models import Department,Dee,Doctor,timeTable
 from ptregister.models import Patient
+from datetime import datetime
 
 #for restframework
 from rest_framework import viewsets
 from .serializers import DepartmentSerializer, DeeSerializer
 from django.views.decorators.csrf import csrf_exempt
-
+from django.core import serializers
 #for restframework
 class DepartmentViewset(viewsets.ModelViewSet):
     queryset = Department.objects.all()
@@ -75,48 +76,38 @@ def cancel(request, aid):
 
 def patientlist(request):
     doctor = Doctor.objects.filter(drusername="test")
-    if doctor.count()==0:
-        doctor=Doctor.objects.create(
-            drusername="test",
-            drpassword=make_password(password="test",hasher='sha1'),
-            drphone="021234567",
-            drname="John",
-            drsurname="Smith",
-            drsex='m',
-            drbirthdate="1990-12-12",
-            dridcard="1234567890123",
-            draddress="aaa",
-            dremail="test@example.com"
-        )
-        doctor.save()
-    time = timeTable.objects.filter(dr=doctor)
+    
+    time = timeTable.objects.filter(doctor_id=doctor)
     return render(request, 'appointment/patientlist.html',{'doctor':doctor,'time':time})
 
 def timetable(request):
-    # POST : For saving appointment changes
-    if request.method == 'POST':
-        # TODO :
-        # get data sent from POST request
-        availables = request.POST.get('availables')
-        year = request.POST.get['year']
-        month = request.POST.get['month']
-
-        for available in availables:
-            # Preparing and preprocessing data
-            availableDate = str(available['date'])+"-"+str(month)+"-"+str(year)    
-            d = datetime.strptime(availableDate, "%d-%m-%Y")
-            # this below line must be replaced with session data
-            doctor = Doctor.objects.get(drusername="test")
-
-            # Call TimetableManager to edit timetable
-            timeTable.objects.editTimetable(doctor=doctor, d=d, available=available)
-
-        #return success
-        return HttpResponse(json.dumps(data), content_type='application/json')
-
-    # GET : Render page view
     return render(request, 'appointment/timetable.html')
 
+def savetimetable(request):
+    availables = json.loads(request.POST.get('availables'))
+    year = request.POST.get('year')
+    month = request.POST.get('month')
+    for available in availables:
+        # Preparing and preprocessing data
+        availableDate = str(available['date'])+"-"+str(month)+"-"+str(year)    
+        d = datetime.strptime(availableDate, "%d-%m-%Y")
+        # this below line must be replaced with session data
+        doctor = Doctor.objects.get(drusername="test")
+
+        # Call TimetableManager to edit timetable
+        timeTable.objects.editTimetable(doctor=doctor, d=d, available=available)
+
+    #return success
+    return HttpResponse('success')
+
+@csrf_exempt
 def gettimetable(request):
-    data = {}
-    return HttpResponse(json.dumps(data), content_type='application/json')
+    # this below line should be replaced with session
+    doctor = Doctor.objects.get(drusername="test")
+    year = request.GET.get('year')
+    month = request.GET.get('month')
+    time = timeTable.objects.filter(doctor_id=doctor, date__month=month, date__year=year)
+    for t in time :
+        t.date = t.date.day
+    result = serializers.serialize('json', time)
+    return HttpResponse(result, content_type='application/json')
