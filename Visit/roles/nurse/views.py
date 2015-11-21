@@ -17,3 +17,5 @@ def view(request):
 		 lastUpdate__year=datetime.now().year,
 		 status=0
 	)})
+def edit(request):
+	return render(request, 'nurse/edit.html')
