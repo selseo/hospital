@@ -33,17 +33,13 @@ def view(request):
 
 @csrf_exempt
 def edit(request,num):
-<<<<<<< HEAD
 	instance = get_object_or_404(PatientVisitInfo, appointment_id=num)
 	form = PatientVisitForms(request.POST or None, instance=instance)
 	if form.is_valid:
 		form.save()
 		return render(request, 'nurse/edit.html', {'num':num})
 	return render(request, 'nurse/edit.html', {'num':num})
-=======
-	return render(request, 'nurse/edit.html', {'num':num})
 
 #Method for get user profile
 def getUserProfile(user):
     return UserProfile.objects.get(user=user)
->>>>>>> 52ff2ee61c6dcdb6b625b213ad4ffa02a8d3380b
