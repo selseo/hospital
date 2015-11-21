@@ -166,6 +166,8 @@ def user_login(request):
         # blank dictionary object...
             return render(request, 'theme/login.html', {})
 
-def admin_index(request)
+# def admin_index(request):
+#     #comment
 
-def doctor_index(request)
+# def doctor_index(request):
+#     #comment
