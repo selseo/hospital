@@ -15,12 +15,6 @@ class Dee(models.Model):
 	def __str__(self):              # __unicode__ on Python 2
    	    return self.name
 
-class Appointment(models.Model):
-    doctor=models.ForeignKey('doctor_timetable.Doctor')
-    patient=models.ForeignKey(Patient)
-    symptom=models.CharField(max_length=100)
-    cause=models.CharField(max_length=100)
-
 class Doctor(models.Model):
     drusername=models.CharField(max_length=20)
     drpassword=models.CharField(max_length=100)
@@ -41,23 +35,26 @@ class Doctor(models.Model):
 class TimetableManager(models.Manager):
     def editTimetable(self, available, d, doctor):
         # Firstly, check whether this time period ever existed in database or not
-        av = self.get(dr=doctor, date=d)
-
-        # If yes, just update it
-        if av.count() > 0:
+        try:
+            av = self.get(dr=doctor, date=d)
             if available['period']==0:
                 av.update(time1 = True if available['status'] == 1 else False)
             else :
                 av.update(time2 = True if available['status'] == 1 else False)
             av.save()
-
-        # If no, create new one
-        else:
+        except timeTable.DoesNotExist:
             if available['period']==0:
-                tmp = self.create(dr=doctor,date=Date,time1 = True if available['status'] == 1 else False, time2=False,patientnum=0)    
+                tmp = self.create(dr=doctor,date=d,time1 = True if available['status'] == 1 else False, time2=False,patientnum=0)    
             else:
-                tmp = self.create(dr=doctor,date=Date,time1=False, time2 = True if available['status'] == 1 else False)    
+                tmp = self.create(dr=doctor,date=d,time1=False, time2 = True if available['status'] == 1 else False)    
             tmp.save()
+        # # If yes, just update it
+        # if av.count() > 0:
+            
+
+        # # If no, create new one
+        # else:
+            
 
 
 class timeTable(models.Model):
@@ -71,3 +68,10 @@ class timeTable(models.Model):
 
     def __str__(self):
       return str(dr.id)+" "+str(dr.drname)+" "+str(date)
+
+
+class Appointment(models.Model):
+    doctor=models.ForeignKey(timeTable)
+    patient=models.ForeignKey(Patient)
+    symptom=models.CharField(max_length=100)
+    cause=models.CharField(max_length=100)

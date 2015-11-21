@@ -259,7 +259,7 @@
           if($(this).parent().parent().parent().is(':first-child')){
             $('#ev'+ (2*ev.d-1)).removeClass('red').addClass('green');
             ev.eventName = 'Available';
-            console.log(ev.d);
+            // console.log(ev.d);
             self.changelist[(2*ev.d-1)] = 'Available';
             if(ev.calendar == 'Not Available')
              self.changelist[(2*ev.d-1)] = 'Available';
@@ -440,7 +440,7 @@ Calendar.prototype.drawChanges = function() {
   }
 
   Calendar.prototype.save = function() {
-    console.log(this.changelist);
+    // console.log(this.changelist);
     var self = this;
     var saveData = [];
     this.changelist.forEach(function(ev, index){
@@ -450,47 +450,26 @@ Calendar.prototype.drawChanges = function() {
         status: ev == 'Available'? 1 : 0 
       })
     });
-    console.log(saveData);
+    // console.log(saveData);
     if(this.changelist.length > 0) {
-      $.ajaxSetup({ 
-             beforeSend: function(xhr, settings) {
-                 function getCookie(name) {
-                     var cookieValue = null;
-                     if (document.cookie && document.cookie != '') {
-                         var cookies = document.cookie.split(';');
-                         for (var i = 0; i < cookies.length; i++) {
-                             var cookie = jQuery.trim(cookies[i]);
-                             // Does this cookie string begin with the name we want?
-                             if (cookie.substring(0, name.length + 1) == (name + '=')) {
-                                 cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                                 break;
-                             }
-                         }
-                     }
-                     return cookieValue;
-                 }
-                 if (!(/^http:.*/.test(settings.url) || /^https:.*/.test(settings.url))) {
-                     // Only send the token to relative URLs i.e. locally.
-                     xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
-                 }
-             } 
-        });
+      ajaxSetup();
       $.ajax({
         type: "POST",
-        url: "/timetable/save/",
+        url: "/app/savetimetable/",
         data: {
           "availables": JSON.stringify(saveData),
           "month": (self.current.month()+1),
           "year": self.current.year()
         },
         success: function(e){
+          console.log(e);
           this.changelist = [];
            self.drawChanges();
           //self.changelist = [];
           alert('Save change(s) successfully!');
         },
-        error: function(e,f,g){
-          alert('Failed to save change(s), please try again later ..');
+        error: function(rs, e){
+          console.log(rs.responseText);
         }
       })  
     }
@@ -503,14 +482,16 @@ Calendar.prototype.discard = function(){
 
 function getPrepareData(date) {
     var  preparedData = [];
+    ajaxSetup();
     $.ajax({
       type: "GET",
-      url: "/app/gettimetable",
+      url: "/app/gettimetable/",
       data : {
           "month": (date.current.month()+1),
           "year": date.current.year()
         },
       success: function(e){
+        console.log(e);
         for(var x in e){
           if(e[x].fields.time1){
             pd = {date: e[x].fields.date, period: 0, count: "XXX"};
@@ -521,14 +502,41 @@ function getPrepareData(date) {
             preparedData.push(pd);
           }
         }
-        console.log(preparedData);
+        // console.log(preparedData);
       },
-      error: function(e){
+      error: function(rs, e){
+         console.log(rs.responseText);
          console.log('Can\'t get your timetable');
       },
       async:false,
     })
     return preparedData;
+  }
+
+  function ajaxSetup() {
+    $.ajaxSetup({ 
+       beforeSend: function(xhr, settings) {
+         function getCookie(name) {
+           var cookieValue = null;
+           if (document.cookie && document.cookie != '') {
+             var cookies = document.cookie.split(';');
+             for (var i = 0; i < cookies.length; i++) {
+               var cookie = jQuery.trim(cookies[i]);
+                     // Does this cookie string begin with the name we want?
+                     if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                       cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                       break;
+                     }
+                   }
+                 }
+                 return cookieValue;
+               }
+               if (!(/^http:.*/.test(settings.url) || /^https:.*/.test(settings.url))) {
+             // Only send the token to relative URLs i.e. locally.
+             xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
+           }
+         } 
+       });
   }
 
     }();
