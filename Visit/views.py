@@ -1,10 +1,12 @@
 from django.http import HttpResponse
 from django.shortcuts import render
 from django.contrib.auth.hashers import make_password
+from datetime import datetime,timedelta
 
 from ptregister.models import Patient
 from doctor_timetable.models import Doctor
 from appointment.models import Appointment
+from Visit.models import PatientVisitInfo
 
 import random
 
@@ -55,5 +57,14 @@ def seed(request):
         pt.save()
         a = Appointment(doctor=random.choice([d1,d2]), patient=pt, symptom="DiE dIe :) JubJub", cause="StupiD")
         a.save()
-
+        v = PatientVisitInfo(appointment=a,
+    weight=str(random.randrange(50,100)),
+    height=str(random.randrange(100,200)),
+    pulse=str(random.randrange(40,120)),
+    systolic=str(random.randrange(50,110)),
+    diastolic=str(random.randrange(100,200)),
+    status=str(random.randrange(1,4)),
+    note=str(random.randrange(13,103452350)),)
+        v.save()
+        PatientVisitInfo.objects.filter(appointment=a).update(lastUpdate=v.lastUpdate-timedelta(hours=random.randrange(0,200)))
     return render(request, 'seed.html')

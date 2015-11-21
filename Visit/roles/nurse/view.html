@@ -75,15 +75,15 @@ Nurse : SE hospital
                                 <tbody>
 {% for row in table %}
                                     <tr>
-                                        <td><a href="#modal-patient" data-toggle="modal" type="button">{{row.patient.ptname}} {{row.patient.ptsurname}}</a></td>
-                                        <td>{{row.patient.ptbirthdate}}</td>
-                                        <td>{{row.patient.ptnum}}<a href="javascript:void(0)"  
-                                            {% if row.patient.ptnum < 30 %}
+                                        <td><a href="#modal-patient" data-toggle="modal" type="button">{{row.appointment.patient.ptname}} {{row.appointment.patient.ptsurname}}</a></td>
+                                        <td>{{row.lastUpdate}}</td>
+                                        <td><a href="javascript:void(0)"  
+                                            {% if row.status == 3 %}
                                             class="label label-success">Done</a>
-                                            {% elif row.patient.ptnum < 60 %}
-                                            class="label label-info">Done</a>
-                                            {% else %}
-                                            class="label label-warning">Done</a>
+                                            {% elif row.status == 2 %}
+                                            class="label label-info">Waiting for Medicine</a>
+                                            {% elif row.status == 1 %}
+                                            class="label label-warning">Waiting for Diagnose</a>
                                             {% endif %}
                                         </td>
                                         <td class="text-center">
