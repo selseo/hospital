@@ -2,10 +2,10 @@ from django.http import HttpResponse
 from django.shortcuts import render
 from django.contrib.auth.hashers import make_password
 from datetime import datetime,timedelta
+from django.contrib.auth.models import User
 
-from Authentication.models  import Patient
-from appointment.models import Doctor,timeTable
-from appointment.models import Appointment
+from Authentication.models  import Patient,UserProfile
+from appointment.models import Doctor,timeTable,Appointment
 from Visit.models import PatientVisitInfo
 
 import random
@@ -72,16 +72,27 @@ def seed(request):
             t25,xxx=timeTable.objects.get_or_create(doctor_id=d2,date=datetime.now()-timedelta(hours=random.randrange(-200,200)),period=random.choice(['m','a']),)
             t25.save()
             for i in range(0,10) :
-                pt = Patient(username=str(random.randrange(1,100)),
-                name='name'+str(random.randrange(1,100)),
-                surname='sur'+str(random.randrange(1,100)),
+                u = User(
+                    username='username'+str(random.randrange(1,100000000)),
+                    email='username'+str(random.randrange(1,100000000))+'@example.com',
+                    password='pass'+str(random.randrange(1,100000000)),
+                )
+                u.save()
+                up = UserProfile(
+                        user=u,
+                        firstname='name'+str(random.randrange(1,100)),
+                        lastname='sur'+str(random.randrange(1,100)),
+                        role=0,
+                )
+                up.save()
+                pt = Patient(
+                userprofile=up,
                 sex=random.choice(['M','F']),
-                birthdate=str(random.randrange(1,100000)),
+                birthdate=datetime.now()-timedelta(days=random.randrange(1000,10000)),
                 idcard=str(random.randrange(1,100)),
                 address=str(random.randrange(1,100)),
-                email=str(random.randrange(1,100)),
-                num=str(random.randrange(1,100)),
-                phone=str(random.randrange(1,100)))
+                phone=str(random.randrange(1,100)),
+                )
                 pt.save()
                 a = Appointment(timetable_id=random.choice([t11,t12,t13,t14,t15,t21,t22,t23,t24,t25,]), patient_id=pt, symptom="DiE dIe :) JubJub", cause="StupiD")
                 a.save()
