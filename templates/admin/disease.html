@@ -6,6 +6,7 @@ Nurse : SE hospital
 {% endblock %}
 
 {% block content %}
+
                 <!-- Page content -->
                 <div id="page-content">
                     <!-- Table Responsive Header -->
@@ -28,30 +29,31 @@ Nurse : SE hospital
                         <!-- END Responsive Full Title -->
 
                         <!-- Responsive Full Content -->
+                        <form action="{% url 'Disease:add' %}" method="post">
                         <div class="row">
                             <div class="form-group">
                                 <div class="col-md-12">
                                     <label class="col-md-2 control-label text-right"><h4>Disease Name</h4></label>
                                     <div class="col-md-10">
-                                        <input type="text" id="keyword" name="keyword" class="form-control" placeholder="Enter Disease Name..">
+                                        <input type="text" id="keyword" name="name" class="form-control" placeholder="Enter Disease Name..">
                                     </div>
                                 </div>
                                 <div class="col-md-12">
                                     <label class="col-md-2 control-label text-right"><h4>ICD10</h4></label>
                                     <div class="col-md-6">
-                                        <input type="text" id="keyword" name="keyword" class="form-control" placeholder="Enter ICD10..">
+                                        <input type="text" id="keyword" name="ICD10" class="form-control" placeholder="Enter ICD10..">
                                     </div>
                                 </div>
                                 <div class="col-md-12">
-                                    <label class="col-md-2 control-label text-right"><h4>SNOWMED</h4></label>
+                                    <label class="col-md-2 control-label text-right"><h4>SNOMED</h4></label>
                                     <div class="col-md-6">
-                                        <input type="text" id="keyword" name="keyword" class="form-control" placeholder="Enter SNOWMED..">
+                                        <input type="text" id="keyword" name="SNOMED" class="form-control" placeholder="Enter SNOMED..">
                                     </div>
                                 </div>
                                 <div class="col-md-12">
                                     <label class="col-md-2 control-label text-right"><h4>DRG</h4></label>
                                     <div class="col-md-6">
-                                        <input type="text" id="keyword" name="keyword" class="form-control" placeholder="Enter DRG..">
+                                        <input type="text" id="keyword" name="DRG" class="form-control" placeholder="Enter DRG..">
                                     </div>
                                     <div class="col-md-4 text-right">
                                         <button type="submit" class="btn btn-sm btn-primary"><i class="fa fa-plus-circle"></i> Add</button>
@@ -100,44 +102,51 @@ Nurse : SE hospital
                                     </tr>
                                 </thead>
                                 <script>
-                                    function switchToggle(x,y){
-                                        alert("Set availability in DATABASE as >> " + x.checked);
-                                    }
+                                   
                                 </script>
                                 <tbody>
+{% for row in table %}
                                     <tr id="drugAppendPoint">
-                                        <td>xxxx</td>
-                                        <td>0000000000</td>
-                                        <td>0x0x0x0x0x</td>
-                                        <td>xxxxxxxxxx</td>
+                                        <td>{{row.name}}</td>
+                                        <td>{{row.ICD10}}</td>
+                                        <td>{{row.SNOMED}}</td>
+                                        <td>{{row.DRG}}</td>
                                         <td class="text-center">
                                             <label class="switch switch-primary">
-                                                <input type="checkbox" name="checked" checked="" onchange="switchToggle(this,0);">
+                                            <!-- <form action="{% url 'Disease:setAvail' %}" method="post"> -->
+                                                <input type="checkbox" class="avail" name="checked" 
+                                                {% if row.availability %}
+                                                checked
+                                                {% endif %}
+                                                onchange="switchToggle(this,0);" id="{{row.ICD10}}">
+                                            <!-- </form> -->
                                                 <span></span>
                                             </label>
                                         </td>
                                     </tr>
-                                    <script>
-                                        var drugs = ["aaaa","bbbb","cccc","dddd","eeee","ffff"];
-                                        for(var d in drugs) {
-                                            var ele = $(
-                                                '<tr>'+
-                                                    '<td>'+drugs[d]+'</td>'+
-                                                    '<td>'+d+""+d+""+d+""+d+""+d+""+d+""+d+""+d+""+'</td>'+
-                                                    '<td>'+drugs[d].charAt(0)+d+drugs[d].charAt(0)+d+drugs[d].charAt(0)+d+drugs[d].charAt(0)+d+'</td>'+
-                                                    '<td>'+drugs[d]+drugs[d]+'</td>'+
-                                                    '<td class="text-center">'+
-                                                        '<label class="switch switch-primary">'+
-                                                        '<input type="checkbox" name="checked" '+(Math.random()<0.7?'checked=""':'')+' onchange="switchToggle(this,'+d+');">'+
-                                                        '<span></span>'+
-                                                        '</label>'+
-                                                    '</td>'+
-                                                '</tr>'
-                                            );
-                                            $("#drugAppendPoint").after(ele);
-                                        }
-                                    </script>
-                                </tbody>
+                                     <script>
+                                    //     var drugs = ["aaaa","bbbb","cccc","dddd","eeee","ffff"];
+                                    //     for(var d in drugs) {
+                                    //         var ele = $(
+                                    //             '<tr>'+
+                                    //                 '<td>'+drugs[d]+'</td>'+
+                                    //                 '<td>'+d+""+d+""+d+""+d+""+d+""+d+""+d+""+d+""+'</td>'+
+                                    //                 '<td>'+drugs[d].charAt(0)+d+drugs[d].charAt(0)+d+drugs[d].charAt(0)+d+drugs[d].charAt(0)+d+'</td>'+
+                                    //                 '<td>'+drugs[d]+drugs[d]+'</td>'+
+                                    //                 '<td class="text-center">'+
+                                    //                     '<label class="switch switch-primary">'+
+                                    //                     '<input type="checkbox" name="checked" '+(Math.random()<0.7?'checked=""':'')+' onchange="switchToggle(this,'+d+');">'+
+                                    //                     '<span></span>'+
+                                    //                     '</label>'+
+                                    //                 '</td>'+
+                                    //             '</tr>'
+                                    //         );
+                                    //         $("#drugAppendPoint").after(ele);
+                                    //     }
+                                    // </script>
+ {% endfor %}
+                                 </tbody>
+
                             </table>
                             <div class="text-center">
                                         <ul class="pagination">
@@ -311,5 +320,66 @@ Nurse : SE hospital
             </div>
         </div>
         <!-- END User Settings -->
+ <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.5.1/moment.min.js"></script>    
+<script>
+     function switchToggle(x,y){
+        alert("Set availability in DATABASE as >> " + x.checked);
+    }
+    function ajaxSetup() {
+    $.ajaxSetup({ 
+       beforeSend: function(xhr, settings) {
+         function getCookie(name) {
+           var cookieValue = null;
+           if (document.cookie && document.cookie != '') {
+             var cookies = document.cookie.split(';');
+             for (var i = 0; i < cookies.length; i++) {
+               var cookie = jQuery.trim(cookies[i]);
+                     // Does this cookie string begin with the name we want?
+                     if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                       cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                       break;
+                     }
+                   }
+                 }
+                 return cookieValue;
+               }
+               if (!(/^http:.*/.test(settings.url) || /^https:.*/.test(settings.url))) {
+             // Only send the token to relative URLs i.e. locally.
+             xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
+           }
+         } 
+       });
+  }
 
+  
+
+            $('.avail').on('click', function(){
+
+                var key = $(this)[0].id;
+                var val = $(this)[0].checked;
+                console.log(key);
+                ajaxSetup();
+                $.ajax({
+                    type: "POST",
+                    url: "{% url "Disease:setAvail" %}",
+                    data: {
+                      "ICD10": key,
+                      "availability": val
+                    },
+                    success: function(e){
+                        console.log(e);
+                      // alert('Save change(s) successfully!');
+                    },
+                    error: function(rs,e){
+                        console.log(rs.responseText);
+                        console.log(e);
+                        alert('failed');
+                    }
+                })  
+             });
+
+
+        </script>
 {% endblock %}
