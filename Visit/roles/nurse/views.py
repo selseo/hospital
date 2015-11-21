@@ -14,13 +14,13 @@ from django.contrib.auth.decorators import login_required
 # Create your views here.
 
 def index(request):
-	if request.user.is_authenticated():
-		if getUserProfile(request.user).role==2:
+	#if request.user.is_authenticated():
+		#if getUserProfile(request.user).role==2:
 			return render(request, 'nurse/index.html')
-		else :
-			return HttpResponseRedirect('/default/')
-	else :
-		return render(request, 'theme/login.html')
+		#else :
+			#return HttpResponseRedirect('/default/')
+	#else :
+		#return HttpResponseRedirect('/default/')
 def view(request):
 	return render(request, 'nurse/view.html',{'table':PatientVisitInfo.objects.filter(
 		 lastUpdate__day=datetime.now().day,
