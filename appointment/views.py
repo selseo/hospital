@@ -6,7 +6,7 @@ from .forms import AppForm
 import json
 from django.http import JsonResponse
 from .models import Department,Dee,Doctor,timeTable
-from ptregister.models import Patient
+from Authentication.models  import Patient
 from datetime import datetime
 
 #for restframework

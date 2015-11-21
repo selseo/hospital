@@ -2,8 +2,15 @@ from django.shortcuts import render
 from django.http import HttpResponseRedirect,HttpResponse,HttpRequest
 from .models import Disease
 # Create your views here.
+# please remove comment syntax to use authen
 def index(request):
-	return render(request,'admin/disease.html',{'table':Disease.objects.all()})
+	#if request.user.is_authenticated():
+        #if getUserProfile(request.user).role==5:
+			return render(request,'admin/disease.html',{'table':Disease.objects.all()})
+		#else :
+            #return HttpResponseRedirect('/default/')
+    #else :
+        #return HttpResponseRedirect('/default/')
 
 def addDisease(request):
 	return HttpResponse('')
