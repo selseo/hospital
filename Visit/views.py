@@ -4,7 +4,7 @@ from django.contrib.auth.hashers import make_password
 from datetime import datetime,timedelta
 
 from ptregister.models import Patient
-from doctor_timetable.models import Doctor
+from appointment.models import Doctor,timeTable
 from appointment.models import Appointment
 from Visit.models import PatientVisitInfo
 
@@ -29,8 +29,18 @@ def seed(request):
             'dremail':"tes2tt@example.com"}
     )
     d1.save()
+    t11,xxx=timeTable.objects.get_or_create(doctor_id=d1,date=datetime.now()-timedelta(hours=random.randrange(-200,200)),period=random.choice(['m','a']),)
+    t11.save()
+    t12,xxx=timeTable.objects.get_or_create(doctor_id=d1,date=datetime.now()-timedelta(hours=random.randrange(-200,200)),period=random.choice(['m','a']),)
+    t12.save()
+    t13,xxx=timeTable.objects.get_or_create(doctor_id=d1,date=datetime.now()-timedelta(hours=random.randrange(-200,200)),period=random.choice(['m','a']),)
+    t13.save()
+    t14,xxx=timeTable.objects.get_or_create(doctor_id=d1,date=datetime.now()-timedelta(hours=random.randrange(-200,200)),period=random.choice(['m','a']),)
+    t14.save()
+    t15,xxx=timeTable.objects.get_or_create(doctor_id=d1,date=datetime.now()-timedelta(hours=random.randrange(-200,200)),period=random.choice(['m','a']),)
+    t15.save()
     d2,xxx=Doctor.objects.get_or_create(
-            drusername="t222212",
+            drusername="t22,xxx2212",
             defaults={'drpassword':make_password(password="sdjshdfl",hasher='sha1'),
             'drphone':"99988877651",
             'drname':"Doctor",
@@ -42,6 +52,16 @@ def seed(request):
             'dremail':"testx2xxx@new.com"}
     )
     d2.save()
+    t21,xxx=timeTable.objects.get_or_create(doctor_id=d2,date=datetime.now()-timedelta(hours=random.randrange(-200,200)),period=random.choice(['m','a']),)
+    t21.save()
+    t22,xxx=timeTable.objects.get_or_create(doctor_id=d2,date=datetime.now()-timedelta(hours=random.randrange(-200,200)),period=random.choice(['m','a']),)
+    t22.save()
+    t23,xxx=timeTable.objects.get_or_create(doctor_id=d2,date=datetime.now()-timedelta(hours=random.randrange(-200,200)),period=random.choice(['m','a']),)
+    t23.save()
+    t24,xxx=timeTable.objects.get_or_create(doctor_id=d2,date=datetime.now()-timedelta(hours=random.randrange(-200,200)),period=random.choice(['m','a']),)
+    t24.save()
+    t25,xxx=timeTable.objects.get_or_create(doctor_id=d2,date=datetime.now()-timedelta(hours=random.randrange(-200,200)),period=random.choice(['m','a']),)
+    t25.save()
     for i in range(0,10) :
         pt = Patient(ptusername=str(random.randrange(1,100)),
         ptpassword=make_password(password=str(random.randrange(0,100000)),hasher='sha1'),
@@ -55,7 +75,7 @@ def seed(request):
         ptnum=str(random.randrange(1,100)),
         ptphone=str(random.randrange(1,100)))
         pt.save()
-        a = Appointment(doctor=random.choice([d1,d2]), patient=pt, symptom="DiE dIe :) JubJub", cause="StupiD")
+        a = Appointment(timetable_id=random.choice([t11,t12,t13,t14,t15,t21,t22,t23,t24,t25,]), patient_id=pt, symptom="DiE dIe :) JubJub", cause="StupiD")
         a.save()
         v = PatientVisitInfo(appointment=a,
     weight=str(random.randrange(50,100)),
