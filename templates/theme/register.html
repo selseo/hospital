@@ -29,71 +29,137 @@
                     <form id="user_form" method="post" action="/default/register/" 
                     enctype="multipart/form-data" class="form-horizontal ">
                         {% csrf_token %}
-                        {% if user_form.errors or profile_form.errors %}
-                        <div class="alert alert-danger alert-dismissable">
-                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                            <h4><i class="fa fa-times-circle"></i> Error</h4> 
-                            <!-- Oh no! Update <a href="javascript:void(0)" class="alert-link">failed</a>! -->
-                            <p>{{ user_form.errors.as_text }}</p> <br>
-                            <p>{{ profile_form.errors.as_text }}</p>
-                        </div>
-                        {% endif %}
+                        {{user_form.errors.as_text}}
+
+                        {{profile_form.errors.as_text}}
                         <div class="form-group">
                             <div class="col-xs-12">
-                                <div class="input-group">
-                                    <span class="input-group-addon"><i class="fa fa-user"></i></span>
-                                    {{ user_form.username}}
+                                {% if user_form.username.errors %}
+                                <div class="has-error">
+                                {% endif %}
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-user"></i></span>
+                                        {{ user_form.username}}
+                                    </div>
+                                {% if user_form.username.errors %}
+                                <span class="help-block">
+                                    {{ user_form.username.errors }}
+                                </span>
                                 </div>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="col-xs-12">
-                                <div class="input-group">
-                                    <span class="input-group-addon"><i class="gi gi-asterisk"></i></span>
-                                    {{ user_form.password}}
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="col-xs-6">
-                                <div class="input-group">
-                                    <span class="input-group-addon"><i class="gi gi-user"></i></span>
-                                    <!-- <input type="text" id="register-firstname" name="register-firstname" class="form-control input-lg" placeholder="Firstname"> -->
-                                    {{ profile_form.firstname}}
-                                </div>
-                            </div>
-                            <div class="col-xs-6">
-                               {{ profile_form.lastname}}
+                                {% endif %}
                             </div>
                         </div>
                         <div class="form-group">
                             <div class="col-xs-12">
-                                <div class="input-group">
-                                    <span class="input-group-addon"><i class="gi gi-envelope"></i></span>
-                                    {{ user_form.email}}
+                                {% if user_form.password.errors %}
+                                <div class="has-error">
+                                {% endif %}
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="gi gi-asterisk"></i></span>
+                                        {{ user_form.password}}
+                                    </div>
+                                {% if user_form.password.errors %}
+                                <span class="help-block">
+                                    {{ user_form.password.errors }}
+                                </span>
                                 </div>
+                                {% endif %}
                             </div>
                         </div>
                         <div class="form-group">
                             <div class="col-xs-6">
-                                <div class="input-group">
-                                    <span class="input-group-addon"><i class="gi gi-asterisk"></i></span>
-                                    {{ profile_form.sex}}
+                                {% if profile_form.firstname.errors %}
+                                <div class="has-error">
+                                {% endif %}
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="gi gi-user"></i></span>
+                                        <!-- <input type="text" id="register-firstname" name="register-firstname" class="form-control input-lg" placeholder="Firstname"> -->
+                                        {{ profile_form.firstname}}
+                                    </div>
+                                {% if profile_form.firstname.errors %}
+                                <span class="help-block">
+                                    {{ profile_form.firstname.errors }}
+                                </span>
                                 </div>
+                                {% endif %}
                             </div>
                             <div class="col-xs-6">
-                                <div class="input-group">
-                                    <span class="input-group-addon"><i class="fa fa-fax"></i></span>
-                                    {{ profile_form.phone}}
+                                {% if profile_form.lastname.errors %}
+                                <div class="has-error">
+                                {% endif %}
+                                    {{ profile_form.lastname}}
+                                    {% if profile_form.lastname.errors %}
+                                    <span class="help-block">
+                                        {{ profile_form.lastname.errors }}
+                                    </span>
                                 </div>
+                                {% endif %}
                             </div>
                         </div>
                         <div class="form-group">
                             <div class="col-xs-12">
-                                <div class="input-group">
-                                    <span class="input-group-addon"><i class="fa fa-credit-card"></i></span>
-                                    {{ profile_form.idcard}}
+                                {% if user_form.email.errors %}
+                                <div class="has-error">
+                                {% endif %}
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="gi gi-envelope"></i></span>
+                                        {{ user_form.email}}
+                                    </div>
+                                    {% if user_form.email.errors %}
+                                    <span class="help-block">
+                                        {{ user_form.email.errors }}
+                                    </span>
                                 </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-xs-6">
+                                {% if profile_form.sex.errors %}
+                                <div class="has-error">
+                                {% endif %}
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="gi gi-asterisk"></i></span>
+                                        {{ profile_form.sex}}
+                                    </div>
+                                    {% if profile_form.sex.errors %}
+                                    <span class="help-block">
+                                        {{ profile_form.sex.errors }}
+                                    </span>
+                                </div>
+                                {% endif %}
+                            </div>
+                            <div class="col-xs-6">
+                                {% if profile_form.phone.errors %}
+                                <div class="has-error">
+                                {% endif %}
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-fax"></i></span>
+                                        {{ profile_form.phone}}
+                                    </div>
+                                    {% if profile_form.phone.errors %}
+                                    <span class="help-block">
+                                        {{ profile_form.phone.errors }}
+                                    </span>
+                                </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-xs-12">
+                                {% if profile_form.idcard.errors %}
+                                <div class="has-error">
+                                {% endif %}
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-credit-card"></i></span>
+                                        {{ profile_form.idcard}}
+                                    </div>
+                                    {% if profile_form.idcard.errors %}
+                                    <span class="help-block">
+                                        {{ profile_form.idcard.errors }}
+                                    </span>
+                                </div>
+                                {% endif %}
                             </div>
                         </div>
                         <div class="form-group form-actions">

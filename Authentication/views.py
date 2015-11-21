@@ -78,6 +78,7 @@ def register(request):
 
             # Update our variable to tell the template registration was successful.
             registered = True
+            return render(request,'theme/login.html', {'registered': registered} )
 
         # Invalid form or forms - mistakes or something else?
         # Print problems to the terminal.
