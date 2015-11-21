@@ -38,11 +38,36 @@ class Doctor(models.Model):
         def __str__(self): 
             return str(self.id)+" "+str(self.drname)+" "+str(self.drsurname)
 
+class TimetableManager(models.Manager):
+    def editTimetable(self, available, d, doctor):
+        # Firstly, check whether this time period ever existed in database or not
+        av = self.get(dr=doctor, date=d)
+
+        # If yes, just update it
+        if av.count() > 0:
+            if available['period']==0:
+                av.update(time1 = True if available['status'] == 1 else False)
+            else :
+                av.update(time2 = True if available['status'] == 1 else False)
+            av.save()
+
+        # If no, create new one
+        else:
+            if available['period']==0:
+                tmp = self.create(dr=doctor,date=Date,time1 = True if available['status'] == 1 else False, time2=False,patientnum=0)    
+            else:
+                tmp = self.create(dr=doctor,date=Date,time1=False, time2 = True if available['status'] == 1 else False)    
+            tmp.save()
+
+
 class timeTable(models.Model):
     dr=models.ForeignKey('Doctor')
     date = models.DateField()
     time1 = models.BooleanField()
     time2 = models.BooleanField()
     patientnum = models.IntegerField(default=0)
+
+    objects = TimetableManager()
+
     def __str__(self):
       return str(dr.id)+" "+str(dr.drname)+" "+str(date)

@@ -93,21 +93,30 @@ def patientlist(request):
     return render(request, 'appointment/patientlist.html',{'doctor':doctor,'time':time})
 
 def timetable(request):
-    doctor = Doctor.objects.filter(drusername="test")
-    if doctor.count()==0:
-        doctor=Doctor.objects.create(
-            drusername="test",
-            drpassword=make_password(password="test",hasher='sha1'),
-            drphone="021234567",
-            drname="John",
-            drsurname="Smith",
-            drsex='m',
-            drbirthdate="1990-12-12",
-            dridcard="1234567890123",
-            draddress="aaa",
-            dremail="test@example.com"
-        )
-        doctor.save()
-    time = timeTable.objects.filter(dr=doctor)
-    return render(request, 'appointment/timetable.html',{'doctor':doctor,'time':time})
+    # POST : For saving appointment changes
+    if request.method == 'POST':
+        # TODO :
+        # get data sent from POST request
+        availables = request.POST.get('availables')
+        year = request.POST.get['year']
+        month = request.POST.get['month']
 
+        for available in availables:
+            # Preparing and preprocessing data
+            availableDate = str(available['date'])+"-"+str(month)+"-"+str(year)    
+            d = datetime.strptime(availableDate, "%d-%m-%Y")
+            # this below line must be replaced with session data
+            doctor = Doctor.objects.get(drusername="test")
+
+            # Call TimetableManager to edit timetable
+            timeTable.objects.editTimetable(doctor=doctor, d=d, available=available)
+
+        #return success
+        return HttpResponse(json.dumps(data), content_type='application/json')
+
+    # GET : Render page view
+    return render(request, 'appointment/timetable.html')
+
+def gettimetable(request):
+    data = {}
+    return HttpResponse(json.dumps(data), content_type='application/json')

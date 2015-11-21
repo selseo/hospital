@@ -4,8 +4,8 @@
 
 body {
  /*overflow: hidden;*/
- font-family: 'HelveticaNeue-UltraLight', 'Helvetica Neue UltraLight', 'Helvetica Neue', Arial, Helvetica, sans-serif;
- font-weight: 100;
+ /*font-family: 'HelveticaNeue-UltraLight', 'Helvetica Neue UltraLight', 'Helvetica Neue', Arial, Helvetica, sans-serif;*/
+ /*font-weight: 100;*/
  margin: 0;
  padding: 0;
  background: #FFFFFF;
@@ -45,7 +45,9 @@ body {
   border-right: 1px solid #eaedf1;
 }
 
-
+.change-list {
+  padding: 20px 40px;
+}
 
 #calendar {
   -webkit-transform: translate3d(0, 0, 0);
@@ -274,6 +276,7 @@ body {
   letter-spacing: .5px;
   padding: 2px 16px;
   vertical-align: top;
+  margin-bottom: 5px;
 }
 
 .event.empty {
@@ -488,6 +491,11 @@ section {
 .checkbox input:checked + label:after {
   left: 40px;
 }
+
+.toggle-button .checkbox {
+  padding-top: 0;
+}
+
 .toggle-button .checkbox label {
   background: #fff;
   border: 1px solid #eee;
@@ -504,7 +512,7 @@ section {
   background: rgba(153, 198, 109, 1);
   left: 28px;
 }
-
+/*
 .save-change-button, .discard-change-button {
   padding: 5px 10px;
   color: #fffff0;
@@ -518,7 +526,7 @@ section {
 
 .discard-change-button {
   background-color: #e74c3c;
-}
+}*/
 
 .button-div {
   position: absolute;
@@ -526,8 +534,14 @@ section {
   text-align: right;
   width: 100%;
   height: 60px;
+  background: #f9fafc;
+  border-top: 1px solid #eaedf1;
 }
 
 .button-div button {
-  margin-right: 10px;
+  margin: 15px 15px 0 0;
+}
+
+.btn-xs {
+  padding: 5px 10px;
 }

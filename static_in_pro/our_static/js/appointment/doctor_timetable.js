@@ -19,13 +19,9 @@
   }
 
   Calendar.prototype.draw = function() {
-    //Create Header
     this.drawHeader();
 
-    //Draw Month
     this.drawMonth();
-
-    // this.drawLegend();
 
     this.drawChanges();
   }
@@ -373,8 +369,8 @@ Calendar.prototype.drawChanges = function() {
    })
     var headingdiv = createElement('div', 'header');
     var heading = createElement('h3', '', 'Unsaved Changes');
-    var saveButton = createElement('button', 'save-change-button', 'Save');
-    var discardButton = createElement('button', 'discard-change-button', 'Discard');
+    var saveButton = createElement('button', 'btn btn-success btn-xs', 'Save');
+    var discardButton = createElement('button', 'btn btn-danger btn-xs', 'Discard');
     var buttonDiv = createElement('div', 'button-div');
     var saveText = createElement('div', 'save-text');
 
@@ -483,7 +479,7 @@ Calendar.prototype.drawChanges = function() {
         type: "POST",
         url: "/timetable/save/",
         data: {
-          "slist": JSON.stringify(saveData),
+          "availables": JSON.stringify(saveData),
           "month": (self.current.month()+1),
           "year": self.current.year()
         },
@@ -509,7 +505,7 @@ function getPrepareData(date) {
     var  preparedData = [];
     $.ajax({
       type: "GET",
-      url: "/timetable/getdata/",
+      url: "/app/gettimetable",
       data : {
           "month": (date.current.month()+1),
           "year": date.current.year()
@@ -528,7 +524,7 @@ function getPrepareData(date) {
         console.log(preparedData);
       },
       error: function(e){
-         alert('Can\'t get your timetable');
+         console.log('Can\'t get your timetable');
       },
       async:false,
     })
