@@ -5,7 +5,6 @@ from django.template import RequestContext, loader
 from django.shortcuts import get_object_or_404, render
 from django.core.urlresolvers import reverse
 from django.views import generic
-
 from django.shortcuts import render
 from django.contrib.auth import authenticate, login,logout
 from django.http import HttpResponseRedirect, HttpResponse
@@ -15,28 +14,29 @@ from Authentication.forms import UserForm, UserProfileForm
 # Create your views here.
 
 def index(request):
-    # Query the database for a list of ALL categories currently stored.
-    # Order the categories by no. likes in descending order.
-    # Retrieve the top 5 only - or all if less than 5.
-    # Place the list in our context_dict dictionary which will be passed to the template engine.
-    #category_list = Category.objects.order_by('-likes')[:10]
-    #context_dict = {'categories': category_list}
-    if request.user.is_authenticated():
-            if getUserProfile(request.user).role==0:
-                return render(request, 'default/index.html')
-            if getUserProfile(request.user).role==1:
-                return render(request, 'theme/doctor/index.html')
-            if getUserProfile(request.user).role==2:
-                return HttpResponseRedirect('/visit/nurse')
-            if getUserProfile(request.user).role==3:
-                return HttpResponse("You are Officer")
-            if getUserProfile(request.user).role==4:
-                return HttpResponse("You are Pharmacist")
-            if getUserProfile(request.user).role==5:
-                return HttpResponseRedirect('/default/admin')
+    #variable for already check patient today
+    #already_check_p=20
+    #variable for uncheck patient today
+   # uncheck_p=30
+    #variable for all patient today
+   # all_p=already_check_p+uncheck_p
+    #if request.user.is_authenticated():
+            #if getUserProfile(request.user).role==0:
+                #return render(request, 'default/index.html')
+            #if getUserProfile(request.user).role==1:
+                #return render(request, 'theme/doctor/index.html')
+                return render(request, 'theme/doctor/index.html',{'al_check_p':1,'uncheck_p':2,'all_p':3})
+            #if getUserProfile(request.user).role==2:
+                #return HttpResponseRedirect('/visit/nurse')
+            #if getUserProfile(request.user).role==3:
+                #return HttpResponse("You are Officer")
+            #if getUserProfile(request.user).role==4:
+                #return HttpResponse("You are Pharmacist")
+            #if getUserProfile(request.user).role==5:
+                #return HttpResponseRedirect('/default/admin')
 
     # Render the response and send it back!
-    return render(request, 'theme/login.html')
+    #return render(request, 'theme/login.html')
 
 def register(request):
 
