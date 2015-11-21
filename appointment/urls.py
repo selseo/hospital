@@ -27,6 +27,7 @@ urlpatterns = [
     url(r'^patientlist/$',views.patientlist,name='patientlist'),
     url(r'^timetable/$',views.timetable,name='timetable'),
     url(r'^gettimetable/$',views.gettimetable),
+    url(r'^savetimetable/$',views.savetimetable),
 ]
 
 if settings.DEBUG:
