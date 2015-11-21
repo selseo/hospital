@@ -2,7 +2,7 @@
 {% load staticfiles %}
 
 {% block title %}
-Nurse : SE hospital
+Manage Disease : SE hospital
 {% endblock %}
 
 {% block content %}
@@ -70,7 +70,7 @@ Nurse : SE hospital
                         <!-- Responsive Full Title -->
                         <div class="block-title">
                             <h2><strong>Disease</strong></h2>
-                            <h2 style="float:right;" class="text-right themed-color"><strong>9800</strong><small>/11145</small></h2>
+                            <h2 style="float:right;" class="text-right themed-color"><strong>{{avail}}</strong><small>/{{length}}</small></h2>
                         </div>
                         <!-- END Responsive Full Title -->
 
@@ -324,6 +324,12 @@ Nurse : SE hospital
 <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.5.1/moment.min.js"></script>    
 <script>
+   $(function(){
+   {% if message %}
+      //whatever conditions and js code
+      alert('{{message}}');
+   {% endif %}
+ });
      function switchToggle(x,y){
         alert("Set availability in DATABASE as >> " + x.checked);
     }
