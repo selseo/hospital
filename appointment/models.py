@@ -35,25 +35,32 @@ class Doctor(models.Model):
 class TimetableManager(models.Manager):
     def editTimetable(self, available, d, doctor):
         # Firstly, check whether this time period ever existed in database or not
-        av = self.filter(doctor_id=doctor, date=d)
+        #  If not, create new one
+        #  else delete it
+        
+        av = self.filter(doctor_id=doctor, date=d, period='m' if available['period'] == 0 else 'a')
         if av.count() == 0:
-            tmp = '';
-            if available['period']==0:
-                tmp = self.create(doctor_id=doctor,date=d,morning = True if available['status'] == 1 else False, afternoon=False,patientnum=0)    
-            else:
-                tmp = self.create(doctor_id=doctor,date=d,morning=False, afternoon = True if available['status'] == 1 else False)    
-            tmp.save()
+            self.create(doctor_id=doctor,date=d, period='m' if available['period'] == 0 else 'a', patientnum=0)    
         else:
-            if available['period']==0:
-                av.update(morning = True if available['status'] == 1 else False)
-            else :
-                av.update(afternoon = True if available['status'] == 1 else False)
+            av.delete()
+
+        # if av.count() == 0:
+        #     tmp = '';
+        #     if available['period']==0:
+        #         tmp = self.create(doctor_id=doctor,date=d, period='m',patientnum=0)    
+        #     else:
+        #         tmp = self.create(doctor_id=doctor,date=d, period='a', patientnum=0)    
+        #     tmp.save()
+        # else:
+        #     if available['period']==0:
+        #         av.update(morning = True if available['status'] == 1 else False)
+        #     else :
+        #         av.update(afternoon = True if available['status'] == 1 else False)
         # # If yes, just update it
         # if av.count() > 0:
             
 
-        # # If no, create new one
-        # else:
+        
             
 
 

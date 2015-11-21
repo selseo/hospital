@@ -493,12 +493,13 @@ function getPrepareData(date) {
       success: function(e){
         // console.log(e);
         e.forEach(function(pd){
-          if(pd.fields.morning){
-            preparedData.push({date: pd.fields.date, period: 0, count: "XXX"});
-          }
-          if(pd.fields.afternoon){
-            preparedData.push({date: pd.fields.date, period: 1, count: "XXX"});
-          }
+          // if(pd.fields.morning){
+          //   preparedData.push({date: pd.fields.date, period: 0, count: "XXX"});
+          // }
+          // if(pd.fields.afternoon){
+          //   preparedData.push({date: pd.fields.date, period: 1, count: "XXX"});
+          // }
+          preparedData.push({date: pd.fields.date, period: pd.fields.period == 'm'? 0 : 1, count: "XXX"})
         })
       },
       error: function(rs, e){
