@@ -2,7 +2,7 @@ from django.db import models
 
 # Create your models here.
 class Doctor(models.Model):
-    drusername=models.CharField(max_length=20)
+    drusername=models.CharField(max_length=20,primary_key=True)
     drpassword=models.CharField(max_length=100)
     drname=models.CharField(max_length=50)
     drsurname=models.CharField(max_length=50)

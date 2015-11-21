@@ -83,7 +83,9 @@ Nurse : SE hospital
                                             {% elif row.status == 2 %}
                                             class="label label-info">Waiting for Medicine</a>
                                             {% elif row.status == 1 %}
-                                            class="label label-warning">Waiting for Diagnose</a>
+                                            class="label label-info">Waiting for Diagnose</a>
+                                            {% elif row.status == 0 %}
+                                            class="label label-warning">Waiting for Checking in</a>
                                             {% endif %}
                                         </td>
                                         <td class="text-center">

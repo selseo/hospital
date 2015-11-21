@@ -12,6 +12,8 @@ def index(request):
 	return render(request, 'nurse/index.html')
 def view(request):
 	return render(request, 'nurse/view.html',{'table':PatientVisitInfo.objects.filter(
-		lastUpdate__day=datetime.now().day,
-		lastUpdate__month=datetime.now().month,
-		lastUpdate__year=datetime.now().year,)})
+		 lastUpdate__day=datetime.now().day,
+		 lastUpdate__month=datetime.now().month,
+		 lastUpdate__year=datetime.now().year,
+		 status=0
+	)})
