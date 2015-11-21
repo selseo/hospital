@@ -1,0 +1,338 @@
+{% extends "theme/base.html" %}
+{% load staticfiles %}
+
+{% block title %}
+Nurse : SE hospital
+{% endblock %}
+
+{% block content %}
+                <!-- Page content -->
+                <div id="page-content">
+                    <!-- Table Responsive Header -->
+                    <div class="content-header">
+                        <div class="header-section animation-stretchRight">
+                            <h1>
+                                View Patient Information<br><small>see information, write sympton report and create medicine list </small>
+                            </h1>
+                        </div>
+                    </div>
+
+                    <!-- END Table Responsive Header -->
+
+                    <!-- Responsive Full Block -->
+                    <div class="block">
+                        <!-- Responsive Full Title -->
+                        <div class="block-title">
+                            <h2><strong>Patient</strong></h2>
+                        </div>
+                        <!-- END Responsive Full Title -->
+
+                        <!-- Responsive Full Content -->
+                        <div class="row">
+                            <div class="form-group">
+                                <div class="col-md-3">
+                                                  <label class="col-md-4 control-label" for="example-timepicker24"><h4>From</h4></label>
+                                                  <div class="input-group bootstrap-timepicker"><div class="bootstrap-timepicker-widget dropdown-menu"><table><tbody><tr><td><a href="#" data-action="incrementHour"><i class="fa fa-chevron-up"></i></a></td><td class="separator">&nbsp;</td><td><a href="#" data-action="incrementMinute"><i class="fa fa-chevron-up"></i></a></td><td class="separator">&nbsp;</td><td><a href="#" data-action="incrementSecond"><i class="fa fa-chevron-up"></i></a></td></tr><tr><td><input type="text" class="form-control bootstrap-timepicker-hour" maxlength="2"></td> <td class="separator">:</td><td><input type="text" class="form-control bootstrap-timepicker-minute" maxlength="2"></td> <td class="separator">:</td><td><input type="text" class="form-control bootstrap-timepicker-second" maxlength="2"></td></tr><tr><td><a href="#" data-action="decrementHour"><i class="fa fa-chevron-down"></i></a></td><td class="separator"></td><td><a href="#" data-action="decrementMinute"><i class="fa fa-chevron-down"></i></a></td><td class="separator">&nbsp;</td><td><a href="#" data-action="decrementSecond"><i class="fa fa-chevron-down"></i></a></td></tr></tbody></table></div><div class="bootstrap-timepicker-widget dropdown-menu"><table><tbody><tr><td><a href="#" data-action="incrementHour"><i class="fa fa-chevron-up"></i></a></td><td class="separator">&nbsp;</td><td><a href="#" data-action="incrementMinute"><i class="fa fa-chevron-up"></i></a></td><td class="separator">&nbsp;</td><td><a href="#" data-action="incrementSecond"><i class="fa fa-chevron-up"></i></a></td></tr><tr><td><input type="text" class="form-control bootstrap-timepicker-hour" maxlength="2"></td> <td class="separator">:</td><td><input type="text" class="form-control bootstrap-timepicker-minute" maxlength="2"></td> <td class="separator">:</td><td><input type="text" class="form-control bootstrap-timepicker-second" maxlength="2"></td></tr><tr><td><a href="#" data-action="decrementHour"><i class="fa fa-chevron-down"></i></a></td><td class="separator"></td><td><a href="#" data-action="decrementMinute"><i class="fa fa-chevron-down"></i></a></td><td class="separator">&nbsp;</td><td><a href="#" data-action="decrementSecond"><i class="fa fa-chevron-down"></i></a></td></tr></tbody></table></div>
+                                                        <input type="text" id="example-timepicker24" name="example-timepicker24" class="form-control input-timepicker24">
+                                                        <span class="input-group-btn">
+                                                            <a href="javascript:void(0)" class="btn btn-primary"><i class="fa fa-clock-o"></i></a>
+                                                        </span>
+                                                  </div>
+                                </div>
+                                <div class="col-md-2 ">
+                                                  <input type="text" id="example-datepicker2" name="example-datepicker2" class="form-control input-datepicker" data-date-format="dd/mm/yy" placeholder="dd/mm/yy">
+                                </div>
+                                <div class="col-md-3">
+                                                  <label class="col-md-3 control-label" for="example-timepicker24"><h4>To</h4></label>
+                                                  <div class="input-group bootstrap-timepicker"><div class="bootstrap-timepicker-widget dropdown-menu"><table><tbody><tr><td><a href="#" data-action="incrementHour"><i class="fa fa-chevron-up"></i></a></td><td class="separator">&nbsp;</td><td><a href="#" data-action="incrementMinute"><i class="fa fa-chevron-up"></i></a></td><td class="separator">&nbsp;</td><td><a href="#" data-action="incrementSecond"><i class="fa fa-chevron-up"></i></a></td></tr><tr><td><input type="text" class="form-control bootstrap-timepicker-hour" maxlength="2"></td> <td class="separator">:</td><td><input type="text" class="form-control bootstrap-timepicker-minute" maxlength="2"></td> <td class="separator">:</td><td><input type="text" class="form-control bootstrap-timepicker-second" maxlength="2"></td></tr><tr><td><a href="#" data-action="decrementHour"><i class="fa fa-chevron-down"></i></a></td><td class="separator"></td><td><a href="#" data-action="decrementMinute"><i class="fa fa-chevron-down"></i></a></td><td class="separator">&nbsp;</td><td><a href="#" data-action="decrementSecond"><i class="fa fa-chevron-down"></i></a></td></tr></tbody></table></div><div class="bootstrap-timepicker-widget dropdown-menu"><table><tbody><tr><td><a href="#" data-action="incrementHour"><i class="fa fa-chevron-up"></i></a></td><td class="separator">&nbsp;</td><td><a href="#" data-action="incrementMinute"><i class="fa fa-chevron-up"></i></a></td><td class="separator">&nbsp;</td><td><a href="#" data-action="incrementSecond"><i class="fa fa-chevron-up"></i></a></td></tr><tr><td><input type="text" class="form-control bootstrap-timepicker-hour" maxlength="2"></td> <td class="separator">:</td><td><input type="text" class="form-control bootstrap-timepicker-minute" maxlength="2"></td> <td class="separator">:</td><td><input type="text" class="form-control bootstrap-timepicker-second" maxlength="2"></td></tr><tr><td><a href="#" data-action="decrementHour"><i class="fa fa-chevron-down"></i></a></td><td class="separator"></td><td><a href="#" data-action="decrementMinute"><i class="fa fa-chevron-down"></i></a></td><td class="separator">&nbsp;</td><td><a href="#" data-action="decrementSecond"><i class="fa fa-chevron-down"></i></a></td></tr></tbody></table></div>
+                                                        <input type="text" id="example-timepicker24" name="example-timepicker24" class="form-control input-timepicker24">
+                                                        <span class="input-group-btn">
+                                                            <a href="javascript:void(0)" class="btn btn-primary"><i class="fa fa-clock-o"></i></a>
+                                                        </span>
+                                                  </div>
+                                </div>
+                                <div class="col-md-2 ">
+                                                  <input type="text" id="example-datepicker2" name="example-datepicker2" class="form-control input-datepicker" data-date-format="dd/mm/yy" placeholder="dd/mm/yy">
+                                </div>
+                                <div class="col-md-1 ">
+                                                <button type="submit" class="btn btn-sm btn-primary"><i class="hi hi-search"></i> Submit</button>
+                                </div>
+                              </div>
+                        </div>
+
+                        <div class="table-responsive">
+                          
+                            <table class="table table-vcenter table-striped">
+                                <thead>
+                                    <tr>
+
+                                        <th>Name</th>
+                                        <th>Time</th>
+                                        <th>Status</th>
+                                        <th style="width: 150px;" class="text-center">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+{% for row in table %}
+                                    <tr>
+                                        <td><a href="#modal-patient" data-toggle="modal" type="button">{{row.patient.ptname}} {{row.patient.ptsurname}}</a></td>
+                                        <td>{{row.patient.ptbirthdate}}</td>
+                                        <td>{{row.patient.ptnum}}<a href="javascript:void(0)"  
+                                            {% if row.patient.ptnum < 30 %}
+                                            class="label label-success">Done</a>
+                                            {% elif row.patient.ptnum < 60 %}
+                                            class="label label-info">Done</a>
+                                            {% else %}
+                                            class="label label-warning">Done</a>
+                                            {% endif %}
+                                        </td>
+                                        <td class="text-center">
+                                            <div class="btn-group btn-group-xs">
+                                                <a class="btn btn-alt btn-default" href="#modal-patient" data-toggle="modal" type="button" title="" data-original-title="see info"><i class="hi hi-user"></i></a>
+
+                                            </div>
+                                        </td>
+                                    </tr>
+{% endfor %}
+                                </tbody>
+                            </table>
+                            <div class="text-center">
+                                        <ul class="pagination">
+                                            <li class="disabled"><a href="javascript:void(0)">«</a></li>
+                                            <li class="active"><a href="javascript:void(0)">1</a></li>
+                                            <li><a href="javascript:void(0)">2</a></li>
+                                            <li><a href="javascript:void(0)">3</a></li>
+                                            <li><a href="javascript:void(0)">4</a></li>
+                                            <li><a href="javascript:void(0)">»</a></li>
+                                        </ul>
+                                    </div>
+                        </div>
+                        <!-- END Responsive Full Content -->
+                    </div>
+                    <!-- END Responsive Full Block -->
+
+
+                    <!-- END Responsive Partial Block -->
+                </div>
+                <!-- END Page Content -->
+
+                <!-- Footer -->
+                <footer class="clearfix">
+                    <div class="pull-right">
+                        Crafted with <i class="fa fa-heart text-danger"></i> by <a href="http://goo.gl/vNS3I" target="_blank">pixelcave</a>
+                    </div>
+                    <div class="pull-left">
+                        <span id="year-copy"></span> &copy; <a href="http://goo.gl/TDOSuC" target="_blank">ProUI 2.1</a>
+                    </div>
+                </footer>
+                <!-- END Footer -->
+            </div>
+            <!-- END Main Container -->
+        </div>
+        <!-- END Page Container -->
+
+        <!-- Scroll to top link, initialized in js/app.js - scrollToTop() -->
+        <a href="#" id="to-top"><i class="fa fa-angle-double-up"></i></a>
+
+        <!-- User Settings, modal which opens from Settings link (found in top right user menu) and the Cog link (found in sidebar user info) -->
+        <div id="modal-user-settings" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <!-- Modal Header -->
+                    <div class="modal-header text-center">
+                        <h2 class="modal-title"><i class="fa fa-pencil"></i> Settings</h2>
+                    </div>
+                    <!-- END Modal Header -->
+
+                    <!-- Modal Body -->
+                    <div class="modal-body">
+                        <form action="index.html" method="post" enctype="multipart/form-data" class="form-horizontal form-bordered" onsubmit="return false;">
+                            <fieldset>
+                                <legend>Vital Info</legend>
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label">Username</label>
+                                    <div class="col-md-8">
+                                        <p class="form-control-static">Admin</p>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label" for="user-settings-email">Email</label>
+                                    <div class="col-md-8">
+                                        <input type="email" id="user-settings-email" name="user-settings-email" class="form-control" value="admin@example.com">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label" for="user-settings-notifications">Email Notifications</label>
+                                    <div class="col-md-8">
+                                        <label class="switch switch-primary">
+                                            <input type="checkbox" id="user-settings-notifications" name="user-settings-notifications" value="1" checked>
+                                            <span></span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </fieldset>
+                            <fieldset>
+                                <legend>Password Update</legend>
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label" for="user-settings-password">New Password</label>
+                                    <div class="col-md-8">
+                                        <input type="password" id="user-settings-password" name="user-settings-password" class="form-control" placeholder="Please choose a complex one..">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label" for="user-settings-repassword">Confirm New Password</label>
+                                    <div class="col-md-8">
+                                        <input type="password" id="user-settings-repassword" name="user-settings-repassword" class="form-control" placeholder="..and confirm it!">
+                                    </div>
+                                </div>
+                            </fieldset>
+                            <div class="form-group form-actions">
+                                <div class="col-xs-12 text-right">
+                                    <button type="button" class="btn btn-sm btn-default" data-dismiss="modal">Close</button>
+                                    <button type="submit" class="btn btn-sm btn-primary">Save Changes</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <!-- END Modal Body -->
+                </div>
+            </div>
+        </div>
+
+        <div id="patient_sympton" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <!-- Modal Header -->
+                    <div class="modal-header text-center">
+                        <h2 class="modal-title"><i class="fa fa-info"></i> Patient information</h2>
+                    </div>
+                    <!-- END Modal Header -->
+
+                    <!-- Modal Body -->
+                    <div class="modal-body">
+                        <form action="index.html" method="post" enctype="multipart/form-data" class="form-horizontal form-bordered" onsubmit="return false;">
+                            <fieldset>
+                                <legend>General Info</legend>
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label">Name</label>
+                                    <div class="col-md-8">
+                                        <p class="form-control-static">Boonchai</p>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label">Surname</label>
+                                    <div class="col-md-8">
+                                        <p class="form-control-static">Trairong</p>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label">Birthdate </label>
+                                    <div class="col-md-8">
+                                        <p class="form-control-static">2/2/1992  </p>
+                                    </div>
+                                </div>
+                                 <div class="form-group">
+                                    <label class="col-md-4 control-label">Weight </label>
+                                    <div class="col-md-8">
+                                        <input type="text" id="user-settings-email" name="user-settings-email" class="form-control" value="54 kg">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label">Height </label>
+                                    <div class="col-md-8">
+                                        <input type="text" id="user-settings-email" name="user-settings-email" class="form-control" value="154 cm">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label">Drug Allergy </label>
+                                    <div class="col-md-8">
+                                        <input type="text" id="user-settings-email" name="user-settings-email" class="form-control" value="-">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label" for="user-settings-email">Sympton</label>
+                                    <div class="col-md-8">
+                                        <input type="text" id="user-settings-email" name="user-settings-email" class="form-control" value="">
+                                    </div>
+                                </div>
+                            </fieldset>
+                            <div class="form-group form-actions">
+                                <div class="col-xs-12 text-right">
+                                    <button type="button" class="btn btn-sm btn-default" data-dismiss="modal">Close</button>
+                                    <button type="submit" class="btn btn-sm btn-primary">Save Changes</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <!-- END Modal Body -->
+                </div>
+            </div>
+        </div>
+
+        <div id="modal-patient" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <!-- Modal Header -->
+                    <div class="modal-header text-center">
+                        <h2 class="modal-title"><i class="gi gi-user"></i> Patient Information</h2>
+                    </div>
+                    <!-- END Modal Header -->
+
+                    <!-- Modal Body -->
+                    <div class="modal-body" style="margin-left:2px;margin-right:2px;">                        
+                       <form action="index.html" method="post" enctype="multipart/form-data" class="form-horizontal form-bordered" onsubmit="return false;">
+                            <fieldset style="padding-left: 16px;padding-right: 16px;">
+                                <div class="block">
+                                <!-- Info Title -->
+                                <div class="block-title">
+                                    <div class="block-options pull-right">
+                                        <a data-original-title="back to list" href="javascript:void(0)" class="btn btn-alt btn-sm btn-default" data-toggle="tooltip" title="" data-dismiss="modal"><i class="gi gi-unshare"></i></a>
+
+                                    </div>
+                                    <h2> <strong>Sompong Vongklai</strong> </h2>
+                                </div>
+                                <!-- END Info Title -->
+
+                                <!-- Info Content -->
+                                <table class="table table-borderless table-striped">
+                                    <tbody>
+                                        <tr>
+                                            <td style="width: 30%;"><strong>Gender</strong></td>
+                                            <td>Male</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Birthdate</strong></td>
+                                            <td>12/02/1986 (29 years old)</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Weight</strong></td>
+                                            <td>64.5 kg</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Height</strong></td>
+                                            <td>182 cm</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Allergy</strong></td>
+                                            <td>-</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Symptom Draft</strong></td>
+                                            <td>sore throat, cough, cold</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <!-- END Info Content -->
+                            </div>
+                            </fieldset>
+
+                            <div class="form-group form-actions">
+                                <div class="col-xs-12 text-right">
+                                    <button type="button" class="btn btn-sm btn-default" data-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <!-- END Modal Body -->
+        <!-- END User Settings -->
+{% endblock %}
