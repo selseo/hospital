@@ -9,7 +9,7 @@ def addMedicine(request):
     if request.method == 'POST' :
 		name = request.POST["name"]
 		table = Medicine.objects.filter(name=name)
-		if table.count()==0
+		if name is not None and table.count > 0 :
 			med = Medicine.objects.create(name=name)
 			med.save()
 			return render()
