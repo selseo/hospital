@@ -545,3 +545,21 @@ section {
 .btn-xs {
   padding: 5px 10px;
 }
+
+.period-header {
+  text-decoration: underline;
+}
+
+.patient-wrapper {
+  padding: 5px 25px;
+  height: 500px;
+  overflow: auto;
+}
+
+.morning li , .afternoon li{
+  cursor: pointer;
+}
+
+.morning li:hover , .afternoon li:hover{
+  font-weight: bold;
+}

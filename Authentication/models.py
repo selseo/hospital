@@ -23,7 +23,7 @@ class UserProfile(models.Model):
         return self.user.username
 
 class Patient(models.Model):
-    #userprofile=models.OneToOneField(UserProfile)
+    userprofile=models.OneToOneField(UserProfile)
 
     address=models.CharField(max_length=200)
 

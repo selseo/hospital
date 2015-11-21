@@ -491,7 +491,7 @@ function getPrepareData(date) {
           "year": date.current.year()
         },
       success: function(e){
-        // console.log(e);
+        console.log(e);
         e.forEach(function(pd){
           // if(pd.fields.morning){
           //   preparedData.push({date: pd.fields.date, period: 0, count: "XXX"});
