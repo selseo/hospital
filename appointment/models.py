@@ -60,8 +60,7 @@ class TimetableManager(models.Manager):
 class timeTable(models.Model):
     doctor_id=models.ForeignKey('Doctor')
     date = models.DateField()
-    morning = models.BooleanField()
-    afternoon = models.BooleanField()
+    period = models.CharField(max_length=1)
     patientnum = models.IntegerField(default=0) # should this line be included?
 
     objects = TimetableManager()
