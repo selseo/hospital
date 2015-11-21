@@ -29,9 +29,6 @@
                     <form id="user_form" method="post" action="/default/register/" 
                     enctype="multipart/form-data" class="form-horizontal ">
                         {% csrf_token %}
-                        {{user_form.errors.as_text}}
-
-                        {{profile_form.errors.as_text}}
                         <div class="form-group">
                             <div class="col-xs-12">
                                 {% if user_form.username.errors %}
@@ -96,6 +93,43 @@
                                 {% endif %}
                             </div>
                         </div>
+
+                        <div class="form-group">
+                            <div class="col-xs-12">
+                                {% if patient_form.birthdate.errors %}
+                                <div class="has-error">
+                                {% endif %}
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="gi gi-calendar"></i></span>
+                                        {{ patient_form.birthdate}}
+                                    </div>
+                                    {% if patient_form.birthdate.errors %}
+                                    <span class="help-block">
+                                        {{ patient_form.birthdate.errors }}
+                                    </span>
+                                </div>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-xs-12">
+                                {% if patient_form.address.errors %}
+                                <div class="has-error">
+                                {% endif %}
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-map-marker"></i></span>
+                                        {{ patient_form.address}}
+                                    </div>
+                                    {% if patient_form.address.errors %}
+                                    <span class="help-block">
+                                        {{ patient_form.address.errors }}
+                                    </span>
+                                </div>
+                                {% endif %}
+                            </div>
+                        </div>
+
                         <div class="form-group">
                             <div class="col-xs-12">
                                 {% if user_form.email.errors %}
@@ -115,31 +149,43 @@
                         </div>
                         <div class="form-group">
                             <div class="col-xs-6">
-                                {% if profile_form.sex.errors %}
+                                {% if patient_form.sex.errors %}
                                 <div class="has-error">
                                 {% endif %}
                                     <div class="input-group">
-                                        <span class="input-group-addon"><i class="gi gi-asterisk"></i></span>
-                                        {{ profile_form.sex}}
+                                        <span class="input-group-addon" >
+                                            <div class="radio-inline">
+                                                <i class="gi gi-parents" style="padding-bottom: 14px;margin-left: -28px;"></i>
+                                            </div>
+                                            {% for radio in patient_form.sex %}
+                                            <div class="radio-inline">
+                                                {{ radio }}
+                                            </div>
+                                            {% endfor %}
+                                        </span> 
+                                         <!--<div class="radio-inline">
+                                            <i class="gi gi-parents"></i>
+                                        </div>-->
+                                        
                                     </div>
-                                    {% if profile_form.sex.errors %}
+                                    {% if patient_form.sex.errors %}
                                     <span class="help-block">
-                                        {{ profile_form.sex.errors }}
+                                        {{ patient_form.sex.errors }}
                                     </span>
                                 </div>
                                 {% endif %}
                             </div>
                             <div class="col-xs-6">
-                                {% if profile_form.phone.errors %}
+                                {% if patient_form.phone.errors %}
                                 <div class="has-error">
                                 {% endif %}
                                     <div class="input-group">
                                         <span class="input-group-addon"><i class="fa fa-fax"></i></span>
-                                        {{ profile_form.phone}}
+                                        {{ patient_form.phone}}
                                     </div>
-                                    {% if profile_form.phone.errors %}
+                                    {% if patient_form.phone.errors %}
                                     <span class="help-block">
-                                        {{ profile_form.phone.errors }}
+                                        {{ patient_form.phone.errors }}
                                     </span>
                                 </div>
                                 {% endif %}
@@ -147,16 +193,16 @@
                         </div>
                         <div class="form-group">
                             <div class="col-xs-12">
-                                {% if profile_form.idcard.errors %}
+                                {% if patient_form.idcard.errors %}
                                 <div class="has-error">
                                 {% endif %}
                                     <div class="input-group">
                                         <span class="input-group-addon"><i class="fa fa-credit-card"></i></span>
-                                        {{ profile_form.idcard}}
+                                        {{ patient_form.idcard}}
                                     </div>
-                                    {% if profile_form.idcard.errors %}
+                                    {% if patient_form.idcard.errors %}
                                     <span class="help-block">
-                                        {{ profile_form.idcard.errors }}
+                                        {{ patient_form.idcard.errors }}
                                     </span>
                                 </div>
                                 {% endif %}
