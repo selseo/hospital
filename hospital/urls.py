@@ -26,6 +26,7 @@ urlpatterns = [
     url(r'^timetable/', include('doctor_timetable.urls', namespace="doctor_timetable")),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     url(r'^test/',include('testTheme.urls',namespace="testTheme")),
-    url(r'^visit/', include('Visit.urls',namespace="Visit")),
     url(r'^disease/',include('Disease.urls',namespace="Disease")),
+    url(r'^visit/', include('Visit.urls',namespace="Visit",app_name="visit")),
+
 ]
