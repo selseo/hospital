@@ -9,8 +9,7 @@ from django.shortcuts import render
 from django.contrib.auth import authenticate, login,logout
 from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib.auth.decorators import login_required
-from Authentication.forms import UserForm, UserProfileForm
-
+from Authentication.forms import UserForm, UserProfileForm, PatientProfile
 # Create your views here.
 
 def index(request):
@@ -50,9 +49,10 @@ def register(request):
         # Note that we make use of both UserForm and UserProfileForm.
         user_form = UserForm(data=request.POST)
         profile_form = UserProfileForm(data=request.POST)
+        patient_form=PatientProfile(data=request.POST)
 
         # If the two forms are valid...
-        if user_form.is_valid() and profile_form.is_valid():
+        if user_form.is_valid() and profile_form.is_valid() and patient_form.is_valid():
             # Save the user's form data to the database.
             user = user_form.save()
 
@@ -75,6 +75,9 @@ def register(request):
 
             # Now we save the UserProfile model instance.
             profile.save()
+            patient=patient_form.save(commit=False)
+            patient.userprofile=profile
+            patient.save()
 
             # Update our variable to tell the template registration was successful.
             registered = True
@@ -90,11 +93,12 @@ def register(request):
     else:
         user_form = UserForm()
         profile_form = UserProfileForm()
+        patient_form = PatientProfile()
 
     # Render the template depending on the context.
     return render(request,
             'theme/register.html',
-            {'user_form': user_form, 'profile_form': profile_form, 'registered': registered} )
+            {'user_form': user_form, 'profile_form': profile_form, 'patient_form':patient_form,'registered': registered} )
 
 def some_view(request):
     if not request.user.is_authenticated():

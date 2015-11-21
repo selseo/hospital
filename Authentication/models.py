@@ -14,20 +14,20 @@ class UserProfile(models.Model):
     role=models.IntegerField(default=0)
     #0=not available 1=available
     status=models.IntegerField(default=1)
-
-    sex=models.CharField(max_length=1)
-    idcard=models.CharField(max_length=20)
-    phone=models.CharField(max_length=15)
+    
     # Override the __unicode__() method to return out something meaningful!
     def __unicode__(self):
         return self.user.username
 
 class Patient(models.Model):
     userprofile=models.OneToOneField(UserProfile)
-
+    sex=models.CharField(max_length=1)
+    idcard=models.CharField(max_length=20)
+    phone=models.CharField(max_length=15)
     address=models.CharField(max_length=200)
+    birthdate=models.DateField()
 
     def __unicode__(self):
-        return self.user.username
+        return self.userprofile.user.username
 
 

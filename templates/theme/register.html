@@ -66,7 +66,14 @@
                                {{ profile_form.lastname}}
                             </div>
                         </div>
+
                         <div class="form-group">
+                            <div class="col-xs-12">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="gi gi-envelope"></i></span>
+                                    {{ patient_form.birthdate}}
+                                </div>
+                            </div>
                             <div class="col-xs-12">
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="gi gi-envelope"></i></span>
@@ -78,13 +85,13 @@
                             <div class="col-xs-6">
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="gi gi-asterisk"></i></span>
-                                    {{ profile_form.sex}}
+                                    {{ patient_form.sex}}
                                 </div>
                             </div>
                             <div class="col-xs-6">
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="fa fa-fax"></i></span>
-                                    {{ profile_form.phone}}
+                                    {{ patient_form.phone}}
                                 </div>
                             </div>
                         </div>
@@ -92,7 +99,15 @@
                             <div class="col-xs-12">
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="fa fa-credit-card"></i></span>
-                                    {{ profile_form.idcard}}
+                                    {{ patient_form.idcard}}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-xs-12">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="fa fa-credit-card"></i></span>
+                                    {{ patient_form.address}}
                                 </div>
                             </div>
                         </div>

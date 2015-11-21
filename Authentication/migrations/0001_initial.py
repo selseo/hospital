@@ -15,17 +15,18 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Patient',
             fields=[
-                ('id', models.AutoField(serialize=False, primary_key=True, auto_created=True, verbose_name='ID')),
+                ('id', models.AutoField(auto_created=True, serialize=False, verbose_name='ID', primary_key=True)),
                 ('sex', models.CharField(max_length=1)),
                 ('idcard', models.CharField(max_length=20)),
                 ('phone', models.CharField(max_length=15)),
                 ('address', models.CharField(max_length=200)),
+                ('birthdate', models.DateField()),
             ],
         ),
         migrations.CreateModel(
             name='UserProfile',
             fields=[
-                ('id', models.AutoField(serialize=False, primary_key=True, auto_created=True, verbose_name='ID')),
+                ('id', models.AutoField(auto_created=True, serialize=False, verbose_name='ID', primary_key=True)),
                 ('firstname', models.CharField(max_length=50)),
                 ('lastname', models.CharField(max_length=50)),
                 ('role', models.IntegerField(default=0)),
