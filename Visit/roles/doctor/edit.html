@@ -4,7 +4,6 @@ edit.html {{num}}
 		{{ form.as_p }}
 		<input type="submit" value="OK">
 </form>
-
 {% if form.errors %}
     {% for field in form %}
         {% for error in field.errors %}

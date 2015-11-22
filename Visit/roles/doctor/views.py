@@ -45,6 +45,7 @@ def editStatus1(request,num):
 	if request.method == 'POST' and form.is_valid():
 		mymodel = form.save(commit=False)
 		mymodel.save()
+		form.save_m2m()
 		return redirect('/visit/doctor/view')
 	return render(request, 'doctor/edit.html', { 'form' : form , 'num' : num})
 
