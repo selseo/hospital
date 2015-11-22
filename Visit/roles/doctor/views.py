@@ -44,6 +44,7 @@ def editStatus1(request,num):
 	form = PatientVisitDoctorForms(request.POST or None, instance=mymodel)
 	if request.method == 'POST' and form.is_valid():
 		mymodel = form.save(commit=False)
+		# mymodel.status = 2
 		mymodel.save()
 		form.save_m2m()
 		return redirect('/visit/doctor/view')
