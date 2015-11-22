@@ -1,5 +1,5 @@
 from django.db import models
-from Authentication.models  import Patient
+from Authentication.models  import UserProfile
 
 # Create your models here.
 class Department(models.Model):
@@ -77,7 +77,7 @@ class timeTable(models.Model):
 
 
 class Appointment(models.Model):
-    patient_id=models.ForeignKey(Patient)
+    patient_id=models.ForeignKey(UserProfile)
     timetable_id=models.ForeignKey(timeTable)
     symptom=models.CharField(max_length=100)
     cause=models.CharField(max_length=100)
