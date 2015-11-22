@@ -126,94 +126,19 @@
                                 </tr>
                             </thead>
                             <tbody>
+{% for row in table %}
                                 <tr>
                                     
-                                    <td><a href="a_pharma_viewPro.html">Abudabee kikihihi</a></td>
-                                    <td>10.30 03/11/2558</td>
+                                    <td><a href="#">{{row.appointment.patient_id.userprofile.firstname}} {{row.appointment.patient_id.userprofile.lastname}}</a></td>
+                                    <td>{{row.lastUpdate}}</td>
                                     <td>
                                         <a href="javascript:void(0)" class="label label-warning">waiting</a>
                                     </td>
                                     <td class="text-center">
-                                         <a href="a_pharma_viewPro.html" data-toggle="tooltip" title="Edit" class="btn btn-primary  btn-xs"><i class="fa fa-plus-square"></i> View Prescription</a>
+                                         <a href="{% url "visit:pharmacist-editStatus1" row.appointment.id %}" data-toggle="tooltip" title="Edit" class="btn btn-primary  btn-xs"><i class="fa fa-plus-square"></i> View Prescription</a>
                                     </td>
                                 </tr>
-                                <tr>
-                                    
-                                    <td><a href="a_pharma_viewPro.html">Hibudabee kikihihi</a></td>
-                                    <td>10.30 03/11/2558</td>
-                                    <td>
-                                        <a href="javascript:void(0)" class="label label-warning">waiting</a>
-                                    </td>
-                                     <td class="text-center">
-                                         <a href="a_pharma_viewPro.html" data-toggle="tooltip" title="Edit" class="btn btn-primary  btn-xs"><i class="fa fa-plus-square"></i> View Prescription</a>
-                                    </td>
-                                </tr>
-                                 <tr>
-                                    
-                                    <td><a href="a_pharma_viewPro.html">Abudabee kikihihi</a></td>
-                                    <td>10.30 03/11/2558</td>
-                                    <td>
-                                        <a href="javascript:void(0)" class="label label-warning">waiting</a>
-                                    </td>
-                                    <td class="text-center">
-                                         <a href="a_pharma_viewPro.html" data-toggle="tooltip" title="Edit" class="btn btn-primary  btn-xs"><i class="fa fa-plus-square"></i> View Prescription</a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    
-                                    <td><a href="a_pharma_viewPro.html">Hibudabee kikihihi</a></td>
-                                    <td>10.30 03/11/2558</td>
-                                    <td>
-                                        <a href="javascript:void(0)" class="label label-warning">waiting</a>
-                                    </td>
-                                     <td class="text-center">
-                                         <a href="a_pharma_viewPro.html" data-toggle="tooltip" title="Edit" class="btn btn-primary  btn-xs"><i class="fa fa-plus-square"></i> View Prescription</a>
-                                    </td>
-                                </tr>
-                                 <tr>
-                                    
-                                    <td><a href="a_pharma_viewPro.html">Abudabee kikihihi</a></td>
-                                    <td>10.30 03/11/2558</td>
-                                    <td>
-                                        <a href="javascript:void(0)" class="label label-warning">waiting</a>
-                                    </td>
-                                    <td class="text-center">
-                                         <a href="a_pharma_viewPro.html" data-toggle="tooltip" title="Edit" class="btn btn-primary  btn-xs"><i class="fa fa-plus-square"></i> View Prescription</a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    
-                                    <td><a href="a_pharma_viewPro.html">Hibudabee kikihihi</a></td>
-                                    <td>10.30 03/11/2558</td>
-                                    <td>
-                                        <a href="javascript:void(0)" class="label label-warning">waiting</a>
-                                    </td>
-                                     <td class="text-center">
-                                         <a href="a_pharma_viewPro.html" data-toggle="tooltip" title="Edit" class="btn btn-primary  btn-xs"><i class="fa fa-plus-square"></i> View Prescription</a>
-                                    </td>
-                                </tr>
-                                 <tr>
-                                    
-                                    <td><a href="a_pharma_viewPro.html">Abudabee kikihihi</a></td>
-                                    <td>10.30 03/11/2558</td>
-                                    <td>
-                                        <a href="javascript:void(0)" class="label label-warning">waiting</a>
-                                    </td>
-                                    <td class="text-center">
-                                         <a href="a_pharma_viewPro.html" data-toggle="tooltip" title="Edit" class="btn btn-primary  btn-xs"><i class="fa fa-plus-square"></i> View Prescription</a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    
-                                    <td><a href="a_pharma_viewPro.html">Hibudabee kikihihi</a></td>
-                                    <td>10.30 03/11/2558</td>
-                                    <td>
-                                        <a href="javascript:void(0)" class="label label-warning">waiting</a>
-                                    </td>
-                                     <td class="text-center">
-                                         <a href="a_pharma_viewPro.html" data-toggle="tooltip" title="Edit" class="btn btn-primary  btn-xs"><i class="fa fa-plus-square"></i> View Prescription</a>
-                                    </td>
-                                </tr>
+{% endfor %}
                             </tbody>
                         </table>
 
