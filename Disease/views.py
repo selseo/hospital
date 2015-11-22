@@ -37,7 +37,6 @@ def setAvailability(request):
 	
 	ICD10 = request.POST["ICD10"]
 	availability = request.POST["availability"]
-	print (availability)
 	if availability == "true":
 		di = Disease.objects.get(ICD10=ICD10)
 		di.availability = True
