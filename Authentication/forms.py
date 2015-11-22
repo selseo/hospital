@@ -39,3 +39,13 @@ class PatientProfile(forms.ModelForm):
             'phone': forms.TextInput(attrs={'class': 'form-control input-lg','placeholder':'Phone'}),
             'address': forms.TextInput(attrs={'class': 'form-control input-lg','placeholder':'Address'}),
         }
+
+class AdminCreateUser(forms.ModelForm):
+    class Meta:
+        model = UserProfile
+        fields = ('firstname','lastname','role')
+        widgets = {
+            'firstname': forms.TextInput(attrs={'class': 'form-control input-lg','placeholder':'Firstname'}),
+            'lastname': forms.TextInput(attrs={'class': 'form-control input-lg','placeholder':'Lastname'}),
+            'role': forms.TextInput(attrs={'class': 'form-control input-lg','placeholder':'Role 0-5'}),
+        }
