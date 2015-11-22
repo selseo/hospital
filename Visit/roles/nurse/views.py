@@ -44,6 +44,7 @@ def editStatus0(request,num):
 	form = PatientVisitNurseForms(request.POST or None, instance=mymodel)
 	if request.method == 'POST' and form.is_valid():
 		mymodel = form.save(commit=False)
+		mymodel.status = 1
 		mymodel.save()
 		return redirect('/visit/nurse/view')
 	return render(request, 'nurse/edit.html', { 'form' : form , 'num' : num})

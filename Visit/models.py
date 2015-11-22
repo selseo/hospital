@@ -22,7 +22,7 @@ class PatientVisitInfo(models.Model):
 	diseases=models.ManyToManyField(Disease)
 
 class Prescription(models.Model):
-	patientVisitInfo=models.ForeignKey('PatientVisitInfo')
+	patientVisitInfo=models.ForeignKey(PatientVisitInfo)
 	medicines=models.ForeignKey(Medicine)
 	amount=models.IntegerField()
 	usage=models.CharField(max_length=200)
