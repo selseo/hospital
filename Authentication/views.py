@@ -352,7 +352,6 @@ def seed(request):
     return HttpResponse("Seeddddd")
 
 
-<<<<<<< HEAD
 def officer_createPatient(request):
     # A boolean value for telling the template whether the registration was successful.
     # Set to False initially. Code changes value to True when registration succeeds.
@@ -416,8 +415,4 @@ def officer_createPatient(request):
     return render(request,
             'officer/addPatient.html',
             {'user_form': user_form, 'profile_form': profile_form, 'patient_form':patient_form,'registered': registered} )
-=======
-def admin_check(user):
-    return user.email.endswith('@example.com')
 
->>>>>>> 8a3d807e1da2b0f4e9d8bfeb6852a3891e125956
