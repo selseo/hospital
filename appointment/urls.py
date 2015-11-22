@@ -26,6 +26,7 @@ urlpatterns = [
     url(r'^editappointment/cancel/(?P<aid>[0-9]+)/$',views.cancel,name='cancel'),
     url(r'^patientlist/$',views.patientlist,name='patientlist'),
     url(r'^getpatientlist/$',views.getpatientlist),
+    url(r'^getpatientappointment/$',views.getpatientappointment),
     url(r'^timetable/$',views.timetable,name='timetable'),
     url(r'^gettimetable/$',views.gettimetable),
     url(r'^savetimetable/$',views.savetimetable),
