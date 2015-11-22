@@ -17,6 +17,7 @@ from datetime import datetime
 from django.utils import formats
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth.models import User
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 # Create your views here.
 
 
@@ -272,7 +273,21 @@ def admin_create_user(request):
 
 
 def view_user_list(request):
-    return render (request,'admin/viewuserlist.html')
+    user_list = UserProfile.objects.all()
+    paginator = Paginator(user_list, 15) # Show 25 contacts per page
+
+    page = request.GET.get('page')
+    try:
+        userls = paginator.page(page)
+    except PageNotAnInteger:
+        # If page is not an integer, deliver first page.
+        userls = paginator.page(1)
+    except EmptyPage:
+        # If page is out of range (e.g. 9999), deliver last page of results.
+        userls = paginator.page(paginator.num_pages)
+
+    return render(request,'admin/viewuserlistpage.html', {'userls': userls})
+    #return render (request,'admin/viewuserlistpage.html')
 
 @csrf_exempt
 def seed(request):

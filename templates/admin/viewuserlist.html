@@ -63,79 +63,8 @@
                                 </div>
                               </div>
                         </div>
-
-                        <div class="table-responsive">
-                          
-                            <table class="table table-vcenter table-striped">
-                                <thead>
-                                    <tr>
-                                        <col>
-                                        <col>
-                                        <col>
-                                        <col width="20%">
-                                        <th>ID</th>
-                                        <th>Name</th>
-                                        <th>Role</th>
-                                        <th style="width: 150px;" class="text-center">Actions</th>
-                                    </tr>
-                                </thead>
-                                <script>
-                                    function switchToggle(x,y){
-                                        alert("Set availability in DATABASE as >> " + x.checked);
-                                    }
-                                </script>
-                                <tbody>
-                                    <tr id="drugAppendPoint">
-                                        <td>99</td>
-                                        <td>Xxxxx Xxxxxxx</td>
-                                        <td>Pharmacist</td>
-                                        <td class="text-center">
-                                            <div class="btn-group btn-group-xs col-xs-5">
-                                                <a href="a_admin_viewNurseP.html" class="btn btn-alt btn-default" type="button"><i class="hi hi-user"></i></a>
-                                                <a href="a_admin_editNurseP.html" class="btn btn-alt btn-default" type="button"><i class="hi hi-pencil"></i></a>
-                                            </div>
-                                            <label class="switch switch-primary col-xs-3">
-                                                <input type="checkbox" name="checked" checked="" onchange="switchToggle(this,0);">
-                                                <span></span>
-                                            </label>
-                                        </td>
-                                    </tr>
-                                    <script>
-                                        var drugs = ["Aaaaa Aaaaa","Bbb Bbbbbbbb","Ccccc Cccc","Ddddd dddddddd","Eeeee Eeeee","Ffffffff Ffffffffffff"];
-                                        for(var d in drugs) {
-                                            var ele = $(
-                                                '<tr>'+
-                                                    '<td>'+d+'</td>'+
-                                                    '<td>'+drugs[d]+'</td>'+
-                                                    '<td>'+(Math.random()<0.5?'Nurse':'Phamacist')+'</td>'+
-                                                    '<td class="text-center">'+
-                                                    '<div class="btn-group btn-group-xs col-xs-5">'+
-                                                '<a href="a_admin_viewNurseP.html" class="btn btn-alt btn-default" type="button"><i class="hi hi-user"></i></a>'+
-                                                '<a href="a_admin_editNurseP.html" class="btn btn-alt btn-default" type="button"><i class="hi hi-pencil"></i></a>'+
-                                            '</div>'+
-                                                        '<label class="switch switch-primary col-xs-3">'+
-                                                        '<input type="checkbox" name="checked" '+(Math.random()<0.6?'checked=""':'')+' onchange="switchToggle(this,'+d+');">'+
-                                                        '<span></span>'+
-                                                        '</label>'+
-                                                    '</td>'+
-                                                '</tr>'
-                                            );
-                                            $("#drugAppendPoint").after(ele);
-                                        }
-                                    </script>
-                                </tbody>
-                            </table>
-                            <div class="text-center">
-                                        <ul class="pagination">
-                                            <li class="disabled"><a href="javascript:void(0)">«</a></li>
-                                            <li class="active"><a href="javascript:void(0)">1</a></li>
-                                            <li><a href="javascript:void(0)">2</a></li>
-                                            <li><a href="javascript:void(0)">3</a></li>
-                                            <li><a href="javascript:void(0)">4</a></li>
-                                            <li><a href="javascript:void(0)">»</a></li>
-                                        </ul>
-                                    </div>
-                        </div>
+                        {% block tablelist %} {% endblock %}
+                        
                         <!-- END Responsive Full Content -->
                     </div>
                     <!-- END Responsive Full Block -->

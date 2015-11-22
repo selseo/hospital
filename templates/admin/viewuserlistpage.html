@@ -1,0 +1,72 @@
+{% extends 'admin/viewuserlist.html' %}
+{% load staticfiles %}
+
+{% block title %}
+    Doctor : SE hospital
+{% endblock %}
+
+{% block tablelist %}
+    <div class="table-responsive">
+                          
+                            <table class="table table-vcenter table-striped">
+                                <thead>
+                                    <tr>
+                                        <col>
+                                        <col>
+                                        <col>
+                                        <col width="20%">
+                                        <th>Firstname</th>
+                                        <th>Lastname</th>
+                                        <th>Role</th>
+                                        <th style="width: 150px;" class="text-center">Actions</th>
+                                    </tr>
+                                </thead>
+                                <script>
+                                    function switchToggle(x,y){
+                                        alert("Set availability in DATABASE as >> " + x.checked);
+                                    }
+                                </script>
+                                <tbody>
+                                    {% for userl in userls %}
+                                    
+
+                                    
+                                    <tr id="drugAppendPoint">
+                                        <td>{{ userl.firstname }}</td>
+                                        <td>{{ userl.lastname }}</td>
+                                        <td>{{ userl.role }}</td>
+                                        <td class="text-center">
+                                            <div class="btn-group btn-group-xs col-xs-5">
+                                                <a href="a_admin_viewNurseP.html" class="btn btn-alt btn-default" type="button"><i class="hi hi-user"></i></a>
+                                                <a href="a_admin_editNurseP.html" class="btn btn-alt btn-default" type="button"><i class="hi hi-pencil"></i></a>
+                                            </div>
+                                            <label class="switch switch-primary col-xs-3">
+                                                <input type="checkbox" name="checked" checked="" onchange="switchToggle(this,0);">
+                                                <span></span>
+                                            </label>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                    
+                                </tbody>
+                            </table>
+                            <div class="pagination">
+                                <span class="step-links">
+                                    {% if contacts.has_previous %}
+                                    <a href="?page={{ contacts.previous_page_number }}">previous</a>
+                                    {% endif %}
+
+                                <span class="current">
+                                    Page {{ contacts.number }} of {{ contacts.paginator.num_pages }}.
+                                </span>
+
+                                {% if contacts.has_next %}
+                                <a href="?page={{ contacts.next_page_number }}">next</a>
+                                {% endif %}
+                                </span>
+                            </div>
+                            
+                        </div>
+
+    
+{% endblock %}
