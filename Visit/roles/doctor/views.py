@@ -2,7 +2,7 @@ from datetime import datetime,timedelta
 from appointment.models import Appointment
 from Visit.models import PatientVisitInfo
 from django.shortcuts import get_object_or_404, render, redirect
-from .forms import PatientVisitNurseForms
+from .forms import PatientVisitDoctorForms
 from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponseRedirect, HttpResponse
 from django.http import Http404
@@ -17,8 +17,8 @@ from Authentication.models  import Patient
 # please remove comment syntax to use authen
 def index(request):
 	#if request.user.is_authenticated():
-		#if getUserProfile(request.user).role==2://Nurse
-			return render(request, 'nurse/index.html')
+		#if getUserProfile(request.user).role==1://Doctor
+			return render(request, 'doctor/index.html')
 		#else :
 			#return HttpResponseRedirect('/default/')
 	#else :
@@ -26,12 +26,12 @@ def index(request):
 
 def view(request):
 	#if request.user.is_authenticated():
-		#if getUserProfile(request.user).role==2://Nurse
-			return render(request, 'nurse/view.html',{'table':PatientVisitInfo.objects.filter(
-		 		# lastUpdate__day=datetime.now().day,
-		 		# lastUpdate__month=datetime.now().month,
-		 		# lastUpdate__year=datetime.now().year,
-		 		status=0
+		#if getUserProfile(request.user).role==1://Doctor
+			return render(request, 'doctor/view.html',{'table':PatientVisitInfo.objects.filter(
+		 		lastUpdate__day=datetime.now().day,
+		 		lastUpdate__month=datetime.now().month,
+		 		lastUpdate__year=datetime.now().year,
+		 		status=1
 			)})
 	#else :
 			#return HttpResponseRedirect('/default/')
@@ -39,14 +39,14 @@ def view(request):
 		#return HttpResponseRedirect('/default/')
 
 @csrf_exempt
-def editStatus0(request,num):
+def editStatus1(request,num):
 	mymodel = get_object_or_404(PatientVisitInfo, appointment_id=num)
-	form = PatientVisitNurseForms(request.POST or None, instance=mymodel)
+	form = PatientVisitDoctorForms(request.POST or None, instance=mymodel)
 	if request.method == 'POST' and form.is_valid():
 		mymodel = form.save(commit=False)
 		mymodel.save()
-		return redirect('/visit/nurse/view')
-	return render(request, 'nurse/edit.html', { 'form' : form , 'num' : num})
+		return redirect('/visit/doctor/view')
+	return render(request, 'doctor/edit.html', { 'form' : form , 'num' : num})
 
 #Method for get user profile
 def getUserProfile(user):
