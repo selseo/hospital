@@ -53,3 +53,62 @@ def setAvailability(request):
 	# di = Disease.objects.filter(ICD10=ICD10)
 	# res = serializers.serialize('json',di)
 	return HttpResponse('')		
+@csrf_exempt
+def seed(request):
+		dis,xxx=Disease.objects.get_or_create(
+            name="Cholera due to Vibrio cholerae 01, biovar cholerae",
+            defaults={'ICD10':"A00.0"}
+        )
+		dis.save()
+		dis2,xxx=Disease.objects.get_or_create(
+			name="Paratyphoid fever A",
+			defaults={'ICD10':"A01.1"}
+		)
+		dis2.save()
+		dis3,xxx=Disease.objects.get_or_create(
+		name="Paratyphoid fever B",
+		defaults={'ICD10':"A01.2"}
+		)
+		dis3.save()
+		dis4,xxx=Disease.objects.get_or_create(
+		name="Paratyphoid fever C",
+		defaults={'ICD10':"A01.3"}
+		)
+		dis4.save()
+		dis5,xxx=Disease.objects.get_or_create(
+		name="Urban rabies",
+		defaults={'ICD10':"A82.1"}
+		)
+		dis5.save()
+		dis6,xxx=Disease.objects.get_or_create(
+		name="Rabies, unspecified",
+		defaults={'ICD10':"A82.9"}
+		)
+		dis6.save()
+		dis7,xxx=Disease.objects.get_or_create(
+		name="Superficial injury of nose",
+		defaults={'ICD10':"S00.3"}
+		)
+		dis7.save()
+		dis8,xxx=Disease.objects.get_or_create(
+		name="Open wound of ear",
+		defaults={'ICD10':"S01.3"}
+		)
+		dis8.save()
+		dis9,xxx=Disease.objects.get_or_create(
+		name="Burn of first degree of head and neck",
+		defaults={'ICD10':"T20.1"}
+		)
+		dis9.save()
+		dis10,xxx=Disease.objects.get_or_create(
+		name="Burn of first degree of trunk",
+		defaults={'ICD10':"T21.1"}
+		)
+		dis10.save()
+		dis11,xxx=Disease.objects.get_or_create(
+		name="Acute renal failure with tubular necrosis",
+		defaults={'ICD10':"N17.0"}
+		)
+		dis11.save()
+		return render(request, 'admin/seed.html')
+

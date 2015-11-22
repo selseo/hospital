@@ -32,3 +32,48 @@ def setAvailability(request):
 		med.availability = False
 		med.save()
 	return HttpResponse('')
+@csrf_exempt
+def seed(request):
+	# var drugs = ["Aspirin","Stomachic Mixture","Sulfacetamide Eye Drop","Liquid Paraffin Emulsion","Tetracycline Eye Ointment"
+	# ,"Milk of Magnesia or Cream of Magnesia","Iodine Tincture","Senna (tablet)","Thimerosal Tincture","Oral Rehydration Salts","Analgesic Balm","Alumina and Magnesia (Tablet)","Toothache Drop","Alumina and Magnesia Oral Suspension","Burns and Scalds Mixture","Sodamint (tablet)","Salicylic Acid and sulphur ointment","Compound Cardamom Mixture","Salicylic Acid and sulphur Cream","Ammonium Carbonate and Glycyrrhiza Mixture","Magnesium Sulfate","Brown Mixture","Camphorated Opium Tincture","Compound Ammonium Carbonate Syrup","Iodine Tincture","Chlorpheniramine Maleate (tablet)","Eucalyptus Oil","Compound Ferrous Sulfate (tablet)","Aromatic Castor Oil","Multivitamin (tablet)","Cough Syrup","Vitamin B Complex (tablet)","Sodium Bicarbonate Mixture (pediatric)","Vitamin C (tablet)","Fish Liver Oil Capsule","Mebendazole (tablet)","Multivitamin Capsule","Aspirin (tablet)","Merbromin Solution","Paracetamol 325 mg.(tablet)","Kaolin Mixture with Pectin","Paracetamol 500 mg.(tablet)","Salol and Menthol Mixture","Paracetamol Syrup (pediatric)","Sulfadiazine Suspension (pediatric)","Asafetida Tincture","Chloroquine Phosphate (tablet)","Sodium Chloride Enema","Quinine Sulfate (tablet)","Mandl’s Paint","Sulfadoxine and Pyrimethamine (tablet)","Gentian Violet Solution","Sulfadiazine (tablet)","Cold Inhalant","Ephedrine Nasal Drop","Aromatic Ammonia Spirit","Nitrofurazone Ear Drop","Scabicide Emulsion","Acriflavine Solution","Sulphur Ointment","Pepermint Spirit.","Calamine Lotion","Povidone-Iodine Solution 10%","Coal Tar Ointment","Isopropyl Alcohol 70%","Whitfield’s Ointment"];
+	drug,xxx=Medicine.objects.get_or_create(
+		name="Aspirin",
+	)
+	drug.save()
+	drug2,xxx=Medicine.objects.get_or_create(
+		name="Stomachic Mixture",
+	)
+	drug2.save()	
+	drug3,xxx=Medicine.objects.get_or_create(
+		name="Liquid Paraffin Emulsion",
+	)
+	drug3.save()	
+	drug4,xxx=Medicine.objects.get_or_create(
+		name="Tetracycline Eye Ointment",
+	)
+	drug4.save()	
+	drug5,xxx=Medicine.objects.get_or_create(
+		name="Milk of Magnesia or Cream of Magnesia",
+	)
+	drug5.save()	
+	drug6,xxx=Medicine.objects.get_or_create(
+		name="Iodine Tincture",
+	)
+	drug6.save()	
+	drug7,xxx=Medicine.objects.get_or_create(
+		name="Thimerosal Tincture",
+	)
+	drug7.save()	
+	drug8,xxx=Medicine.objects.get_or_create(
+		name="Oral Rehydration Salts",
+	)
+	drug8.save()	
+	drug9,xxx=Medicine.objects.get_or_create(
+		name="Analgesic Balm",
+	)
+	drug9.save()	
+	drug10,xxx=Medicine.objects.get_or_create(
+		name="Alumina and Magnesia (Tablet)",
+	)
+	drug10.save()		
+	return render(request, 'admin/seed.html')
