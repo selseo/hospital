@@ -255,5 +255,5 @@ def admin_create_user(request):
             'admin/addUser.html',
             {'user_form': user_form, 'admin_user_form': admin_user_form,'registered': registered} )
 
-# def doctor_index(request):
-#     #comment
+def view_user_list(request):
+    return render (request,'admin/viewuserlist.html')
