@@ -2,19 +2,22 @@
 {% load staticfiles %}
 
 {% block title %}
-Nurse : SE hospital
+    Doctor : SE hospital
 {% endblock %}
 
+
+
+
 {% block content %}
-<!-- Dashboard Header -->
-<!-- For an image header add the class 'content-header-media' and an image as in the following example -->
-<div class="content-header content-header-media">
-    <div class="header-section">
-        <div class="row">
-            <!-- Main Title (hidden on small devices for the statistics to fit) -->
-            <div class="col-md-4 col-lg-6 hidden-xs hidden-sm">
-                <h1>Welcome <strong>Nurse</strong>
-                    <br><small>Miss Katesuda Lumyai</small></h1>
+	<!-- Dashboard Header -->
+    <!-- For an image header add the class 'content-header-media' and an image as in the following example -->
+    <div class="content-header content-header-media">
+        <div class="header-section">
+            <div class="row">
+                <!-- Main Title (hidden on small devices for the statistics to fit) -->
+                <div class="col-md-4 col-lg-6 hidden-xs hidden-sm">
+                    <h1>Welcome <strong>Doctor</strong>
+                        <br><small>{{ firstname }} {{ lastname }}</small></h1>
                 </div>
                 <!-- END Main Title -->
 
@@ -23,19 +26,19 @@ Nurse : SE hospital
                     <div class="row text-center">
                         <div class="col-xs-4 col-sm-3">
                             <h2 class="animation-hatch">
-                                <strong>3</strong><br>
+                                <strong>{% now "j" %} </strong><br>
                                 <small><i class="fa fa-calendar-o"></i> day</small>
                             </h2>
                         </div>
                         <div class="col-xs-4 col-sm-3">
                             <h2 class="animation-hatch">
-                                <strong>November</strong><br>
+                                <strong>{% now "F" %} </strong><br>
                                 <small> month</small>
                             </h2>
                         </div>
                         <div class="col-xs-4 col-sm-3">
                             <h2 class="animation-hatch">
-                                <strong>2558</strong><br>
+                                <strong>{% now "Y" %} </strong><br>
                                 <small>year</small>
                             </h2>
                         </div>
@@ -46,6 +49,7 @@ Nurse : SE hospital
                                 <small><i class="fa fa-map-marker"></i> Bangkok</small>
                             </h2>
                         </div>
+                        
                     </div>
                 </div>
                 <!-- END Top Stats -->
@@ -58,23 +62,65 @@ Nurse : SE hospital
 
     <!-- Mini Top Stats Row -->
     <div class="row">
-        <div class="col-sm-12 col-lg-12">
+        <div class="col-sm-12 col-lg-4">
             <!-- Widget -->
-            <a href="{% url "visit:nurse-view" %}" class="widget widget-hover-effect1">
+            <a href="{% url "visit:doctor-view" %}" class="widget widget-hover-effect1">
                 <div class="widget-simple">
                     <div class="widget-icon pull-left themed-background animation-fadeIn">
                         <i class="fa fa-users"></i>
                     </div>
-                    <h3 class="widget-content text-right animation-pullDown" style="font-size:2em;">
+                    <h3 class="widget-content text-right animation-pullDown">
                         <strong>View patient</strong> information<br>
                     </h3>
                 </div>
             </a>
             <!-- END Widget -->
         </div>
-
-
-
+        <div class="col-sm-12 col-lg-4">
+            <!-- Widget -->
+            <a href="#" class="widget widget-hover-effect1">
+                <div class="widget-simple">
+                    <div class="widget-icon pull-left themed-background-fancy animation-fadeIn">
+                        <i class="fa fa-calendar"></i>
+                    </div>
+                    <h3 class="widget-content text-right animation-pullDown">
+                        <strong>View timetable</strong> Appointment<br>
+                    </h3>
+                </div>
+            </a>
+            <!-- END Widget -->
+        </div>
+        <div class="col-sm-12 col-lg-4">
+            <!-- Widget -->
+            <a href="#" class="widget widget-hover-effect1">
+                <div class="widget-simple">
+                    <div class="widget-icon pull-left themed-background-fire animation-fadeIn">
+                        <i class="fa fa-pencil-square-o"></i>
+                    </div>
+                    <h3 class="widget-content text-right animation-pullDown">
+                        <strong>Create timetable</strong> Appointment<br>
+                    </h3>
+                </div>
+            </a>
+            <!-- END Widget -->
+        </div>
+       <!--  <div class="col-sm-6 col-lg-3"> -->
+            <!-- Widget -->
+            <!-- <a href="page_comp_gallery.html" class="widget widget-hover-effect1">
+                <div class="widget-simple">
+                    <div class="widget-icon pull-left themed-background-amethyst animation-fadeIn">
+                        <i class="gi gi-picture"></i>
+                    </div>
+                    <h3 class="widget-content text-right animation-pullDown">
+                        <strong>Photos</strong>
+                        <small>Gallery</small>
+                    </h3>
+                </div>
+            </a> -->
+            <!-- END Widget -->
+        <!-- </div> -->
+       
+       
     </div>
     <!-- END Mini Top Stats Row -->
 
@@ -84,12 +130,7 @@ Nurse : SE hospital
             <!-- Your Plan Widget -->
             <div class="widget">
                 <div class="widget-extra themed-background-dark">
-                    <div class="widget-options">
-                        <div class="btn-group btn-group-xs">
-                            <a href="javascript:void(0)" class="btn btn-default" data-toggle="tooltip" title="Edit Widget"><i class="fa fa-pencil"></i></a>
-                            <a href="javascript:void(0)" class="btn btn-default" data-toggle="tooltip" title="Quick Settings"><i class="fa fa-cog"></i></a>
-                        </div>
-                    </div>
+                    
                     <h3 class="widget-content-light">
                         Patient Count
                         <small><a href="#"><strong>Today</strong></a></small>
@@ -99,19 +140,19 @@ Nurse : SE hospital
                     <div class="row text-center">
                         <div class="col-xs-4 col-lg-4">
                             <h3>
-                                <strong>15</strong> <small>/50</small><br>
+                                <strong>{{ al_check_p }}</strong> <small>/{{ all_p }}</small><br>
                                 <small><i class="fa fa-check-square-o"></i> Already diagnosed</small>
                             </h3>
                         </div>
                         <div class="col-xs-4 col-lg-4">
                             <h3>
-                                <strong>35</strong> <small>/50</small><br>
+                                <strong>{{ uncheck_p }}</strong> <small>/{{ all_p }}</small><br>
                                 <small><i class="fa fa-clock-o "></i> Waiting</small>
                             </h3>
                         </div>
                         <div class="col-xs-4 col-lg-4">
                             <h3>
-                                <strong>50</strong> <br>
+                                <strong>{{ all_p }}</strong> <br>
                                 <small><i class="fa fa-building-o"></i> Total patients</small>
                             </h3>
                         </div>
@@ -122,7 +163,8 @@ Nurse : SE hospital
 
 
         </div>
-
+      
     </div>
     <!-- END Widgets Row -->
-    {% endblock %}
+
+{% endblock %}

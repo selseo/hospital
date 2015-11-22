@@ -1,0 +1,165 @@
+{% extends "theme/base.html" %}
+{% load staticfiles %}
+
+{% block title %}
+    Pharmacist : SE hospital
+{% endblock %}
+
+
+
+
+{% block content %}
+	<div class="content-header content-header-media" style="height: 125px;">
+        <div class="header-section">
+            <div class="row">
+                <!-- Main Title (hidden on small devices for the statistics to fit) -->
+                <div class="col-md-4 col-lg-6 hidden-xs hidden-sm">
+                    <h1>Welcome <strong>Pharmacist</strong>
+                        <br><small>{{firstname}} {{lastname}}</small></h1>
+                </div>
+                <!-- END Main Title -->
+
+                <!-- Top Stats -->
+                <div class="col-md-8 col-lg-6">
+                    <div class="row text-center">
+                        <div class="col-xs-4 col-sm-3">
+                            <h2 class="animation-hatch">
+                                <strong>{% now "j" %} </strong><br>
+                                <small><i class="fa fa-calendar-o"></i> day</small>
+                            </h2>
+                        </div>
+                        <div class="col-xs-4 col-sm-3">
+                            <h2 class="animation-hatch">
+                                <strong>{% now "F" %} </strong><br>
+                                <small> month</small>
+                            </h2>
+                        </div>
+                        <div class="col-xs-4 col-sm-3">
+                            <h2 class="animation-hatch">
+                                <strong>{% now "Y" %} </strong><br>
+                                <small>year</small>
+                            </h2>
+                        </div>
+                        <!-- We hide the last stat to fit the other 3 on small devices -->
+                        <div class="col-sm-3 hidden-xs">
+                            <h2 class="animation-hatch">
+                                <strong>29&deg; C</strong><br>
+                                <small><i class="fa fa-map-marker"></i> Bangkok</small>
+                            </h2>
+                        </div>
+                    </div>
+                </div>
+                <!-- END Top Stats -->
+            </div>
+        </div>
+    </div>
+    <!-- END Dashboard Header -->
+
+  
+
+    <!-- Widgets Row -->
+    <div class="row">
+        <div class="col-md-12">
+            <!-- Your Plan Widget -->
+            <div class="widget">
+                <div class="widget-extra themed-background-dark">
+                    <div class="widget-options">
+                        <div class="btn-group btn-group-xs">
+                            <a href="javascript:void(0)" class="btn btn-default" data-toggle="tooltip" title="Edit Widget"><i class="fa fa-pencil"></i></a>
+                            <a href="javascript:void(0)" class="btn btn-default" data-toggle="tooltip" title="Quick Settings"><i class="fa fa-cog"></i></a>
+                        </div>
+                    </div>
+                    <h3 class="widget-content-light">
+                        <strong>Prescription</strong> Stat
+                        <small><a href="#"><strong>Today</strong></a></small>
+                    </h3>
+                </div>
+                <div class="widget-extra-full">
+                    <div class="row text-center">
+                        <div class="col-xs-4 col-lg-4">
+                            <h3>
+                                <strong>15</strong> <small>/50</small><br>
+                                <small><i class="fa fa-check-square-o"></i> Already checked</small>
+                            </h3>
+                        </div>
+                        <div class="col-xs-4 col-lg-4">
+                            <h3>
+                                <strong>35</strong> <small>/50</small><br>
+                                <small><i class="fa fa-clock-o "></i> Waiting</small>
+                            </h3>
+                        </div>
+                        <div class="col-xs-4 col-lg-4">
+                            <h3>
+                                <strong>50</strong> <br>
+                                <small><i class="hi hi-list"></i> Total prescriptions</small>
+                            </h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- END Your Plan Widget -->
+            <div class="block">
+                <!-- Interactive Title -->
+                <div class="block-title">
+                    <!-- Interactive block controls (initialized in js/app.js -> interactiveBlocks()) -->
+                    <div class="block-options pull-right">
+                        <a href="javascript:void(0)" class="btn btn-alt btn-sm btn-primary" data-toggle="block-toggle-content"><i class="fa fa-arrows-v"></i></a>
+                        <a href="javascript:void(0)" class="btn btn-alt btn-sm btn-primary" data-toggle="block-toggle-fullscreen"><i class="fa fa-desktop"></i></a>
+                        
+                    </div>
+                    <h2><strong>Prescription</strong> List</h2>
+                </div>
+                <!-- END Interactive Title -->
+
+                <!-- Interactive Content -->
+                <!-- The content you will put inside div.block-content, will be toggled -->
+                <div class="block-content">
+                   <div class="table-responsive">
+                        <table class="table table-vcenter table-striped">
+                            <thead>
+                                <tr>
+                                    
+                                    <th>Name</th>
+                                    <th>Last updated</th>
+                                    <th>Status</th>
+                                    <th style="width: 150px;" class="text-center">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+{% for row in table %}
+                                <tr>
+                                    
+                                    <td><a href="#">{{row.appointment.patient_id.userprofile.firstname}} {{row.appointment.patient_id.userprofile.lastname}}</a></td>
+                                    <td>{{row.lastUpdate}}</td>
+                                    <td>
+                                        <a href="javascript:void(0)" class="label label-warning">waiting</a>
+                                    </td>
+                                    <td class="text-center">
+                                         <a href="{% url "visit:pharmacist-editStatus1" row.appointment.id %}" data-toggle="tooltip" title="Edit" class="btn btn-primary  btn-xs"><i class="fa fa-plus-square"></i> View Prescription</a>
+                                    </td>
+                                </tr>
+{% endfor %}
+                            </tbody>
+                        </table>
+
+                        <div class="text-center">
+                            <ul class="pagination">
+                                <li><a href="javascript:void(0)" >«</a></li>
+                                <li class="active"><a href="javascript:void(0)">1</a></li>
+                                <li><a href="javascript:void(0)">2</a></li>
+                                <li><a href="javascript:void(0)">3</a></li>
+                                <li><a href="javascript:void(0)">4</a></li>
+                                <li><a href="javascript:void(0)">»</a></li>
+                            </ul>
+                        </div>
+                        
+                    </div>
+                </div>
+                <!-- END Interactive Content -->
+            </div>
+            
+        </div>
+      
+    </div>
+
+{% endblock %}

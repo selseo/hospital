@@ -10,7 +10,7 @@ from django.core.exceptions import ValidationError
 
 class PatientVisitInfo(models.Model):
 	appointment=models.OneToOneField(Appointment, primary_key=True)
-	weight=models.DecimalField(max_digits=4, decimal_places=1, validators=['weightTooMuch'], null=True)
+	weight=models.DecimalField(max_digits=4, decimal_places=1, null=True)
 	height=models.DecimalField(max_digits=4, decimal_places=1, null=True)
 	pulse=models.IntegerField(null=True)
 	systolic=models.IntegerField(null=True)
@@ -22,7 +22,7 @@ class PatientVisitInfo(models.Model):
 	diseases=models.ManyToManyField(Disease)
 
 class Prescription(models.Model):
-	patientVisitInfo=models.ForeignKey('PatientVisitInfo')
+	patientVisitInfo=models.ForeignKey(PatientVisitInfo)
 	medicines=models.ForeignKey(Medicine)
 	amount=models.IntegerField()
 	usage=models.CharField(max_length=200)

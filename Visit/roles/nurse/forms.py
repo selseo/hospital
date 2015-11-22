@@ -1,7 +1,7 @@
 from django import forms
 from Visit.models import PatientVisitInfo
 
-class PatientVisitForms(forms.ModelForm):
+class PatientVisitNurseForms(forms.ModelForm):
     class Meta:
         model = PatientVisitInfo
-        fields = '__all__'
+        fields = ('weight','height','pulse','systolic','diastolic')

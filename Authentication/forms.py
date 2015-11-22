@@ -39,3 +39,15 @@ class PatientProfile(forms.ModelForm):
             'phone': forms.TextInput(attrs={'class': 'form-control input-lg','placeholder':'Phone'}),
             'address': forms.TextInput(attrs={'class': 'form-control input-lg','placeholder':'Address'}),
         }
+
+class AdminCreateUser(forms.ModelForm):
+    CHOICES = (('1','Doctor'),('2','Nurse'),('3','Officer'),('4','Pharmacist'),('5','Admin'))
+    role = forms.ChoiceField(widget=forms.RadioSelect(attrs={'class':'radio-inline'}), choices=CHOICES, error_messages={'required':"Please select role"})
+
+    class Meta:
+        model = UserProfile
+        fields = ('firstname','lastname','role')
+        widgets = {
+            'firstname': forms.TextInput(attrs={'class': 'form-control input-lg','placeholder':'Firstname'}),
+            'lastname': forms.TextInput(attrs={'class': 'form-control input-lg','placeholder':'Lastname'}),
+        }

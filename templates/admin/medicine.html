@@ -2,18 +2,17 @@
 {% load staticfiles %}
 
 {% block title %}
-Manage Disease : SE hospital
+Manage Medicine : SE hospital
 {% endblock %}
 
 {% block content %}
-
                 <!-- Page content -->
                 <div id="page-content">
                     <!-- Table Responsive Header -->
                     <div class="content-header">
                         <div class="header-section animation-stretchRight">
                             <h1>
-                                View Disease<br><small>see disease data, add diseases and set availability </small>
+                                View Medicines<br><small>see medicine data, add medicines and set availability </small>
                             </h1>
                         </div>
                     </div>
@@ -24,43 +23,26 @@ Manage Disease : SE hospital
                     <div class="block">
                         <!-- Responsive Full Title -->
                         <div class="block-title">
-                            <h2><strong>Add Disease</strong></h2>
+                            <h2><strong>Add Medicine</strong></h2>
                         </div>
                         <!-- END Responsive Full Title -->
 
                         <!-- Responsive Full Content -->
-                        <form action="{% url 'Disease:add' %}" method="post">
-                        <div class="row">
-                            <div class="form-group">
-                                <div class="col-md-12">
-                                    <label class="col-md-2 control-label text-right"><h4>Disease Name</h4></label>
+                        <form action="{% url 'Medicine:add' %}" method="post">
+                            <div class="row">
+                                <div class="form-group">
                                     <div class="col-md-10">
-                                        <input type="text" id="keyword" name="name" class="form-control" placeholder="Enter Disease Name..">
+                                      <label class="col-md-4 control-label text-right"><h4>Medicine Name</h4></label>
+                                        <div class="col-md-8">
+                                            <input type="text" id="keyword" name="name" class="form-control" placeholder="Enter Medicine Name..">
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="col-md-12">
-                                    <label class="col-md-2 control-label text-right"><h4>ICD10</h4></label>
-                                    <div class="col-md-6">
-                                        <input type="text" id="keyword" name="ICD10" class="form-control" placeholder="Enter ICD10..">
+                                    <div class="col-md-1">
+                                                    <button type="submit" class="btn btn-sm btn-primary"><i class="fa fa-plus-circle"></i> Add</button>
                                     </div>
-                                </div>
-                                <div class="col-md-12">
-                                    <label class="col-md-2 control-label text-right"><h4>SNOMED</h4></label>
-                                    <div class="col-md-6">
-                                        <input type="text" id="keyword" name="SNOMED" class="form-control" placeholder="Enter SNOMED..">
-                                    </div>
-                                </div>
-                                <div class="col-md-12">
-                                    <label class="col-md-2 control-label text-right"><h4>DRG</h4></label>
-                                    <div class="col-md-6">
-                                        <input type="text" id="keyword" name="DRG" class="form-control" placeholder="Enter DRG..">
-                                    </div>
-                                    <div class="col-md-4 text-right">
-                                        <button type="submit" class="btn btn-sm btn-primary"><i class="fa fa-plus-circle"></i> Add</button>
-                                </div>
-                                </div>
-                              </div>
-                        </div>
+                                  </div>
+                            </div>
+                        </form>
                         <!-- END Responsive Full Content -->
                     </div>
                     <!-- END Responsive Full Block -->
@@ -69,7 +51,7 @@ Manage Disease : SE hospital
                     <div class="block">
                         <!-- Responsive Full Title -->
                         <div class="block-title">
-                            <h2><strong>Disease</strong></h2>
+                            <h2><strong>Medicine</strong></h2>
                             <h2 style="float:right;" class="text-right themed-color"><strong>{{avail}}</strong><small>/{{length}}</small></h2>
                         </div>
                         <!-- END Responsive Full Title -->
@@ -80,7 +62,7 @@ Manage Disease : SE hospital
                                 <div class="col-md-10">
                                   <label class="col-md-2 control-label text-right"><h4>Keyword</h4></label>
                                     <div class="col-md-10">
-                                        <input type="text" id="keyword" name="keyword" class="form-control" placeholder="Enter Disease Name, ICD10, SNOMED or DRG..">
+                                        <input type="text" id="keyword" name="keyword" class="form-control" placeholder="Enter Medicine Name..">
                                     </div>
                                 </div>
                                 <div class="col-md-1">
@@ -95,58 +77,46 @@ Manage Disease : SE hospital
                                 <thead>
                                     <tr>
                                         <th>Name</th>
-                                        <th>ICD10</th>
-                                        <th>SNOMED</th>
-                                        <th>DRG</th>
                                         <th style="width: 150px;" class="text-center">Actions</th>
                                     </tr>
                                 </thead>
                                 <script>
-                                   
+                                    function switchToggle(x,y){
+                                        alert("Set availability in DATABASE as >> " + x.checked);
+                                    }
                                 </script>
                                 <tbody>
 {% for row in table %}
                                     <tr id="drugAppendPoint">
                                         <td>{{row.name}}</td>
-                                        <td>{{row.ICD10}}</td>
-                                        <td>{{row.SNOMED}}</td>
-                                        <td>{{row.DRG}}</td>
                                         <td class="text-center">
                                             <label class="switch switch-primary">
-                                            <!-- <form action="{% url 'Disease:setAvail' %}" method="post"> -->
-                                                <input type="checkbox" class="avail" name="checked" 
-                                                {% if row.availability %}
+                                                <input type="checkbox" class="avail" name="checked" {% if row.availability %}
                                                 checked
-                                                {% endif %}
-                                                onchange="switchToggle(this,0);" id="{{row.ICD10}}">
-                                            <!-- </form> -->
+                                                {% endif %} onchange="switchToggle(this,0);" id="{{row.name}}">
                                                 <span></span>
                                             </label>
                                         </td>
                                     </tr>
-                                     <script>
-                                    //     var drugs = ["aaaa","bbbb","cccc","dddd","eeee","ffff"];
-                                    //     for(var d in drugs) {
-                                    //         var ele = $(
-                                    //             '<tr>'+
-                                    //                 '<td>'+drugs[d]+'</td>'+
-                                    //                 '<td>'+d+""+d+""+d+""+d+""+d+""+d+""+d+""+d+""+'</td>'+
-                                    //                 '<td>'+drugs[d].charAt(0)+d+drugs[d].charAt(0)+d+drugs[d].charAt(0)+d+drugs[d].charAt(0)+d+'</td>'+
-                                    //                 '<td>'+drugs[d]+drugs[d]+'</td>'+
-                                    //                 '<td class="text-center">'+
-                                    //                     '<label class="switch switch-primary">'+
-                                    //                     '<input type="checkbox" name="checked" '+(Math.random()<0.7?'checked=""':'')+' onchange="switchToggle(this,'+d+');">'+
-                                    //                     '<span></span>'+
-                                    //                     '</label>'+
-                                    //                 '</td>'+
-                                    //             '</tr>'
-                                    //         );
-                                    //         $("#drugAppendPoint").after(ele);
-                                    //     }
-                                    // </script>
- {% endfor %}
-                                 </tbody>
-
+                                    <script>
+                                        // var drugs = ["Aspirin","Stomachic Mixture","Sulfacetamide Eye Drop","Liquid Paraffin Emulsion","Tetracycline Eye Ointment","Milk of Magnesia or Cream of Magnesia","Iodine Tincture","Senna (tablet)","Thimerosal Tincture","Oral Rehydration Salts","Analgesic Balm","Alumina and Magnesia (Tablet)","Toothache Drop","Alumina and Magnesia Oral Suspension","Burns and Scalds Mixture","Sodamint (tablet)","Salicylic Acid and sulphur ointment","Compound Cardamom Mixture","Salicylic Acid and sulphur Cream","Ammonium Carbonate and Glycyrrhiza Mixture","Magnesium Sulfate","Brown Mixture","Camphorated Opium Tincture","Compound Ammonium Carbonate Syrup","Iodine Tincture","Chlorpheniramine Maleate (tablet)","Eucalyptus Oil","Compound Ferrous Sulfate (tablet)","Aromatic Castor Oil","Multivitamin (tablet)","Cough Syrup","Vitamin B Complex (tablet)","Sodium Bicarbonate Mixture (pediatric)","Vitamin C (tablet)","Fish Liver Oil Capsule","Mebendazole (tablet)","Multivitamin Capsule","Aspirin (tablet)","Merbromin Solution","Paracetamol 325 mg.(tablet)","Kaolin Mixture with Pectin","Paracetamol 500 mg.(tablet)","Salol and Menthol Mixture","Paracetamol Syrup (pediatric)","Sulfadiazine Suspension (pediatric)","Asafetida Tincture","Chloroquine Phosphate (tablet)","Sodium Chloride Enema","Quinine Sulfate (tablet)","Mandl’s Paint","Sulfadoxine and Pyrimethamine (tablet)","Gentian Violet Solution","Sulfadiazine (tablet)","Cold Inhalant","Ephedrine Nasal Drop","Aromatic Ammonia Spirit","Nitrofurazone Ear Drop","Scabicide Emulsion","Acriflavine Solution","Sulphur Ointment","Pepermint Spirit.","Calamine Lotion","Povidone-Iodine Solution 10%","Coal Tar Ointment","Isopropyl Alcohol 70%","Whitfield’s Ointment"];
+                                        // for(var d in drugs) {
+                                        //     var ele = $(
+                                        //         '<tr>'+
+                                        //             '<td>'+drugs[d]+'</td>'+
+                                        //             '<td class="text-center">'+
+                                        //                 '<label class="switch switch-primary">'+
+                                        //                 '<input type="checkbox" name="checked" '+(Math.random()<0.7?'checked=""':'')+' onchange="switchToggle(this,'+d+');">'+
+                                        //                 '<span></span>'+
+                                        //                 '</label>'+
+                                        //             '</td>'+
+                                        //         '</tr>'
+                                        //     );
+                                        //     $("#drugAppendPoint").after(ele);
+                                        // }
+                                    </script>
+{% endfor %}
+                                </tbody>
                             </table>
                             <div class="text-center">
                                         <ul class="pagination">
@@ -320,7 +290,7 @@ Manage Disease : SE hospital
             </div>
         </div>
         <!-- END User Settings -->
- <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.5.1/moment.min.js"></script>    
 <script>
@@ -369,9 +339,9 @@ Manage Disease : SE hospital
                 ajaxSetup();
                 $.ajax({
                     type: "POST",
-                    url: "{% url "Disease:setAvail" %}",
+                    url: "{% url "Medicine:setAvail" %}",
                     data: {
-                      "ICD10": key,
+                      "name": key,
                       "availability": val
                     },
                     success: function(e){
