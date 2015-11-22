@@ -1,0 +1,361 @@
+{% extends "theme/base.html" %}
+{% load staticfiles %}
+
+{% block title %}
+Manage Medicine : SE hospital
+{% endblock %}
+
+{% block content %}
+                <!-- Page content -->
+                <div id="page-content">
+                    <!-- Table Responsive Header -->
+                    <div class="content-header">
+                        <div class="header-section animation-stretchRight">
+                            <h1>
+                                View Medicines<br><small>see medicine data, add medicines and set availability </small>
+                            </h1>
+                        </div>
+                    </div>
+
+                    <!-- END Table Responsive Header -->
+
+                    <!-- Responsive Full Block -->
+                    <div class="block">
+                        <!-- Responsive Full Title -->
+                        <div class="block-title">
+                            <h2><strong>Add Medicine</strong></h2>
+                        </div>
+                        <!-- END Responsive Full Title -->
+
+                        <!-- Responsive Full Content -->
+                        <form action="{% url 'Medicine:add' %}" method="post">
+                            <div class="row">
+                                <div class="form-group">
+                                    <div class="col-md-10">
+                                      <label class="col-md-4 control-label text-right"><h4>Medicine Name</h4></label>
+                                        <div class="col-md-8">
+                                            <input type="text" id="keyword" name="name" class="form-control" placeholder="Enter Medicine Name..">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-1">
+                                                    <button type="submit" class="btn btn-sm btn-primary"><i class="fa fa-plus-circle"></i> Add</button>
+                                    </div>
+                                  </div>
+                            </div>
+                        </form>
+                        <!-- END Responsive Full Content -->
+                    </div>
+                    <!-- END Responsive Full Block -->
+
+                    <!-- Responsive Full Block -->
+                    <div class="block">
+                        <!-- Responsive Full Title -->
+                        <div class="block-title">
+                            <h2><strong>Medicine</strong></h2>
+                            <h2 style="float:right;" class="text-right themed-color"><strong>{{avail}}</strong><small>/{{length}}</small></h2>
+                        </div>
+                        <!-- END Responsive Full Title -->
+
+                        <!-- Responsive Full Content -->
+                        <div class="row">
+                            <div class="form-group">
+                                <div class="col-md-10">
+                                  <label class="col-md-2 control-label text-right"><h4>Keyword</h4></label>
+                                    <div class="col-md-10">
+                                        <input type="text" id="keyword" name="keyword" class="form-control" placeholder="Enter Medicine Name..">
+                                    </div>
+                                </div>
+                                <div class="col-md-1">
+                                                <button type="submit" class="btn btn-sm btn-primary"><i class="hi hi-search"></i> Submit</button>
+                                </div>
+                              </div>
+                        </div>
+
+                        <div class="table-responsive">
+                          
+                            <table class="table table-vcenter table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th style="width: 150px;" class="text-center">Actions</th>
+                                    </tr>
+                                </thead>
+                                <script>
+                                    function switchToggle(x,y){
+                                        alert("Set availability in DATABASE as >> " + x.checked);
+                                    }
+                                </script>
+                                <tbody>
+{% for row in table %}
+                                    <tr id="drugAppendPoint">
+                                        <td>{{row.name}}</td>
+                                        <td class="text-center">
+                                            <label class="switch switch-primary">
+                                                <input type="checkbox" class="avail" name="checked" {% if row.availability %}
+                                                checked
+                                                {% endif %} onchange="switchToggle(this,0);" id="{{row.name}}">
+                                                <span></span>
+                                            </label>
+                                        </td>
+                                    </tr>
+                                    <script>
+                                        // var drugs = ["Aspirin","Stomachic Mixture","Sulfacetamide Eye Drop","Liquid Paraffin Emulsion","Tetracycline Eye Ointment","Milk of Magnesia or Cream of Magnesia","Iodine Tincture","Senna (tablet)","Thimerosal Tincture","Oral Rehydration Salts","Analgesic Balm","Alumina and Magnesia (Tablet)","Toothache Drop","Alumina and Magnesia Oral Suspension","Burns and Scalds Mixture","Sodamint (tablet)","Salicylic Acid and sulphur ointment","Compound Cardamom Mixture","Salicylic Acid and sulphur Cream","Ammonium Carbonate and Glycyrrhiza Mixture","Magnesium Sulfate","Brown Mixture","Camphorated Opium Tincture","Compound Ammonium Carbonate Syrup","Iodine Tincture","Chlorpheniramine Maleate (tablet)","Eucalyptus Oil","Compound Ferrous Sulfate (tablet)","Aromatic Castor Oil","Multivitamin (tablet)","Cough Syrup","Vitamin B Complex (tablet)","Sodium Bicarbonate Mixture (pediatric)","Vitamin C (tablet)","Fish Liver Oil Capsule","Mebendazole (tablet)","Multivitamin Capsule","Aspirin (tablet)","Merbromin Solution","Paracetamol 325 mg.(tablet)","Kaolin Mixture with Pectin","Paracetamol 500 mg.(tablet)","Salol and Menthol Mixture","Paracetamol Syrup (pediatric)","Sulfadiazine Suspension (pediatric)","Asafetida Tincture","Chloroquine Phosphate (tablet)","Sodium Chloride Enema","Quinine Sulfate (tablet)","Mandl’s Paint","Sulfadoxine and Pyrimethamine (tablet)","Gentian Violet Solution","Sulfadiazine (tablet)","Cold Inhalant","Ephedrine Nasal Drop","Aromatic Ammonia Spirit","Nitrofurazone Ear Drop","Scabicide Emulsion","Acriflavine Solution","Sulphur Ointment","Pepermint Spirit.","Calamine Lotion","Povidone-Iodine Solution 10%","Coal Tar Ointment","Isopropyl Alcohol 70%","Whitfield’s Ointment"];
+                                        // for(var d in drugs) {
+                                        //     var ele = $(
+                                        //         '<tr>'+
+                                        //             '<td>'+drugs[d]+'</td>'+
+                                        //             '<td class="text-center">'+
+                                        //                 '<label class="switch switch-primary">'+
+                                        //                 '<input type="checkbox" name="checked" '+(Math.random()<0.7?'checked=""':'')+' onchange="switchToggle(this,'+d+');">'+
+                                        //                 '<span></span>'+
+                                        //                 '</label>'+
+                                        //             '</td>'+
+                                        //         '</tr>'
+                                        //     );
+                                        //     $("#drugAppendPoint").after(ele);
+                                        // }
+                                    </script>
+{% endfor %}
+                                </tbody>
+                            </table>
+                            <div class="text-center">
+                                        <ul class="pagination">
+                                            <li class="disabled"><a href="javascript:void(0)">«</a></li>
+                                            <li class="active"><a href="javascript:void(0)">1</a></li>
+                                            <li><a href="javascript:void(0)">2</a></li>
+                                            <li><a href="javascript:void(0)">3</a></li>
+                                            <li><a href="javascript:void(0)">4</a></li>
+                                            <li><a href="javascript:void(0)">»</a></li>
+                                        </ul>
+                                    </div>
+                        </div>
+                        <!-- END Responsive Full Content -->
+                    </div>
+                    <!-- END Responsive Full Block -->
+
+
+                    <!-- END Responsive Partial Block -->
+                </div>
+                <!-- END Page Content -->
+
+                <!-- Footer -->
+                <footer class="clearfix">
+                    <div class="pull-right">
+                        Crafted with <i class="fa fa-heart text-danger"></i> by <a href="http://goo.gl/vNS3I" target="_blank">pixelcave</a>
+                    </div>
+                    <div class="pull-left">
+                        <span id="year-copy"></span> &copy; <a href="http://goo.gl/TDOSuC" target="_blank">ProUI 2.1</a>
+                    </div>
+                </footer>
+                <!-- END Footer -->
+            </div>
+            <!-- END Main Container -->
+        </div>
+        <!-- END Page Container -->
+
+        <!-- Scroll to top link, initialized in js/app.js - scrollToTop() -->
+        <a href="#" id="to-top"><i class="fa fa-angle-double-up"></i></a>
+
+        <!-- User Settings, modal which opens from Settings link (found in top right user menu) and the Cog link (found in sidebar user info) -->
+        <div id="modal-user-settings" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <!-- Modal Header -->
+                    <div class="modal-header text-center">
+                        <h2 class="modal-title"><i class="fa fa-pencil"></i> Settings</h2>
+                    </div>
+                    <!-- END Modal Header -->
+
+                    <!-- Modal Body -->
+                    <div class="modal-body">
+                        <form action="index.html" method="post" enctype="multipart/form-data" class="form-horizontal form-bordered" onsubmit="return false;">
+                            <fieldset>
+                                <legend>Vital Info</legend>
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label">Username</label>
+                                    <div class="col-md-8">
+                                        <p class="form-control-static">Admin</p>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label" for="user-settings-email">Email</label>
+                                    <div class="col-md-8">
+                                        <input type="email" id="user-settings-email" name="user-settings-email" class="form-control" value="admin@example.com">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label" for="user-settings-notifications">Email Notifications</label>
+                                    <div class="col-md-8">
+                                        <label class="switch switch-primary">
+                                            <input type="checkbox" id="user-settings-notifications" name="user-settings-notifications" value="1" checked>
+                                            <span></span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </fieldset>
+                            <fieldset>
+                                <legend>Password Update</legend>
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label" for="user-settings-password">New Password</label>
+                                    <div class="col-md-8">
+                                        <input type="password" id="user-settings-password" name="user-settings-password" class="form-control" placeholder="Please choose a complex one..">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label" for="user-settings-repassword">Confirm New Password</label>
+                                    <div class="col-md-8">
+                                        <input type="password" id="user-settings-repassword" name="user-settings-repassword" class="form-control" placeholder="..and confirm it!">
+                                    </div>
+                                </div>
+                            </fieldset>
+                            <div class="form-group form-actions">
+                                <div class="col-xs-12 text-right">
+                                    <button type="button" class="btn btn-sm btn-default" data-dismiss="modal">Close</button>
+                                    <button type="submit" class="btn btn-sm btn-primary">Save Changes</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <!-- END Modal Body -->
+                </div>
+            </div>
+        </div>
+
+        <div id="modal-patient" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <!-- Modal Header -->
+                    <div class="modal-header text-center">
+                        <h2 class="modal-title"><i class="gi gi-user"></i> Patient Information</h2>
+                    </div>
+                    <!-- END Modal Header -->
+
+                    <!-- Modal Body -->
+                    <div class="modal-body" style="margin-left:2px;margin-right:2px;">                        
+                       <form action="index.html" method="post" enctype="multipart/form-data" class="form-horizontal form-bordered" onsubmit="return false;">
+                            <fieldset style="padding-left: 16px;padding-right: 16px;">
+                                <div class="block">
+                                <!-- Info Title -->
+                                <div class="block-title">
+                                    <div class="block-options pull-right">
+                                        <a data-original-title="back to list" href="javascript:void(0)" class="btn btn-alt btn-sm btn-default" data-toggle="tooltip" title="" data-dismiss="modal"><i class="gi gi-unshare"></i></a>
+
+                                    </div>
+                                    <h2> <strong>Sompong Vongklai</strong> </h2>
+                                </div>
+                                <!-- END Info Title -->
+
+                                <!-- Info Content -->
+                                <table class="table table-borderless table-striped">
+                                    <tbody>
+                                        <tr>
+                                            <td style="width: 30%;"><strong>Gender</strong></td>
+                                            <td>Male</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Birthdate</strong></td>
+                                            <td>12/02/1986 (29 years old)</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Weight</strong></td>
+                                            <td>64.5 kg</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Height</strong></td>
+                                            <td>182 cm</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Allergy</strong></td>
+                                            <td>-</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Symptom Draft</strong></td>
+                                            <td>sore throat, cough, cold</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <!-- END Info Content -->
+                            </div>
+                            </fieldset>
+
+                            <div class="form-group form-actions">
+                                <div class="col-xs-12 text-right">
+                                    <button type="button" class="btn btn-sm btn-default" data-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <!-- END Modal Body -->
+                </div>
+            </div>
+        </div>
+        <!-- END User Settings -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.5.1/moment.min.js"></script>    
+<script>
+   $(function(){
+   {% if message %}
+      //whatever conditions and js code
+      alert('{{message}}');
+   {% endif %}
+ });
+     function switchToggle(x,y){
+        alert("Set availability in DATABASE as >> " + x.checked);
+    }
+    function ajaxSetup() {
+    $.ajaxSetup({ 
+       beforeSend: function(xhr, settings) {
+         function getCookie(name) {
+           var cookieValue = null;
+           if (document.cookie && document.cookie != '') {
+             var cookies = document.cookie.split(';');
+             for (var i = 0; i < cookies.length; i++) {
+               var cookie = jQuery.trim(cookies[i]);
+                     // Does this cookie string begin with the name we want?
+                     if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                       cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                       break;
+                     }
+                   }
+                 }
+                 return cookieValue;
+               }
+               if (!(/^http:.*/.test(settings.url) || /^https:.*/.test(settings.url))) {
+             // Only send the token to relative URLs i.e. locally.
+             xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
+           }
+         } 
+       });
+  }
+
+  
+
+            $('.avail').on('click', function(){
+
+                var key = $(this)[0].id;
+                var val = $(this)[0].checked;
+                console.log(key);
+                ajaxSetup();
+                $.ajax({
+                    type: "POST",
+                    url: "{% url "Medicine:setAvail" %}",
+                    data: {
+                      "name": key,
+                      "availability": val
+                    },
+                    success: function(e){
+                        console.log(e);
+                      // alert('Save change(s) successfully!');
+                    },
+                    error: function(rs,e){
+                        console.log(rs.responseText);
+                        console.log(e);
+                        alert('failed');
+                    }
+                })  
+             });
+
+
+        </script>
+{% endblock %}
