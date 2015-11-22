@@ -24,7 +24,13 @@ def index(request):
                 #return render(request, 'default/index.html')
             #if getUserProfile(request.user).role==1:
                 #return render(request, 'theme/doctor/index.html')
-                return render(request, 'theme/doctor/index.html',{'al_check_p':1,'uncheck_p':2,'all_p':3})
+                return render(request, 'theme/doctor/index.html',{
+                    'al_check_p':1,
+                    'uncheck_p':2,
+                    'all_p':3,
+                    'firstname':getUserProfile(request.user).firstname,
+                    'lastname':getUserProfile(request.user).lastname,
+                    'role':getUserProfile(request.user).role})
             #if getUserProfile(request.user).role==2:
                 #return HttpResponseRedirect('/visit/nurse')
             #if getUserProfile(request.user).role==3:
