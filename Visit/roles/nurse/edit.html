@@ -1,7 +1,38 @@
 edit.html {{num}}
 
 <form method='POST' action=''>
-		{{ form.as_p }}
+		<!-- {{ form.as_p }} -->
+        {% if form.status.errors %}
+        <div class="has-error">
+        {% else %}
+        {{ form.status}}
+        {% endif %}
+        {% if form.weight.errors %}
+        <div class="has-error">
+        {% else %}
+        {{ form.weight}}
+        {% endif %}
+        {% if form.height.errors %}
+        <div class="has-error">
+        {% else %}
+        {{ form.height}}
+        {% endif %}
+        {% if form.pulse.errors %}
+        <div class="has-error">
+        {% else %}
+        {{ form.pulse}}
+        {% endif %}
+        {% if form.systolic.errors %}
+        <div class="has-error">
+        {% else %}
+        {{ form.systolic}}
+        {% endif %}
+        {% if form.diastolic.errors %}
+        <div class="has-error">
+        {% else %}
+        {{ form.diastolic}}
+        {% endif %}
+
 		<input type="submit" value="OK">
 </form>
 
