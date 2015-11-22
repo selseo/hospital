@@ -4,4 +4,4 @@ from Visit.models import PatientVisitInfo
 class PatientVisitForms(forms.ModelForm):
     class Meta:
         model = PatientVisitInfo
-        fields = '__all__'
+        fields = ('status','weight','height','pulse','systolic','diastolic')

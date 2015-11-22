@@ -12,7 +12,6 @@ from django.core.urlresolvers import reverse
 from django.views import generic
 from django.contrib.auth import authenticate, login,logout
 from django.contrib.auth.decorators import login_required
-
 # Create your views here.
 
 def index(request):
@@ -33,12 +32,13 @@ def view(request):
 
 @csrf_exempt
 def edit(request,num):
-	instance = get_object_or_404(PatientVisitInfo, appointment_id=num)
-	form = PatientVisitForms(request.POST or None, instance=instance)
-	if form.is_valid:
-		form.save()
-		return render(request, 'nurse/edit.html', {'num':num})
-	return render(request, 'nurse/edit.html', {'num':num})
+	mymodel = get_object_or_404(PatientVisitInfo, appointment_id=num)
+	form = PatientVisitForms(request.POST or None, instance=mymodel)
+	if request.method == 'POST' and form.is_valid() == True:
+		mymodel = form.save(commit=False)
+		mymodel.save()
+		return redirect('/visit/nurse/view')
+	return render(request, 'nurse/edit.html', { 'form' : form , 'num' : num})
 
 #Method for get user profile
 def getUserProfile(user):
