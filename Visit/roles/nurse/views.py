@@ -29,10 +29,10 @@ def view(request):
 	#if request.user.is_authenticated():
 		#if getUserProfile(request.user).role==2:
 			return render(request, 'nurse/view.html',{'table':PatientVisitInfo.objects.filter(
-		 		# lastUpdate__day=datetime.now().day,
-		 		# lastUpdate__month=datetime.now().month,
-		 		# lastUpdate__year=datetime.now().year,
-		 		# status=0
+		 		lastUpdate__day=datetime.now().day,
+		 		lastUpdate__month=datetime.now().month,
+		 		lastUpdate__year=datetime.now().year,
+		 		status=0
 			)})
 	#else :
 			#return HttpResponseRedirect('/default/')
