@@ -79,7 +79,7 @@ def patientlist(request):
 
 def getpatientlist(request):
     # this below line should be replaced with session
-    doctor = Doctor.objects.get(drusername="test")
+    doctor = Doctor.objects.get(id=1)
     # Prepare data
     year = request.GET.get('year')
     month = request.GET.get('month')
@@ -109,7 +109,7 @@ def savetimetable(request):
         availableDate = str(available['date'])+"-"+str(month)+"-"+str(year)    
         d = datetime.strptime(availableDate, "%d-%m-%Y")
         # this below line must be replaced with session data
-        doctor = Doctor.objects.get(drusername="test")
+        doctor = Doctor.objects.get(id=1)
 
         # Call TimetableManager to edit timetable
         timeTable.objects.editTimetable(doctor=doctor, d=d, available=available)
@@ -120,7 +120,7 @@ def savetimetable(request):
 @csrf_exempt
 def gettimetable(request):
     # this below line should be replaced with session
-    doctor = Doctor.objects.get(drusername="test")
+    doctor = Doctor.objects.get(id=1)
     year = request.GET.get('year')
     month = request.GET.get('month')
     time = timeTable.objects.filter(doctor_id=doctor, date__month=month, date__year=year)
@@ -130,15 +130,32 @@ def gettimetable(request):
     return HttpResponse(result, content_type='application/json')
 
 
+def seedDoctor(request):
+    doctor=Doctor.objects.create(
+        drusername="test",
+        drpassword=make_password(password="test",hasher='sha1'),
+        drphone="021234567",
+        drname="John",
+        drsurname="Smith",
+        drsex='m',
+        drbirthdate="1990-12-12",
+        dridcard="1234567890123",
+        draddress="aaa",
+        dremail="test@example.com"
+    )
+    doctor.save()
+    return HttpResponse('done')
+
 def seedPatient(request):
 # 0|id|integer|1||1
-# 1|user_id|integer|1||0
-# 2|firstname|varchar(50)|1||0
-# 3|lastname|varchar(50)|1||0
-# 4|sex|varchar(1)|1||0
-# 5|idcard|varchar(20)|1||0
-# 6|phone|varchar(15)|1||0
-# 7|role|integer|1||0
+# 1|firstname|varchar(50)|1||0
+# 2|lastname|varchar(50)|1||0
+# 3|role|integer|1||0
+# 4|status|integer|1||0
+# 5|user_id|integer|1||0
+# 6|idcard|varchar(20)|1||0
+# 7|phone|varchar(15)|1||0
+# 8|sex|varchar(1)|1||0
     p = UserProfile.objects.create(
         user_id='1',
         firstname="John",

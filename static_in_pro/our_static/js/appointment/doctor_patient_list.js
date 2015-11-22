@@ -496,7 +496,7 @@ Calendar.prototype.drawChanges = function() {
       data : {
         "month": (date.current.month()+1),
         "year": date.current.year(),
-        "date" : 21
+        "date" : 15
       },
       success: function(e){
         console.log(e);

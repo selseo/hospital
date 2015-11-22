@@ -94,7 +94,7 @@ def seed(request):
                 phone=str(random.randrange(1,100)),
                 )
                 pt.save()
-                a = Appointment(timetable_id=random.choice([t11,t12,t13,t14,t15,t21,t22,t23,t24,t25,]), patient_id=pt, symptom="DiE dIe :) JubJub", cause="StupiD")
+                a = Appointment(timetable_id=random.choice([t11,t12,t13,t14,t15,t21,t22,t23,t24,t25,]), patient_id=up, symptom="DiE dIe :) JubJub", cause="StupiD")
                 a.save()
                 v = PatientVisitInfo(appointment=a,
             weight=str(random.randrange(50,100)),
