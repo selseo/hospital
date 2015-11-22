@@ -24,8 +24,8 @@ def index(request):
 			#return HttpResponseRedirect('/default/')
 	#else :
 		#return HttpResponseRedirect('/default/')
+
 def view(request):
-<<<<<<< HEAD
 	#if request.user.is_authenticated():
 		#if getUserProfile(request.user).role==2:
 			return render(request, 'nurse/view.html',{'table':PatientVisitInfo.objects.filter(
@@ -38,21 +38,6 @@ def view(request):
 			#return HttpResponseRedirect('/default/')
 	#else :
 		#return HttpResponseRedirect('/default/')
-def edit(request,num):
-	#if request.user.is_authenticated():
-		#if getUserProfile(request.user).role==2:
-			return render(request, 'nurse/edit.html', {'num':num})
-	#else :
-			#return HttpResponseRedirect('/default/')
-	#else :
-		#return HttpResponseRedirect('/default/')
-=======
-	return render(request, 'nurse/view.html',{'table':PatientVisitInfo.objects.filter(
-		 lastUpdate__day=datetime.now().day,
-		 lastUpdate__month=datetime.now().month,
-		 lastUpdate__year=datetime.now().year,
-		 status=0
-	)})
 
 @csrf_exempt
 def edit(request,num):
@@ -61,8 +46,6 @@ def edit(request,num):
 	if form.is_valid:
 		form.save()
 		return render(request, 'nurse/edit.html', {'num':num})
-	return render(request, 'nurse/edit.html', {'num':num})
->>>>>>> ec5044a242551cbecb207c67cf07c56909cfe8e9
 
 #Method for get user profile
 def getUserProfile(user):
