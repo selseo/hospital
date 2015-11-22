@@ -5,8 +5,8 @@ from .forms import AppForm
 
 import json
 from django.http import JsonResponse
-from .models import Department,Dee,Doctor,timeTable
-from ptregister.models import Patient
+from .models import Department,Dee,Doctor,timeTable,Appointment
+from Authentication.models import UserProfile
 from datetime import datetime
 
 #for restframework
@@ -75,10 +75,27 @@ def cancel(request, aid):
 
 
 def patientlist(request):
-    doctor = Doctor.objects.filter(drusername="test")
-    
-    time = timeTable.objects.filter(doctor_id=doctor)
-    return render(request, 'appointment/patientlist.html',{'doctor':doctor,'time':time})
+    return render(request, 'appointment/patientlist.html')
+
+def getpatientlist(request):
+    # this below line should be replaced with session
+    doctor = Doctor.objects.get(id=1)
+    # Prepare data
+    year = request.GET.get('year')
+    month = request.GET.get('month')
+    date = request.GET.get('date')
+    # move below line to manager class
+    availableDate = str(date)+"-"+str(month)+"-"+str(year)    
+    d = datetime.strptime(availableDate, "%d-%m-%Y")
+
+    # get timetable first to refer appointment
+    timetable = timeTable.objects.filter(doctor_id=doctor, date=d)
+    # patient = Patient.appointment_set.filter(timetable_id=timetable)
+    patient = UserProfile.objects.filter(appointment__timetable_id=timetable)
+   
+    # patientlist = Appointment.objects.filter(doctor_id=doctor, date__month=month, date__year=year)
+    result = serializers.serialize('json', patient)
+    return HttpResponse(result, content_type='application/json')
 
 def timetable(request):
     return render(request, 'appointment/timetable.html')
@@ -92,7 +109,7 @@ def savetimetable(request):
         availableDate = str(available['date'])+"-"+str(month)+"-"+str(year)    
         d = datetime.strptime(availableDate, "%d-%m-%Y")
         # this below line must be replaced with session data
-        doctor = Doctor.objects.get(drusername="test")
+        doctor = Doctor.objects.get(id=1)
 
         # Call TimetableManager to edit timetable
         timeTable.objects.editTimetable(doctor=doctor, d=d, available=available)
@@ -103,7 +120,7 @@ def savetimetable(request):
 @csrf_exempt
 def gettimetable(request):
     # this below line should be replaced with session
-    doctor = Doctor.objects.get(drusername="test")
+    doctor = Doctor.objects.get(id=1)
     year = request.GET.get('year')
     month = request.GET.get('month')
     time = timeTable.objects.filter(doctor_id=doctor, date__month=month, date__year=year)
@@ -111,3 +128,59 @@ def gettimetable(request):
         t.date = t.date.day
     result = serializers.serialize('json', time)
     return HttpResponse(result, content_type='application/json')
+
+
+def seedDoctor(request):
+    doctor=Doctor.objects.create(
+        drusername="test",
+        drpassword=make_password(password="test",hasher='sha1'),
+        drphone="021234567",
+        drname="John",
+        drsurname="Smith",
+        drsex='m',
+        drbirthdate="1990-12-12",
+        dridcard="1234567890123",
+        draddress="aaa",
+        dremail="test@example.com"
+    )
+    doctor.save()
+    return HttpResponse('done')
+
+def seedPatient(request):
+# 0|id|integer|1||1
+# 1|firstname|varchar(50)|1||0
+# 2|lastname|varchar(50)|1||0
+# 3|role|integer|1||0
+# 4|status|integer|1||0
+# 5|user_id|integer|1||0
+# 6|idcard|varchar(20)|1||0
+# 7|phone|varchar(15)|1||0
+# 8|sex|varchar(1)|1||0
+    p = UserProfile.objects.create(
+        user_id='1',
+        firstname="John",
+        lastname="Doe",
+        sex="m",
+        idcard="1234567890123",
+        phone="9999999999",
+        role="2"
+        )
+    p.save()
+    return HttpResponse('done')
+
+def seedAppointment(request):
+    # 0|id|integer|1||1
+    # 1|patient_id_id|integer|1||0
+    # 2|timetable_id_id|integer|1||0
+    # 3|symptom|varchar(100)|1||0
+    # 4|cause|varchar(100)|1||0
+    patient=UserProfile.objects.get(user_id=1)
+    timetable=timeTable.objects.all()[0]
+    a = Appointment.objects.create(
+        patient_id=patient,
+        timetable_id=timetable,
+        symptom='symptom',
+        cause='cause'
+        )
+    a.save()
+    return HttpResponse('done')

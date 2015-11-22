@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 from django.template.defaultfilters import slugify
 
 # Create your models here.
-class Patient(models.Model):
+class Patients(models.Model):
     ptusername=models.CharField(max_length=20)
     ptpassword=models.CharField(max_length=20)
     ptname=models.CharField(max_length=50)

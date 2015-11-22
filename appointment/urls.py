@@ -25,9 +25,13 @@ urlpatterns = [
     url(r'^editappointment/reschedule/(?P<aid>[0-9]+)/$',views.reschedule,name='reschedule'),
     url(r'^editappointment/cancel/(?P<aid>[0-9]+)/$',views.cancel,name='cancel'),
     url(r'^patientlist/$',views.patientlist,name='patientlist'),
+    url(r'^getpatientlist/$',views.getpatientlist),
     url(r'^timetable/$',views.timetable,name='timetable'),
     url(r'^gettimetable/$',views.gettimetable),
     url(r'^savetimetable/$',views.savetimetable),
+    url(r'^seeddoctor/$',views.seedDoctor),
+    url(r'^seedpatient/$',views.seedPatient),
+    url(r'^seedappointment/$',views.seedAppointment),
 ]
 
 if settings.DEBUG:

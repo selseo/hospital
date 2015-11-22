@@ -75,7 +75,7 @@ Nurse : SE hospital
                                 <tbody>
 {% for row in table %}
                                     <tr>
-                                        <td><a href="#">{{row.appointment.patient_id.ptname}} {{row.appointment.patient_id.ptsurname}}</a></td>
+                                        <td><a href="#">{{row.appointment.patient_id.userprofile.firstname}} {{row.appointment.patient_id.userprofile.lastname}}</a></td>
                                         <td>{{row.lastUpdate}}</td>
                                         <td><a href="javascript:void(0)"  
                                             {% if row.status == 3 %}
