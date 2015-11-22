@@ -1,0 +1,208 @@
+{% extends "theme/base.html" %}
+{% load staticfiles %}
+
+{% block title %}
+    Pharmacist : SE hospital
+{% endblock %}
+
+
+
+
+{% block content %}
+	<!-- Blank Header -->
+    <div class="content-header">
+        <div class="header-section animation-stretchRight">
+            <h1>
+                <i class="gi gi-brush"></i>View Prescription 
+                <a type="button" class="btn btn-primary" href="#">Back</a>
+                <br>
+            </h1>
+        </div>
+    </div>
+    <ul class="breadcrumb breadcrumb-top">
+        <li><a href="javascript:void(0)"><i class="fa fa-home"></i> Dashboard</a></li>
+        <li>View Prescription</li>
+    </ul>
+    <!-- END Blank Header -->
+
+    <!-- Example Block -->
+    <div class="block">
+        <!-- Example Title -->
+        <div class="block-title">
+            <div class="block-options pull-right">
+                <a href="javascript:void(0)" class="btn btn-alt btn-sm btn-primary" data-toggle="block-toggle-content"><i class="fa fa-arrows-v"></i></a>
+                <a href="javascript:void(0)" class="btn btn-alt btn-sm btn-primary" data-toggle="block-toggle-fullscreen"><i class="fa fa-desktop"></i></a>
+            </div>
+            <h2>Prescription : Abudabee kikihihi</h2>
+        </div>
+        <!-- END Example Title -->
+
+        <!-- Example Content -->
+        <p class="well">
+            <a href="#modal-patient" data-toggle="modal" type="button" class="btn btn-lg btn-warning pull-right">View patient information</a>
+            <strong>Prescription Number : </strong> 483904 <br>
+            <strong>Name : </strong> Abudabee kikihihi <br>
+            <strong>By doctor : </strong> Supanut Lamyai<br>
+            <strong>Last updated : </strong> 10.30 03/11/2558
+            
+        </p>
+        <!-- END Example Content -->
+
+        <table class="table table-vcenter table-striped">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Drug name</th>
+                    <th>Amount</th>
+                    <th>Type</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1</td>
+                    <td><a href="#">Nimesulide</a></td>
+                    <td>4</td>
+                    <td>
+                       bottle
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>2</td>
+                    <td><a href="#">Lisinopril</a></td>
+                    <td>40</td>
+                    <td>
+                       mg
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>3</td>
+                    <td><a href="#">Viagra</a></td>
+                    <td>20</td>
+                    <td>
+                       mg
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <hr>
+        <a href="#modal-confirm"  data-toggle="modal" type="button"  class="btn btn-block btn-success" style="margin-bottom:2em;">Complete this prescription!</a>
+        <div id="modal-patient" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <!-- Modal Header -->
+                    <div class="modal-header text-center">
+                        <h2 class="modal-title"><i class="gi gi-user"></i> Patient Information</h2>
+                    </div>
+                    <!-- END Modal Header -->
+
+                    <!-- Modal Body -->
+                    <div class="modal-body" style="margin-left:2px;margin-right:2px;">                        
+                       <form action="index.html" method="post" enctype="multipart/form-data" class="form-horizontal form-bordered" onsubmit="return false;">
+                            <fieldset style="padding-left: 16px;padding-right: 16px;">
+                                <legend>All Prescription</legend>
+                                <table class="table table-vcenter table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Drug name</th>
+                                            <th>Amount</th>
+                                            <th>Type</th>
+                                            <th>Date</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>1</td>
+                                            <td><a href="#">Lisinopril</a></td>
+                                            <td>4</td>
+                                            <td>
+                                               bottle
+                                            </td>
+                                            <td>
+                                               10.35 01/06/2558
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td>2</td>
+                                            <td><a href="#">Viagra</a></td>
+                                            <td>40</td>
+                                            <td>
+                                               mg
+                                            </td>
+                                            <td>
+                                               17.35 11/07/2558
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td>3</td>
+                                            <td><a href="#">Viagra</a></td>
+                                            <td>20</td>
+                                            <td>
+                                               mg
+                                            </td>
+                                            <td>
+                                               14.35 16/08/2558
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </fieldset>
+                            <fieldset style="padding-left: 16px;padding-right: 16px;">
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label">Drug allergy :</label>
+                                    <div class="col-md-8">
+                                        <div style="width: auto; height: auto;" id="example-tags_tagsinput" class="tagsinput">
+                                            <span class="tag"><span>Omeprazole  </span></span>
+                                            <span class="tag"><span>Oxycodone  </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </fieldset>
+                            <div class="form-group form-actions">
+                                <div class="col-xs-12 text-right">
+                                    <button type="button" class="btn btn-sm btn-default" data-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <!-- END Modal Body -->
+                </div>
+            </div>
+        </div>
+        <div id="modal-confirm" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <!-- Modal Header -->
+                    <div class="modal-header text-center">
+                        <h2 class="modal-title"> Confirmation</h2>
+                    </div>
+                    <!-- END Modal Header -->
+
+                    <!-- Modal Body -->
+                    <div class="modal-body  text-center" style="margin-left:2px;margin-right:2px;">                        
+                       <form action="index.html" method="post" enctype="multipart/form-data" class="form-horizontal form-bordered" onsubmit="return false;">
+                            <fieldset style="padding-left: 16px;padding-right: 16px;">
+                                <legend>Are you sure to complete this prescription?</legend>
+                            </fieldset>
+                            <div class="form-group form-actions">
+                                <div class="col-md-12">
+                                    <a href="a_index_pharma.html" type="submit" class="btn  btn-success">
+                                        Confirm</a>
+                                    <button type="button" class="btn  btn-danger" data-dismiss="modal">
+                                        No</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <!-- END Modal Body -->
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- END Example Block -->
+
+{% endblock %}

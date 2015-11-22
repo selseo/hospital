@@ -10,7 +10,11 @@ from django.contrib.auth import authenticate, login,logout
 from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib.auth.decorators import login_required
 from Authentication.forms import UserForm, UserProfileForm, PatientProfile
+
+from datetime import datetime
+from django.utils import formats
 # Create your views here.
+
 
 def index(request):
     #variable for already check patient today
@@ -19,26 +23,39 @@ def index(request):
    # uncheck_p=30
     #variable for all patient today
    # all_p=already_check_p+uncheck_p
+
+
     if request.user.is_authenticated():
-            #if getUserProfile(request.user).role==0:
+            if getUserProfile(request.user).role==0:
                 #return render(request, 'default/index.html')
-            #if getUserProfile(request.user).role==1:
+                return render(request, 'default/index.html',{
+                    'firstname':getUserProfile(request.user).firstname,
+                    'lastname':getUserProfile(request.user).lastname,
+                    'role':getUserProfile(request.user).role}
+                    )
+            if getUserProfile(request.user).role==1:
                 #return render(request, 'theme/doctor/index.html')
-                return render(request, 'theme/doctor/index.html',{
+                return render(request, 'doctor/index.html',{
                     'al_check_p':1,
                     'uncheck_p':2,
                     'all_p':3,
                     'firstname':getUserProfile(request.user).firstname,
                     'lastname':getUserProfile(request.user).lastname,
-                    'role':getUserProfile(request.user).role})
+                    'role':getUserProfile(request.user).role}
+                    )
             #if getUserProfile(request.user).role==2:
                 #return HttpResponseRedirect('/visit/nurse')
             #if getUserProfile(request.user).role==3:
                 #return HttpResponse("You are Officer")
-            #if getUserProfile(request.user).role==4:
+            if getUserProfile(request.user).role==4:
                 #return HttpResponse("You are Pharmacist")
-            #if getUserProfile(request.user).role==5:
-                #return HttpResponseRedirect('/default/admin')
+                return render(request, 'pharmacist/index.html',{
+                    'firstname':getUserProfile(request.user).firstname,
+                    'lastname':getUserProfile(request.user).lastname,
+                    'role':getUserProfile(request.user).role}
+                    )
+            if getUserProfile(request.user).role==5:
+                return HttpResponseRedirect('/default/admin')
 
     # Render the response and send it back!
     return render(request, 'theme/login.html',{'message':'You have to login to view this Page.'})
