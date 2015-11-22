@@ -7,7 +7,7 @@ urlpatterns = [
 	url(r'^seed/$', views.seed),
     url(r'^nurse/$', nurse.index, name='nurse-index'),
     url(r'^nurse/view$', nurse.view, name='nurse-view'),
-    url(r'^nurse/edit/(\d+)$', nurse.edit, name='nurse-edit'),
+    url(r'^nurse/edit/(\d+)$', nurse.editStatus0, name='nurse-editStatus0'),
 
 
 ]

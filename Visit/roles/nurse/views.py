@@ -2,7 +2,7 @@ from datetime import datetime,timedelta
 from appointment.models import Appointment
 from Visit.models import PatientVisitInfo
 from django.shortcuts import get_object_or_404, render, redirect
-from .forms import PatientVisitForms
+from .forms import PatientVisitNurseForms, PatientVisitDoctorForms, PatientVisitPharmacistForms
 from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponseRedirect, HttpResponse
 from django.http import Http404
@@ -41,7 +41,7 @@ def view(request):
 @csrf_exempt
 def editStatus0(request,num):
 	mymodel = get_object_or_404(PatientVisitInfo, appointment_id=num)
-	form = PatientVisitForms(request.POST or None, instance=mymodel)
+	form = PatientVisitNurseForms(request.POST or None, instance=mymodel)
 	if request.method == 'POST' and form.is_valid():
 		mymodel = form.save(commit=False)
 		mymodel.save()
@@ -51,7 +51,7 @@ def editStatus0(request,num):
 @csrf_exempt
 def editStatus1(request,num):
 	mymodel = get_object_or_404(PatientVisitInfo, appointment_id=num)
-	form = PatientVisitForms(request.POST or None, instance=mymodel)
+	form = PatientVisitDoctorForms(request.POST or None, instance=mymodel)
 	if request.method == 'POST' and form.is_valid():
 		mymodel = form.save(commit=False)
 		mymodel.save()
@@ -61,7 +61,7 @@ def editStatus1(request,num):
 @csrf_exempt
 def editStatus2(request,num):
 	mymodel = get_object_or_404(PatientVisitInfo, appointment_id=num)
-	form = PatientVisitForms(request.POST or None, instance=mymodel)
+	form = PatientVisitPharmacistForms(request.POST or None, instance=mymodel)
 	if request.method == 'POST' and form.is_valid():
 		mymodel = form.save(commit=False)
 		mymodel.save()
