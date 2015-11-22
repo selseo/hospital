@@ -55,7 +55,8 @@ def index(request):
                     'role':getUserProfile(request.user).role}
                     )
             if getUserProfile(request.user).role==5:
-                return HttpResponseRedirect('/default/createuser')
+                #return HttpResponseRedirect('/default/createuser')
+                return render(request, 'admin/index_.html')
 
     # Render the response and send it back!
     return render(request, 'theme/login.html',{'message':'You have to login to view this Page.'})
