@@ -1,9 +1,52 @@
 edit.html {{num}}
 
-<form method='POST' action=''>
-        {{ form.diseases }}
+<form method='POST' action="{% url 'Visit:doctor-add-disease' num %}">
+        ADD Disease
+        <select id="ICD10" name="ICD10">
+        {% for disease in Diseases %}
+            <option value='{{disease.ICD10}}'>{{ disease }}</option>
+        {% endfor %}
+        </select>
 		<input type="submit" value="OK">
+        <ul>
+        {% for disease in myDisease %}
+           <li>{{ disease }} - <a href="{% url 'Visit:doctor-delete-disease' num disease.ICD10 %}">Delete</a></li>
+        {% endfor %}
+        </ul>
 </form>
+<form method='POST' action="{% url 'Visit:doctor-add-medicine' num %}">
+        ADD Medicine
+        <select id="medicine_name" name="medicine_name">
+        {% for medicine in Medicines %}
+            <option value='{{medicine.name}}'>{{ medicine }}</option>
+        {% endfor %}
+        </select>
+        <input type="submit" value="OK">
+        <!-- {{ form.medicines }} -->
+        <!-- 
+        <ul>
+        {% for medicine in myMedicine %}
+           <li>{{ medicine }} {{ medicine.amount }} - <a href="{% url 'Visit:doctor-delete-medicine' num medicine.name %}">Delete</a></li>
+        {% endfor %}
+        </ul> -->
+</form>
+Hello
+<form method='POST' action="{% url 'Visit:doctor-editStatus1' num %}">
+<ul>
+        {% for prescription in myPrescription %}
+           <li>{{ prescription.medicines }} {{ prescription.amount }} {{ prescription.usage }}
+            <li>
+            <input type="number" name="{{prescription.medicines}}_amount" value="{{ prescription.amount }}"/>
+            <li>
+            <input type="Text" name="{{prescription.medicines}}_usage" value="{{ prescription.usage }}"/>
+            <a href="{% url 'Visit:doctor-delete-medicine' num prescription.medicines %}">Delete</a></li>
+        {% endfor %}
+        </ul>
+        <input type="submit" value="OK">
+</form>
+
+
+
 {% if form.errors %}
     {% for field in form %}
         {% for error in field.errors %}

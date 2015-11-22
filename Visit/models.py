@@ -22,10 +22,12 @@ class PatientVisitInfo(models.Model):
 	diseases=models.ManyToManyField(Disease)
 
 class Prescription(models.Model):
+	class Meta():
+		auto_created=True
 	patientVisitInfo=models.ForeignKey(PatientVisitInfo)
 	medicines=models.ForeignKey(Medicine)
-	amount=models.IntegerField()
-	usage=models.CharField(max_length=200)
+	amount=models.IntegerField(default = 1)
+	usage=models.CharField(max_length=200, null = True)
 
 # Validators.
 
