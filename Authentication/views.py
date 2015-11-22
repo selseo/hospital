@@ -9,7 +9,7 @@ from django.shortcuts import render
 from django.contrib.auth import authenticate, login,logout
 from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib.auth.decorators import login_required
-from Authentication.forms import UserForm, UserProfileForm, PatientProfile
+from Authentication.forms import UserForm, UserProfileForm, PatientProfile,AdminCreateUser
 
 from datetime import datetime
 from django.utils import formats
@@ -43,10 +43,10 @@ def index(request):
                     'lastname':getUserProfile(request.user).lastname,
                     'role':getUserProfile(request.user).role}
                     )
-            #if getUserProfile(request.user).role==2:
-                #return HttpResponseRedirect('/visit/nurse')
-            #if getUserProfile(request.user).role==3:
-                #return HttpResponse("You are Officer")
+            if getUserProfile(request.user).role==2:
+                return HttpResponseRedirect('/visit/nurse')
+            if getUserProfile(request.user).role==3:
+                return HttpResponse("You are Officer")
             if getUserProfile(request.user).role==4:
                 #return HttpResponse("You are Pharmacist")
                 return render(request, 'pharmacist/index.html',{
@@ -55,7 +55,7 @@ def index(request):
                     'role':getUserProfile(request.user).role}
                     )
             if getUserProfile(request.user).role==5:
-                return HttpResponseRedirect('/default/admin')
+                return HttpResponseRedirect('/default/createuser')
 
     # Render the response and send it back!
     return render(request, 'theme/login.html',{'message':'You have to login to view this Page.'})
@@ -252,7 +252,7 @@ def admin_create_user(request):
 
     # Render the template depending on the context.
     return render(request,
-            'theme/register.html',
+            'admin/addUser.html',
             {'user_form': user_form, 'admin_user_form': admin_user_form,'registered': registered} )
 
 # def doctor_index(request):

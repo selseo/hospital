@@ -1,0 +1,124 @@
+{% extends "theme/base.html" %}
+{% load staticfiles %}
+
+{% block title %}
+    Admin : SE hospital
+{% endblock %}
+
+
+
+
+{% block content %}
+	<div class="content-header">
+        <div class="header-section animation-stretchRight">
+            <h1>
+                <i class="gi gi-brush"></i>Add User
+                <a type="button" class="btn btn-primary" href="a_index_admin.html">Back</a>
+                <br>
+            </h1>
+        </div>
+    </div>
+    <ul class="breadcrumb breadcrumb-top">
+        <li><a href="javascript:void(0)"><i class="fa fa-home"></i> Dashboard</a></li>
+        <li>Add User (Nurse/Phramacist)</li>
+    </ul>
+    <!-- END Blank Header -->
+    <!-- Basic Form Elements Block -->
+    <div class="block">
+        <!-- Basic Form Elements Title -->
+        <div class="block-title">
+            <div class="block-options pull-right">
+                <a href="javascript:void(0)" class="btn btn-alt btn-sm btn-primary" data-toggle="block-toggle-content"><i class="fa fa-arrows-v"></i></a>
+                <a href="javascript:void(0)" class="btn btn-alt btn-sm btn-primary" data-toggle="block-toggle-fullscreen"><i class="fa fa-desktop"></i></a>
+            </div>
+            <h2><strong>Add new</strong> User (Nurse/Phramacist)</h2>
+        </div>
+        <!-- END Form Elements Title -->
+
+        <!-- Basic Form Elements Content -->
+        <form action="/default/createuser/" method="post" enctype="multipart/form-data" class="form-horizontal form-bordered" >
+            {% csrf_token %}
+            <div class="form-group">
+                {% if admin_user_form.firstname.errors %}
+                <div class="has-error">
+                {% endif %}
+                <label class="col-md-3 control-label" for="example-text-input">Firstname</label>
+                    <div class="col-md-9">
+                        <!-- <input id="example-text-input" name="example-text-input" class="form-control" placeholder="firstname" type="text"> -->
+                        {{admin_user_form.firstname}}
+                        
+                    
+                {% if admin_user_form.firstname.errors %}
+                        <span class="help-block">{{admin_user_form.firstname.errors.as_text}} </span>
+                    </div>
+                {% endif %}
+                </div>
+            </div>
+            <div class="form-group">
+                {% if admin_user_form.lastname.errors %}
+                <div class="has-error">
+                {% endif %}
+                <label class="col-md-3 control-label" for="example-text-input">Lastname</label>
+                    <div class="col-md-9">
+                        {{admin_user_form.lastname}}
+                {% if admin_user_form.lastname.errors %}
+                        <span class="help-block">{{admin_user_form.lastname.errors.as_text}} </span>
+                    </div>
+                {% endif %}
+                </div>
+            </div>
+            <div class="form-group">
+                {% if user_form.username.errors %}
+                <div class="has-error">
+                {% endif %}
+                <label class="col-md-3 control-label" for="example-text-input">Username</label>
+                    <div class="col-md-9">
+                        {{user_form.username}}
+                {% if user_form.username.errors %}
+                        <span class="help-block">{{user_form.username.errors.as_text}} </span>
+                    </div>
+                {% endif %}
+                </div>
+            </div>
+            <div class="form-group">
+                {% if user_form.password.errors %}
+                <div class="has-error">
+                {% endif %}
+                <label class="col-md-3 control-label" for="example-text-input">Password</label>
+                    <div class="col-md-9">
+                        {{user_form.password}}
+                {% if user_form.password.errors %}
+                        <span class="help-block">{{user_form.password.errors.as_text}} </span>
+                    </div>
+                {% endif %}
+                </div>
+            </div>
+            <div class="form-group">
+                {% if admin_user_form.role.errors %}
+                <div class="has-error">
+                {% endif %}
+                <label class="col-md-3 control-label" for="example-text-input">Role</label>
+                    <div class="col-md-9">
+                        {% for radio in admin_user_form.role %}
+                        <label class="radio-inline">
+                            {{ radio }}
+                        </label>
+                        {% endfor %}
+                {% if admin_user_form.role.errors %}
+                        <span class="help-block">{{admin_user_form.role.errors.as_text}} </span>
+                    </div>
+                {% endif %}
+                </div>
+            </div>
+            <div class="form-group form-actions">
+                <div class="col-md-4 col-md-offset-4">
+                    <button type="submit" class="btn btn-sm btn-primary"><i class="fa fa-angle-right"></i> Submit</button>
+                    <button type="reset" class="btn btn-sm btn-warning"><i class="fa fa-repeat"></i> Reset</button>
+                </div>
+            </div>
+        </form>
+        <!-- END Basic Form Elements Content -->
+    </div>
+    <!-- END Basic Form Elements Block -->
+
+{% endblock %}
