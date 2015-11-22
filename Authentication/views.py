@@ -368,10 +368,6 @@ def seed(request):
     return HttpResponse("Seeddddd")
 
 
-<<<<<<< HEAD
-=======
-
->>>>>>> 9d6ccb33e4b2ef5b03dbef3bb9485720422b484d
 def officer_createPatient(request):
     # A boolean value for telling the template whether the registration was successful.
     # Set to False initially. Code changes value to True when registration succeeds.
