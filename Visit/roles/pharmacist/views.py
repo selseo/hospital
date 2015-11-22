@@ -19,9 +19,9 @@ def index(request):
 	#if request.user.is_authenticated():
 		#if getUserProfile(request.user).role==4://Pharmacist
 			return render(request, 'pharmacist/view.html',{'table':PatientVisitInfo.objects.filter(
-		 		# lastUpdate__day=datetime.now().day,
-		 		# lastUpdate__month=datetime.now().month,
-		 		# lastUpdate__year=datetime.now().year,
+		 		lastUpdate__day=datetime.now().day,
+		 		lastUpdate__month=datetime.now().month,
+		 		lastUpdate__year=datetime.now().year,
 		 		status=2
 			)})
 		#else :
@@ -36,7 +36,7 @@ def editStatus2(request,num):
 	if request.method == 'POST':
 		myPatientVisitInfo.status = 3
 		myPatientVisitInfo.save()
-		return redirect('/visit/pharmacist/view')
+		return redirect('/visit/pharmacist')
 	return render(request,'pharmacist/edit.html',{'myPrescription':myPrescription,'num' : num})
 
 
