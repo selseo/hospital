@@ -20,7 +20,7 @@ class UserProfile(models.Model):
         return self.user.username
 
 class Patient(models.Model):
-    userprofile=models.OneToOneField(UserProfile)
+    userprofile=models.OneToOneField(UserProfile, default=None)
     sex=models.CharField(max_length=1)
     idcard=models.CharField(max_length=20)
     phone=models.CharField(max_length=15)
