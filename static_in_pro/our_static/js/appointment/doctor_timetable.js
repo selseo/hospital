@@ -499,7 +499,7 @@ function getPrepareData(date) {
           // if(pd.fields.afternoon){
           //   preparedData.push({date: pd.fields.date, period: 1, count: "XXX"});
           // }
-          preparedData.push({date: pd.fields.date, period: pd.fields.period == 'm'? 0 : 1, count: "XXX"})
+          preparedData.push({date: pd.fields.date, period: pd.fields.period == 'm'? 0 : 1, count: pd.fields.patientnum})
         })
       },
       error: function(rs, e){

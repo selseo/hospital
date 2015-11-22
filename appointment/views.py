@@ -6,7 +6,7 @@ from .forms import AppForm
 import json
 from django.http import JsonResponse
 from .models import Department,Dee,Doctor,timeTable,Appointment
-from Authentication.models import UserProfile
+from Authentication.models import Patient, UserProfile
 from datetime import datetime
 
 #for restframework
@@ -89,13 +89,38 @@ def getpatientlist(request):
     d = datetime.strptime(availableDate, "%d-%m-%Y")
 
     # get timetable first to refer appointment
-    timetable = timeTable.objects.filter(doctor_id=doctor, date=d)
-    # patient = Patient.appointment_set.filter(timetable_id=timetable)
-    patient = UserProfile.objects.filter(appointment__timetable_id=timetable)
-   
+    mtimetable = timeTable.objects.filter(doctor_id=doctor, date=d, period='m')
+    mpatient = UserProfile.objects.filter(patient__appointment__timetable_id=mtimetable)
+    mpatient = serializers.serialize('json', mpatient)
+
+    atimetable = timeTable.objects.filter(doctor_id=doctor, date=d, period='a')
+    apatient = UserProfile.objects.filter(patient__appointment__timetable_id=atimetable)
+    apatient = serializers.serialize('json', apatient)
+
+    patient = {}
+    # patient['a'] = 'a'
+    # patient.append({'morning' : mpatient, 'afternoon': apatient})
+    patient['morning'] = mpatient
+    patient['afternoon'] = apatient
     # patientlist = Appointment.objects.filter(doctor_id=doctor, date__month=month, date__year=year)
-    result = serializers.serialize('json', patient)
-    return HttpResponse(result, content_type='application/json')
+    return HttpResponse(json.dumps(patient), content_type='application/json')
+
+
+def getpatientappointment(request):
+    pid = request.POST.get('pid')
+    tid = request.POST.get('tid')
+    patient = Patient.objects.filter(userprofile_id=pid)
+    timetable = timeTable.objects.get(id=tid)
+    appointment = Appointment.objects.filter(patient_id=patient, timetable_id=timetable)
+
+    appointment = serializers.serialize('json', appointment)
+    patient = serializers.serialize('json', patient)
+
+    result = {}
+    result['appointment'] = appointment
+    result['profile'] = patient
+
+    return HttpResponse(json.dumps(result), content_type='application/json')    
 
 def timetable(request):
     return render(request, 'appointment/timetable.html')
