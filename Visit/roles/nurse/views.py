@@ -12,11 +12,7 @@ from django.core.urlresolvers import reverse
 from django.views import generic
 from django.contrib.auth import authenticate, login,logout
 from django.contrib.auth.decorators import login_required
-<<<<<<< HEAD
-=======
 from Authentication.models  import Patient
-
->>>>>>> c4f0407145e4e1cfbefee9bc854871604f2ed87a
 # Create your views here.
 # please remove comment syntax to use authen
 def index(request):
@@ -43,7 +39,27 @@ def view(request):
 		#return HttpResponseRedirect('/default/')
 
 @csrf_exempt
-def edit(request,num):
+def editStatus0(request,num):
+	mymodel = get_object_or_404(PatientVisitInfo, appointment_id=num)
+	form = PatientVisitForms(request.POST or None, instance=mymodel)
+	if request.method == 'POST' and form.is_valid():
+		mymodel = form.save(commit=False)
+		mymodel.save()
+		return redirect('/visit/nurse/view')
+	return render(request, 'nurse/edit.html', { 'form' : form , 'num' : num})
+
+@csrf_exempt
+def editStatus1(request,num):
+	mymodel = get_object_or_404(PatientVisitInfo, appointment_id=num)
+	form = PatientVisitForms(request.POST or None, instance=mymodel)
+	if request.method == 'POST' and form.is_valid():
+		mymodel = form.save(commit=False)
+		mymodel.save()
+		return redirect('/visit/nurse/view')
+	return render(request, 'nurse/edit.html', { 'form' : form , 'num' : num})
+
+@csrf_exempt
+def editStatus2(request,num):
 	mymodel = get_object_or_404(PatientVisitInfo, appointment_id=num)
 	form = PatientVisitForms(request.POST or None, instance=mymodel)
 	if request.method == 'POST' and form.is_valid():
