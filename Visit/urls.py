@@ -18,7 +18,6 @@ urlpatterns = [
     url(r'^doctor/view$', doctor.view, name='doctor-view'),
     url(r'^doctor/edit/(\d+)$', doctor.editStatus1, name='doctor-editStatus1'),
     url(r'^pharmacist/$', pharmacist.index, name='pharmacist-index'),
-    url(r'^pharmacist/view$', pharmacist.view, name='pharmacist-view'),
     url(r'^pharmacist/edit/(\d+)$', pharmacist.editStatus2, name='pharmacist-editStatus2'),
 
 ]

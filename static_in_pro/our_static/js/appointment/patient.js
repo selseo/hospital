@@ -36,7 +36,6 @@ class Patient {
         let d = new Date();
         let today = d.getFullYear() + '/' + (d.getMonth() + 1) + '/' + d.getDate();
         this._appointmentList.forEach(function(ap) {
-            ointments.forEach(function(ap) {
             if (ap.date >= today && ap.currentstatus == 'Upcoming') { 
                 upcoming = ap; 
             } else {

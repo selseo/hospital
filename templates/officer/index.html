@@ -2,20 +2,22 @@
 {% load staticfiles %}
 
 {% block title %}
-    Admin : SE hospital
+    Officer : SE hospital
 {% endblock %}
 
 
 
 
 {% block content %}
-	<div class="content-header content-header-media">
+	<!-- Dashboard Header -->
+    <!-- For an image header add the class 'content-header-media' and an image as in the following example -->
+    <div class="content-header content-header-media">
         <div class="header-section">
             <div class="row">
                 <!-- Main Title (hidden on small devices for the statistics to fit) -->
                 <div class="col-md-4 col-lg-6 hidden-xs hidden-sm">
-                    <h1>Welcome <strong>Admin</strong>
-                        <br><small>{{firstname}} {{lastname}}</small></h1>
+                    <h1>Welcome <strong>Officer</strong>
+                        <br><small>{{ firstname }} {{ lastname }}</small></h1>
                 </div>
                 <!-- END Main Title -->
 
@@ -47,6 +49,7 @@
                                 <small><i class="fa fa-map-marker"></i> Bangkok</small>
                             </h2>
                         </div>
+                        
                     </div>
                 </div>
                 <!-- END Top Stats -->
@@ -59,57 +62,30 @@
 
     <!-- Mini Top Stats Row -->
     <div class="row">
-        <div class="col-sm-12 col-lg-4">
+        <div class="col-sm-12 col-lg-6">
             <!-- Widget -->
-            <a href="a_admin_view_medicine.html" class="widget widget-hover-effect1">
+            <a href="{% url "visit:doctor-view" %}" class="widget widget-hover-effect1">
                 <div class="widget-simple">
                     <div class="widget-icon pull-left themed-background animation-fadeIn">
-                        <i class="fa fa-medkit"></i>
-                    </div>
-                    <h3 style="margin-top: 0px;" class="text-right animation-pullDown">
-                        <span class="widget-content">
-                            <strong>View</strong> Medicines<br>
-                        </span>
-                        <span class="themed-color-dark">
-                            <strong>1400</strong><small>/1530</small>
-                        </span>
-                    </h3>
-                </div>
-            </a>
-            <!-- END Widget -->
-        </div>
-        <div class="col-sm-12 col-lg-4">
-            <!-- Widget -->
-            <a href="a_admin_view_disease.html" class="widget widget-hover-effect1">
-                <div class="widget-simple">
-                    <div class="widget-icon pull-left themed-background-fancy animation-fadeIn">
-                        <i class="fa fa-bug"></i>
-                    </div>
-                    <h3 style="margin-top: 0px;" class="text-right animation-pullDown">
-                        <span class="widget-content">
-                            <strong>View</strong> Diseases<br>
-                        </span>
-                        <span class="themed-color-dark">
-                            <strong>9800</strong><small>/11145</small>
-                        </span>
-                    </h3>
-                </div>
-            </a>
-            <!-- END Widget -->
-        </div>
-        <div class="col-sm-12 col-lg-4">
-            <!-- Widget -->
-            <a href="a_admin_view_personnel.html" class="widget widget-hover-effect1">
-                <div class="widget-simple">
-                    <div class="widget-icon pull-left themed-background-fire animation-fadeIn">
                         <i class="fa fa-users"></i>
                     </div>
+                    <h3 class="widget-content text-right animation-pullDown">
+                        <strong>View patient</strong> information<br>
+                    </h3>
+                </div>
+            </a>
+            <!-- END Widget -->
+        </div>
+        <div class="col-sm-12 col-lg-6">
+            <!-- Widget -->
+            <a href="/default/createpatient" class="widget widget-hover-effect1">
+                <div class="widget-simple">
+                    <div class="widget-icon pull-left themed-background-fancy animation-fadeIn">
+                        <i class="fa fa-plus-square"></i>
+                    </div>
                     <h3 style="margin-top: 0px;" class="text-right animation-pullDown">
                         <span class="widget-content">
-                            <strong>View</strong> Personnel<br>
-                        </span>
-                        <span class="themed-color-dark">
-                            <strong>{{total}}</strong><small>/{{total}}</small>
+                            <strong>Add</strong> Patient<br>
                         </span>
                     </h3>
                 </div>
@@ -119,5 +95,7 @@
        
     </div>
     <!-- END Mini Top Stats Row -->
+
+    
 
 {% endblock %}
