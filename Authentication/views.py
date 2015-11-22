@@ -13,6 +13,7 @@ from Authentication.forms import UserForm, UserProfileForm, PatientProfile,Admin
 
 from datetime import datetime
 from django.utils import formats
+from django.contrib.auth.models import User
 # Create your views here.
 
 
@@ -26,37 +27,40 @@ def index(request):
 
 
     if request.user.is_authenticated():
-            if getUserProfile(request.user).role==0:
-                #return render(request, 'default/index.html')
-                return render(request, 'default/index.html',{
-                    'firstname':getUserProfile(request.user).firstname,
-                    'lastname':getUserProfile(request.user).lastname,
-                    'role':getUserProfile(request.user).role}
-                    )
-            if getUserProfile(request.user).role==1:
-                #return render(request, 'theme/doctor/index.html')
-                return render(request, 'doctor/index.html',{
-                    'al_check_p':1,
-                    'uncheck_p':2,
-                    'all_p':3,
-                    'firstname':getUserProfile(request.user).firstname,
-                    'lastname':getUserProfile(request.user).lastname,
-                    'role':getUserProfile(request.user).role}
-                    )
-            if getUserProfile(request.user).role==2:
-                return HttpResponseRedirect('/visit/nurse')
-            if getUserProfile(request.user).role==3:
-                return HttpResponse("You are Officer")
-            if getUserProfile(request.user).role==4:
-                #return HttpResponse("You are Pharmacist")
-                return render(request, 'pharmacist/index.html',{
-                    'firstname':getUserProfile(request.user).firstname,
-                    'lastname':getUserProfile(request.user).lastname,
-                    'role':getUserProfile(request.user).role}
-                    )
-            if getUserProfile(request.user).role==5:
-                #return HttpResponseRedirect('/default/createuser')
-                return render(request, 'admin/index_.html')
+        role = getUserProfile(request.user).role
+        if role==0:
+            #return render(request, 'default/index.html')
+            return render(request, 'default/index.html',{
+                'firstname':getUserProfile(request.user).firstname,
+                'lastname':getUserProfile(request.user).lastname,
+                'role':getUserProfile(request.user).role}
+                )
+        if role==1:
+            #return render(request, 'theme/doctor/index.html')
+            return render(request, 'doctor/index.html',{
+                'al_check_p':1,
+                'uncheck_p':2,
+                'all_p':3,
+                'firstname':getUserProfile(request.user).firstname,
+                'lastname':getUserProfile(request.user).lastname,
+                'role':getUserProfile(request.user).role}
+                )
+        if role==2:
+            return HttpResponseRedirect('/visit/nurse')
+        if role==3:
+            return HttpResponse("You are Officer")
+        if role==4:
+            #return HttpResponse("You are Pharmacist")
+            return render(request, 'pharmacist/index.html',{
+                'firstname':getUserProfile(request.user).firstname,
+                'lastname':getUserProfile(request.user).lastname,
+                'role':getUserProfile(request.user).role}
+                )
+        if role==5:
+            #return HttpResponseRedirect('/default/createuser')
+            users = User.objects.all()
+            count_user = users.count()
+            return render(request, 'admin/index_.html',{'total':count_user,'role':role})
 
     # Render the response and send it back!
     return render(request, 'theme/login.html',{'message':'You have to login to view this Page.'})
@@ -252,9 +256,14 @@ def admin_create_user(request):
         admin_user_form = AdminCreateUser()
 
     # Render the template depending on the context.
+    role = getUserProfile(request.user).role
+
     return render(request,
             'admin/addUser.html',
-            {'user_form': user_form, 'admin_user_form': admin_user_form,'registered': registered} )
+            {'user_form': user_form, 'admin_user_form': admin_user_form,'registered': registered,'role':role} )
 
 # def doctor_index(request):
 #     #comment
+
+def admin_check(user):
+    return user.email.endswith('@example.com')

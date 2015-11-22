@@ -11,6 +11,5 @@ urlpatterns = [
     url(r'^logout/$', views.user_logout, name='logout'),
     url(r'^register/$', views.register, name='register'),
     url(r'^createuser/$', views.admin_create_user, name='createuser'),
-    #url(r'^admin/$', views.admin_index, name='createuser')
 
 ]

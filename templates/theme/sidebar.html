@@ -63,7 +63,7 @@
             <!-- Sidebar Navigation -->
             <ul class="sidebar-nav">
                 <li>
-                    <a href="a_index_doctor.html" class=" active"><i class="gi gi-stopwatch sidebar-nav-icon"></i>Dashboard</a>
+                    <a href="/default" class=" active"><i class="gi gi-stopwatch sidebar-nav-icon"></i>Dashboard</a>
                 </li>
                 <li class="sidebar-header">
 
@@ -71,7 +71,7 @@
                 </li>
                 {% if role == 1 %}
                 <li>
-                    <a href="a_view_patient_info.html"><i class="fa fa-users sidebar-nav-icon"></i>View patient info</a>
+                    <a href="#"><i class="fa fa-users sidebar-nav-icon"></i>View patient info</a>
                 </li>
                 <li>
                     <a href="#"><i class="fa fa-calendar sidebar-nav-icon"></i>View timetable</a>
@@ -97,12 +97,21 @@
                 </li>
                 {% elif role == 5 %}
                 <li>
-                    <a href="a_view_patient_info.html"><i class="fa fa-users sidebar-nav-icon"></i>View patient info</a>
+                    <a href="a_admin_view_medicine.html"><i class="fa fa-medkit sidebar-nav-icon"></i>View medicines</a>
                 </li>
+                <li>
+                    <a href="a_admin_view_disease.html"><i class="fa fa-bug sidebar-nav-icon"></i>View diseases</a>
+                </li>
+                <li>
+                    <a href="a_admin_view_personnel.html"><i class="fa fa-users sidebar-nav-icon"></i>View personnel</a>
+                </li>
+
                 {% endif %}
                 <li>
                     <a href="/default/logout/"><i class="fa fa-sign-out sidebar-nav-icon"></i>Log out</a>
                 </li>
+
+                
 
 
             </ul>
