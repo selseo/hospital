@@ -1,6 +1,7 @@
 from django.http import HttpResponseRedirect, HttpResponse
 from django.http import Http404
-from .models import UserProfile
+from django.contrib.auth.models import User
+from .models import UserProfile,Patient
 from django.template import RequestContext, loader
 from django.shortcuts import get_object_or_404, render
 from django.core.urlresolvers import reverse
@@ -10,7 +11,8 @@ from django.contrib.auth import authenticate, login,logout
 from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib.auth.decorators import login_required
 from Authentication.forms import UserForm, UserProfileForm, PatientProfile,AdminCreateUser
-
+from django.views.decorators.csrf import csrf_exempt
+from django.core import serializers
 from datetime import datetime
 from django.utils import formats
 from django.contrib.auth.models import User
@@ -267,9 +269,90 @@ def admin_create_user(request):
             'admin/addUser.html',
             {'user_form': user_form, 'admin_user_form': admin_user_form,'registered': registered,'role':role} )
 
-# def doctor_index(request):
-#     #comment
 
+def view_user_list(request):
+    return render (request,'admin/viewuserlist.html')
+
+@csrf_exempt
+def seed(request):
+    # var drugs = ["Aspirin","Stomachic Mixture","Sulfacetamide Eye Drop","Liquid Paraffin Emulsion","Tetracycline Eye Ointment"
+    # ,"Milk of Magnesia or Cream of Magnesia","Iodine Tincture","Senna (tablet)","Thimerosal Tincture","Oral Rehydration Salts","Analgesic Balm","Alumina and Magnesia (Tablet)","Toothache Drop","Alumina and Magnesia Oral Suspension","Burns and Scalds Mixture","Sodamint (tablet)","Salicylic Acid and sulphur ointment","Compound Cardamom Mixture","Salicylic Acid and sulphur Cream","Ammonium Carbonate and Glycyrrhiza Mixture","Magnesium Sulfate","Brown Mixture","Camphorated Opium Tincture","Compound Ammonium Carbonate Syrup","Iodine Tincture","Chlorpheniramine Maleate (tablet)","Eucalyptus Oil","Compound Ferrous Sulfate (tablet)","Aromatic Castor Oil","Multivitamin (tablet)","Cough Syrup","Vitamin B Complex (tablet)","Sodium Bicarbonate Mixture (pediatric)","Vitamin C (tablet)","Fish Liver Oil Capsule","Mebendazole (tablet)","Multivitamin Capsule","Aspirin (tablet)","Merbromin Solution","Paracetamol 325 mg.(tablet)","Kaolin Mixture with Pectin","Paracetamol 500 mg.(tablet)","Salol and Menthol Mixture","Paracetamol Syrup (pediatric)","Sulfadiazine Suspension (pediatric)","Asafetida Tincture","Chloroquine Phosphate (tablet)","Sodium Chloride Enema","Quinine Sulfate (tablet)","Mandl’s Paint","Sulfadoxine and Pyrimethamine (tablet)","Gentian Violet Solution","Sulfadiazine (tablet)","Cold Inhalant","Ephedrine Nasal Drop","Aromatic Ammonia Spirit","Nitrofurazone Ear Drop","Scabicide Emulsion","Acriflavine Solution","Sulphur Ointment","Pepermint Spirit.","Calamine Lotion","Povidone-Iodine Solution 10%","Coal Tar Ointment","Isopropyl Alcohol 70%","Whitfield’s Ointment"];
+    user0,xxx=User.objects.get_or_create(
+        username="user0",
+        defaults={'username':"user0",'password':"1234",'email':"maillll@mail.com"}
+    )
+    user0.save()
+    userp0,xxx=UserProfile.objects.get_or_create(
+        firstname="Patient",
+        defaults={'user':user0,'firstname':"Patient",'lastname':"Tneitap",'role':0,'status':1}
+    )
+    userp0.save()
+    userpp,xxx=Patient.objects.get_or_create(
+        idcard="1100644983267",
+        defaults={'userprofile':userp0,'sex':"f",'idcard':"1100644983267",'phone':"0839826174",'address':"1",'birthdate':"1984-11-21"}
+    )
+    userpp.save()
+
+    user1,xxx=User.objects.get_or_create(
+        username="user1",
+        defaults={'username':"user1",'password':"1234",'email':"maillll@mail.com"}
+    )
+    user1.save()
+    userp1,xxx=UserProfile.objects.get_or_create(
+        firstname="Doctor",
+        defaults={'user':user1,'firstname':"Doctor",'lastname':"Rotcod",'role':1,'status':1}
+    )
+    userp1.save()
+
+    user2,xxx=User.objects.get_or_create(
+        username="user2",
+        defaults={'username':"user2",'password':"1234",'email':"maillll@mail.com"}
+    )
+    user2.save()
+    userp2,xxx=UserProfile.objects.get_or_create(
+        firstname="Nurse",
+        defaults={'user':user2,'firstname':"Nurse",'lastname':"Rotcod",'role':2,'status':1}
+    )
+    userp2.save()
+
+    user3,xxx=User.objects.get_or_create(
+        username="user3",
+        defaults={'username':"user3",'password':"1234",'email':"maillll@mail.com"}
+    )
+    user3.save()
+    userp3,xxx=UserProfile.objects.get_or_create(
+        firstname="Officer",
+        defaults={'user':user3,'firstname':"Officer",'lastname':"Rotcod",'role':3,'status':1}
+    )
+    userp3.save()
+
+    user4,xxx=User.objects.get_or_create(
+        username="user4",
+        defaults={'username':"user4",'password':"1234",'email':"maillll@mail.com"}
+    )
+    user4.save()
+    userp4,xxx=UserProfile.objects.get_or_create(
+        firstname="Pharmacist",
+        defaults={'user':user4,'firstname':"Pharmacist",'lastname':"Rotcod",'role':4,'status':1}
+    )
+    userp4.save()
+
+    user5,xxx=User.objects.get_or_create(
+        username="user5",
+        defaults={'username':"user5",'password':"1234",'email':"maillll@mail.com"}
+    )
+    user5.save()
+    userp5,xxx=UserProfile.objects.get_or_create(
+        firstname="Admin",
+        defaults={'user':user5,'firstname':"Admin",'lastname':"Rotcod",'role':5,'status':1}
+    )
+    userp5.save()
+
+
+    return HttpResponse("Seeddddd")
+
+
+<<<<<<< HEAD
 def officer_createPatient(request):
     # A boolean value for telling the template whether the registration was successful.
     # Set to False initially. Code changes value to True when registration succeeds.
@@ -333,3 +416,8 @@ def officer_createPatient(request):
     return render(request,
             'officer/addPatient.html',
             {'user_form': user_form, 'profile_form': profile_form, 'patient_form':patient_form,'registered': registered} )
+=======
+def admin_check(user):
+    return user.email.endswith('@example.com')
+
+>>>>>>> 8a3d807e1da2b0f4e9d8bfeb6852a3891e125956

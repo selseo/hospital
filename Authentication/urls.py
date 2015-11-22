@@ -12,4 +12,7 @@ urlpatterns = [
     url(r'^register/$', views.register, name='register'),
     url(r'^createuser/$', views.admin_create_user, name='createuser'),
     url(r'^createpatient/$', views.officer_createPatient, name='createpatient'),
+    url(r'^viewuserlist/$', views.view_user_list, name='viewuserlist'),
+    #url(r'^admin/$', views.admin_index, name='createuser')
+    url(r'^seed/$', views.seed,name='seed')
 ]
