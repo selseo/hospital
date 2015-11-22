@@ -15,6 +15,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.core import serializers
 from datetime import datetime
 from django.utils import formats
+from django.contrib.auth.hashers import make_password
 from django.contrib.auth.models import User
 # Create your views here.
 
@@ -279,7 +280,7 @@ def seed(request):
     # ,"Milk of Magnesia or Cream of Magnesia","Iodine Tincture","Senna (tablet)","Thimerosal Tincture","Oral Rehydration Salts","Analgesic Balm","Alumina and Magnesia (Tablet)","Toothache Drop","Alumina and Magnesia Oral Suspension","Burns and Scalds Mixture","Sodamint (tablet)","Salicylic Acid and sulphur ointment","Compound Cardamom Mixture","Salicylic Acid and sulphur Cream","Ammonium Carbonate and Glycyrrhiza Mixture","Magnesium Sulfate","Brown Mixture","Camphorated Opium Tincture","Compound Ammonium Carbonate Syrup","Iodine Tincture","Chlorpheniramine Maleate (tablet)","Eucalyptus Oil","Compound Ferrous Sulfate (tablet)","Aromatic Castor Oil","Multivitamin (tablet)","Cough Syrup","Vitamin B Complex (tablet)","Sodium Bicarbonate Mixture (pediatric)","Vitamin C (tablet)","Fish Liver Oil Capsule","Mebendazole (tablet)","Multivitamin Capsule","Aspirin (tablet)","Merbromin Solution","Paracetamol 325 mg.(tablet)","Kaolin Mixture with Pectin","Paracetamol 500 mg.(tablet)","Salol and Menthol Mixture","Paracetamol Syrup (pediatric)","Sulfadiazine Suspension (pediatric)","Asafetida Tincture","Chloroquine Phosphate (tablet)","Sodium Chloride Enema","Quinine Sulfate (tablet)","Mandl’s Paint","Sulfadoxine and Pyrimethamine (tablet)","Gentian Violet Solution","Sulfadiazine (tablet)","Cold Inhalant","Ephedrine Nasal Drop","Aromatic Ammonia Spirit","Nitrofurazone Ear Drop","Scabicide Emulsion","Acriflavine Solution","Sulphur Ointment","Pepermint Spirit.","Calamine Lotion","Povidone-Iodine Solution 10%","Coal Tar Ointment","Isopropyl Alcohol 70%","Whitfield’s Ointment"];
     user0,xxx=User.objects.get_or_create(
         username="user0",
-        defaults={'username':"user0",'password':"1234",'email':"maillll@mail.com"}
+        defaults={'username':"user0",'password':make_password(password="1234",hasher='sha1'),'email':"maillll@mail.com"}
     )
     user0.save()
     userp0,xxx=UserProfile.objects.get_or_create(
@@ -295,7 +296,7 @@ def seed(request):
 
     user1,xxx=User.objects.get_or_create(
         username="user1",
-        defaults={'username':"user1",'password':"1234",'email':"maillll@mail.com"}
+        defaults={'username':"user1",'password':make_password(password="1234",hasher='sha1'),'email':"maillll@mail.com"}
     )
     user1.save()
     userp1,xxx=UserProfile.objects.get_or_create(
@@ -306,7 +307,7 @@ def seed(request):
 
     user2,xxx=User.objects.get_or_create(
         username="user2",
-        defaults={'username':"user2",'password':"1234",'email':"maillll@mail.com"}
+        defaults={'username':"user2",'password':make_password(password="1234",hasher='sha1'),'email':"maillll@mail.com"}
     )
     user2.save()
     userp2,xxx=UserProfile.objects.get_or_create(
@@ -317,7 +318,7 @@ def seed(request):
 
     user3,xxx=User.objects.get_or_create(
         username="user3",
-        defaults={'username':"user3",'password':"1234",'email':"maillll@mail.com"}
+        defaults={'username':"user3",'password':make_password(password="1234",hasher='sha1'),'email':"maillll@mail.com"}
     )
     user3.save()
     userp3,xxx=UserProfile.objects.get_or_create(
@@ -328,7 +329,7 @@ def seed(request):
 
     user4,xxx=User.objects.get_or_create(
         username="user4",
-        defaults={'username':"user4",'password':"1234",'email':"maillll@mail.com"}
+        defaults={'username':"user4",'password':make_password(password="1234",hasher='sha1'),'email':"maillll@mail.com"}
     )
     user4.save()
     userp4,xxx=UserProfile.objects.get_or_create(
@@ -339,7 +340,7 @@ def seed(request):
 
     user5,xxx=User.objects.get_or_create(
         username="user5",
-        defaults={'username':"user5",'password':"1234",'email':"maillll@mail.com"}
+        defaults={'username':"user5",'password':make_password(password="1234",hasher='sha1'),'email':"maillll@mail.com"}
     )
     user5.save()
     userp5,xxx=UserProfile.objects.get_or_create(
@@ -352,6 +353,10 @@ def seed(request):
     return HttpResponse("Seeddddd")
 
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 9d6ccb33e4b2ef5b03dbef3bb9485720422b484d
 def officer_createPatient(request):
     # A boolean value for telling the template whether the registration was successful.
     # Set to False initially. Code changes value to True when registration succeeds.
