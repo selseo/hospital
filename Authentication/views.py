@@ -19,7 +19,7 @@ def index(request):
    # uncheck_p=30
     #variable for all patient today
    # all_p=already_check_p+uncheck_p
-    #if request.user.is_authenticated():
+    if request.user.is_authenticated():
             #if getUserProfile(request.user).role==0:
                 #return render(request, 'default/index.html')
             #if getUserProfile(request.user).role==1:
@@ -41,7 +41,7 @@ def index(request):
                 #return HttpResponseRedirect('/default/admin')
 
     # Render the response and send it back!
-    #return render(request, 'theme/login.html')
+    return render(request, 'theme/login.html',{'message':'You have to login to view this Page.'})
 
 def register(request):
 
