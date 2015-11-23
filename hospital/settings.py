@@ -140,3 +140,5 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
     ]
 }
+
+AUTH_PROFILE_MODULE = 'Authentication.UserProfile'
