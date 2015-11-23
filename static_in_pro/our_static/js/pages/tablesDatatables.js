@@ -10,7 +10,6 @@ var TablesDatatables = function() {
         init: function() {
             /* Initialize Bootstrap Datatables Integration */
             App.datatables();
-
             /* Initialize Datatables */
             // $('#example-datatable').dataTable({
             //     "aoColumnDefs": [ { "bSortable": false, "aTargets": [ 1, 4 ] } ],
@@ -21,11 +20,11 @@ var TablesDatatables = function() {
             //     "aoColumnDefs": [ { "bSortable": false, "aTargets": [ 1, 2 ] } ],
 
             // });
-
-            var table = $('#example-datatable').DataTable({
-                "aaSorting": [],
-                "iDisplayLength": 10,
-            });
+            console.log("this datatables file works.222");
+            $('#example-datatable').DataTable(
+                {"iDisplayLength": 10,
+                }
+            );
             //table.order( [ 1, 'desc' ] ).draw();
 
             /* Add placeholder attribute to the search input */

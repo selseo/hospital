@@ -6,6 +6,8 @@
 {% endblock %}
 
 {% block tablelist %}
+
+
 <div class="table-responsive">
   
     <table id="example-datatable" class="table table-vcenter table-striped">
@@ -59,9 +61,6 @@
         </tbody>
     </table>
     <!-- Load and execute javascript code used only in this page -->
-    <script src="{% static 'js/pages/tablesDatatables.js' %}"></script>
-    <script>$(function(){ TablesDatatables.init(); });</script>
-
 
 
     <div class="pagination">
@@ -81,6 +80,4 @@
     </div>
     
 </div>
-
-    
 {% endblock %}
