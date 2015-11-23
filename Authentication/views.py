@@ -521,10 +521,14 @@ def edituser(request, userl_slug):
         user_info['firstname'] = userl.firstname
         user_info['lastname'] = userl.lastname
         user_info['role'] = userl.role
+        user_info['department']=Doctor.objects.get(userprofile=userl).department
+        userDoc=Doctor.objects.get(userprofile=userl)
         userAccount = userl.user
 
-    except UserProfile.DoesNotExist:
+    except UserProfile.DoesNotExist or Doctor.DoesNotExist:
         return HttpResponseRedirect('/default/viewuserlist/')
+
+    
     
 
     # A boolean value for telling the template whether the registration was successful.
@@ -537,9 +541,9 @@ def edituser(request, userl_slug):
         # Note that we make use of both UserForm and UserProfileForm.
         user_form = UserForm(data=request.POST)
         admin_user_form = AdminCreateUser(data=request.POST)
-
+        admin_doctor_form= AdminCreateDoctor(data=request.POST)
         # If the two forms are valid...
-        if admin_user_form.is_valid():
+        if admin_user_form.is_valid() and admin_doctor_form.is_valid():
             # Save the user's form data to the database.
             #user = user_form.save()
             userprofile = userl
@@ -552,8 +556,10 @@ def edituser(request, userl_slug):
             # Once hashed, we can update the user object.
             if(request.POST['password']):
                 userAccount.set_password(request.POST['password'])
+            userDoc.department=request.POST['department']
             userAccount.save()
             userprofile.save()
+            userDoc.save()
             # Now sort out the UserProfile instance.
             # Since we need to set the user attribute ourselves, we set commit=False.
             # This delays saving the model until we're ready to avoid integrity problems.
@@ -578,7 +584,7 @@ def edituser(request, userl_slug):
         # Print problems to the terminal.
         # They'll also be shown to the user.
         else:
-            print (user_form.errors, admin_user_form.errors)
+            print (user_form.errors, admin_user_form.errors,admin_doctor_form.errors)
 
     # Not a HTTP POST, so we render our form using two ModelForm instances.
     # These forms will be blank, ready for user input.
@@ -589,12 +595,14 @@ def edituser(request, userl_slug):
             'firstname': user_info['firstname'],
             'lastname':user_info['lastname'],
             'role':user_info['role']})
+        admin_doctor_form= AdminCreateDoctor(initial={
+            'department': user_info['department']})
 
 
 
     return render(request,
             'admin/editUser.html',
-            {'user_form': user_form, 'admin_user_form': admin_user_form,'registered': registered,'userl':userl} )
+            {'user_form': user_form, 'admin_user_form': admin_user_form,'admin_doctor_form': admin_doctor_form,'registered': registered,'userl':userl} )
 
 
 
