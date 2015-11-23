@@ -49,13 +49,38 @@
             <legend>New Appointment</legend>
             <div class="form-group">
                 <label class="col-md-4 control-label">Date</label>
-                <div class="col-md-4" id="select-date-napp">
+                <div class="col-md-6" id="select-date-napp">
                 <!--
                     <select class="form-control">
                         <option value="1">03/11/2558</option>
                     </select>
                 -->
-                    <input type="text" id="new-appointment" name="new-appointment" class="form-control" placeholder="New Appointment" value="03/11/2558">
+                <div class="col-md-9">
+                      <div class="col-md-4" style="padding-left: 0px;">
+                        <select id="example-chosen" name="example-chosen" class="select-chosen" data-placeholder="Choose a Country.." style="width: 250px;">
+                            <option value="United States">Year</option>
+                        </select>   
+                      </div>
+                      <div class="col-md-4">
+                        <select id="example-chosen" name="example-chosen" class="select-chosen" data-placeholder="Choose a Country.." style="width: 250px;">
+                            <option value="United States">Month</option>
+                        </select>   
+                      </div>
+                      <div class="col-md-4">
+                        <select id="example-chosen" name="example-chosen" class="select-chosen" data-placeholder="Choose a Country.." style="width: 250px;">
+                            <option value="United States">Date</option>
+                        </select>   
+                      </div>
+                      <div class="col-md-6">
+                        <label class="radio-inline" for="example-inline-radio1">
+                            <input type="radio" id="example-inline-radio1" name="example-inline-radios" value="option1"> Morning
+                        </label>
+                        <label class="radio-inline" for="example-inline-radio2">
+                            <input type="radio" id="example-inline-radio2" name="example-inline-radios" value="option2"> 
+                            Afternoon
+                        </label>
+                    </div>
+                    </div>
                 </div>
 
             </div>
