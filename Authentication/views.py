@@ -19,7 +19,9 @@ from django.contrib.auth.hashers import make_password
 from django.contrib.auth.models import User
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from appointment.models import Appointment,timeTable
-from Visit.models import PatientVisitInfo
+from Visit.models import *
+from Disease.models import Disease
+from Medicine.models import Medicine
 import datetime
 # Create your views here.
 from django.contrib.auth.decorators import user_passes_test
@@ -77,10 +79,10 @@ def index(request):
             doctor=getDoctor(request.user)
             allapp=Appointment.objects.filter(timetable_id__doctor_id=doctor, timetable_id__date=datetime.date.today()).count()
             wait=PatientVisitInfo.objects.filter(lastUpdate__day=datetime2.now().day,
-                 lastUpdate__month=datetime2.now().month,
+                lastUpdate__month=datetime2.now().month,
                 lastUpdate__year=datetime2.now().year,appointment__timetable_id__doctor_id=doctor,status=1).count()
             checked=PatientVisitInfo.objects.filter(lastUpdate__day=datetime2.now().day,
-                 lastUpdate__month=datetime2.now().month,
+                lastUpdate__month=datetime2.now().month,
                 lastUpdate__year=datetime2.now().year,appointment__timetable_id__doctor_id=doctor,status=2).count()
             #return render(request, 'theme/doctor/index.html')
             return render(request, 'doctor/index.html',{
@@ -109,9 +111,15 @@ def index(request):
                 )
         if role==5:
             #return HttpResponseRedirect('/default/createuser')
-            users = UserProfile.objects.exclude(role=0)
-            count_user = users.count()
-            return render(request, 'admin/index_.html',{'total':count_user,
+            alluser=UserProfile.objects.exclude(role=0)
+            allusernum=alluser.count()
+            alluseravail=alluser.filter(status=True).count()
+            allds=Disease.objects.count()
+            avds=Disease.objects.filter(availability=True).count()
+            allmed=Medicine.objects.count()
+            avmed=Medicine.objects.filter(availability=True).count()
+            return render(request, 'admin/index_.html',{'total':allusernum, 'avail':alluseravail,
+                'allds' : allds, 'avds':avds, 'allmed':allmed,'avmed':avmed,
                 'firstname':getUserProfile(request.user).firstname,
                 'lastname':getUserProfile(request.user).lastname,
                 'role':role})
