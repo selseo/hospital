@@ -19,7 +19,43 @@ from django.contrib.auth.hashers import make_password
 from django.contrib.auth.models import User
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 # Create your views here.
+from django.contrib.auth.decorators import user_passes_test
 
+def admin_check(user):
+    userProfile = getUserProfile(user)
+    if(userProfile.role==5):
+        return True;
+    return False;
+
+def doctor_check(user):
+    userProfile = getUserProfile(user)
+    if(userProfile.role==1):
+        return True;
+    return False;
+
+def patient_check(user):
+    userProfile = getUserProfile(user)
+    if(userProfile.role==0):
+        return True;
+    return False;
+
+def officer_check(user):
+    userProfile = getUserProfile(user)
+    if(userProfile.role==3):
+        return True;
+    return False;
+
+def nurse_check(user):
+    userProfile = getUserProfile(user)
+    if(userProfile.role==2):
+        return True;
+    return False;
+
+def pharmacist_check(user):
+    userProfile = getUserProfile(user)
+    if(userProfile.role==4):
+        return True;
+    return False;
 
 def index(request):
     #variable for already check patient today
@@ -212,6 +248,7 @@ def user_login(request):
         # blank dictionary object...
             return render(request, 'theme/login.html', {})
 
+@user_passes_test(admin_check)
 def admin_create_user(request):
 
     # A boolean value for telling the template whether the registration was successful.
@@ -436,6 +473,7 @@ def officer_createPatient(request):
             {'user_form': user_form, 'profile_form': profile_form, 'patient_form':patient_form,'registered': registered} )
 
 
+@user_passes_test(admin_check)
 def viewuser(request, userl_slug):
 
     # Create a context dictionary which we can pass to the template rendering engine.
@@ -458,6 +496,8 @@ def viewuser(request, userl_slug):
     ####### PLEASE EDIT TO DIRECT TO VIEW USER ##########
     return HttpResponse(user_info['firstname'])
 
+
+@user_passes_test(admin_check)
 def edituser(request, userl_slug):
     ##### THIS METHOD MUST EDIT#####
     ## It looks like viewusermethod but you should to edit to make it can edit user profile in database ##
@@ -466,10 +506,80 @@ def edituser(request, userl_slug):
         userl = UserProfile.objects.get(slug=userl_slug)
         user_info['firstname'] = userl.firstname
         user_info['lastname'] = userl.lastname
-        user_info['role'] = userl.lastname
+        user_info['role'] = userl.role
+        userAccount = userl.user
+
     except UserProfile.DoesNotExist:
         return HttpResponseRedirect('/default/viewuserlist/')
 
-    ####### PLEASE EDIT TO DIRECT TO VIEW USER ##########
-    return HttpResponse(user_info['firstname'])
+    # A boolean value for telling the template whether the registration was successful.
+    # Set to False initially. Code changes value to True when registration succeeds.
+    registered = False
 
+    # If it's a HTTP POST, we're interested in processing form data.
+    if request.method == 'POST':
+        # Attempt to grab information from the raw form information.
+        # Note that we make use of both UserForm and UserProfileForm.
+        user_form = UserForm(data=request.POST)
+        admin_user_form = AdminCreateUser(data=request.POST)
+
+        # If the two forms are valid...
+        if user_form.is_valid() or admin_user_form.is_valid():
+            # Save the user's form data to the database.
+            #user = user_form.save()
+            userprofile = get_object_or_404(UserProfile,slug=userl_slug)
+            #user = user_form.save()
+            userprofile.firstname = admin_user_form.firstname
+
+            # Now we hash the password with the set_password method.
+            # Once hashed, we can update the user object.
+            userAccount.set_password(userAccount.password)
+            userAccount.save()
+
+            # Now sort out the UserProfile instance.
+            # Since we need to set the user attribute ourselves, we set commit=False.
+            # This delays saving the model until we're ready to avoid integrity problems.
+            userl = admin_user_form.save(commit=False)
+            userl.user = user
+            userl.status=True
+
+            # Did the user provide a profile picture?
+            # If so, we need to get it from the input form and put it in the UserProfile model.
+            #if 'picture' in request.FILES:
+            #    profile.picture = request.FILES['picture']
+
+            # Now we save the UserProfile model instance.
+            userl.save()
+
+
+            # Update our variable to tell the template registration was successful.
+            registered = True
+            return HttpResponseRedirect('/default/viewuserlist/')
+
+        # Invalid form or forms - mistakes or something else?
+        # Print problems to the terminal.
+        # They'll also be shown to the user.
+        else:
+            print (user_form.errors, admin_user_form.errors)
+
+    # Not a HTTP POST, so we render our form using two ModelForm instances.
+    # These forms will be blank, ready for user input.
+    else:
+        user_form = UserForm(initial={'username': userAccount.username,'password':userAccount.password})
+       
+        admin_user_form = AdminCreateUser(initial={
+            'firstname': user_info['firstname'],
+            'lastname':user_info['lastname'],
+            'role':user_info['role']})
+
+
+
+    return render(request,
+            'admin/editUser.html',
+            {'user_form': user_form, 'admin_user_form': admin_user_form,'registered': registered,'userl':userl} )
+
+
+
+@user_passes_test(admin_check)
+def testtry(request):
+    return HttpResponse('You are admin')

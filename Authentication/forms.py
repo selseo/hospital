@@ -42,7 +42,8 @@ class PatientProfile(forms.ModelForm):
 
 class AdminCreateUser(forms.ModelForm):
     CHOICES = (('1','Doctor'),('2','Nurse'),('3','Officer'),('4','Pharmacist'),('5','Admin'))
-    role = forms.ChoiceField(widget=forms.RadioSelect(attrs={'class':'radio-inline'}), choices=CHOICES, error_messages={'required':"Please select role"})
+    role = forms.ChoiceField(
+        widget=forms.RadioSelect(attrs={'class':'radio-inline','onclick':'getValue()'}), choices=CHOICES, error_messages={'required':"Please select role"})
 
     class Meta:
         model = UserProfile
