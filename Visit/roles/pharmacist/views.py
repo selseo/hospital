@@ -13,8 +13,21 @@ from django.views import generic
 from django.contrib.auth import authenticate, login,logout
 from django.contrib.auth.decorators import login_required
 from Authentication.models  import Patient
+from django.contrib.auth.decorators import login_required, user_passes_test
+from Authentication.models import UserProfile
+# Create your views here.
+#Method for get user profile
+def getUserProfile(user):
+    return UserProfile.objects.get(user=user)
+def pharmacist_check(user):
+    userProfile = getUserProfile(user)
+    if(userProfile.role==4):
+        return True;
+    return False;
 # Create your views here.
 # please remove comment syntax to use authen
+@login_required
+@user_passes_test(pharmacist_check)
 def index(request):
 	#if request.user.is_authenticated():
 		#if getUserProfile(request.user).role==4://Pharmacist
@@ -29,7 +42,8 @@ def index(request):
 	#else :
 		#return HttpResponseRedirect('/default/')
 
-@csrf_exempt
+@login_required
+@user_passes_test(pharmacist_check)
 def editStatus2(request,num):
 	myPatientVisitInfo = get_object_or_404(PatientVisitInfo, appointment_id=num)
 	myPrescription = myPatientVisitInfo.prescription_set.all()
@@ -39,7 +53,3 @@ def editStatus2(request,num):
 		return redirect('/visit/pharmacist')
 	return render(request,'pharmacist/edit.html',{'myPrescription':myPrescription,'num' : num})
 
-
-#Method for get user profile
-def getUserProfile(user):
-    return UserProfile.objects.get(user=user)
