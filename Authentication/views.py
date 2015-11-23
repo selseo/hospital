@@ -224,7 +224,7 @@ def admin_create_user(request):
         # Note that we make use of both UserForm and UserProfileForm.
         user_form = UserForm(data=request.POST)
         admin_user_form = AdminCreateUser(data=request.POST)
-
+        admin_doctor_form= AdminCreateDoctor(data=request.POST)
         # If the two forms are valid...
         if user_form.is_valid() and admin_user_form.is_valid():
             # Save the user's form data to the database.
@@ -249,6 +249,11 @@ def admin_create_user(request):
 
             # Now we save the UserProfile model instance.
             profile.save()
+            if profile.role==1:
+                doctor=admin_doctor_form.save(commit=False)
+                doctor.userprofile=profile
+                doctor.save()
+
 
 
             # Update our variable to tell the template registration was successful.
@@ -322,6 +327,11 @@ def seed(request):
         defaults={'user':user1,'firstname':"Doctor",'lastname':"Rotcod",'role':1,'status':True}
     )
     userp1.save()
+    userpd,xxx=Doctor.objects.get_or_create(
+        userprofile=userp1,
+        defaults={'userprofile':userp1,'department':"Cancer"}
+    )
+    userpd.save()
 
     user2,xxx=User.objects.get_or_create(
         username="user2",
@@ -473,3 +483,25 @@ def edituser(request, userl_slug):
     ####### PLEASE EDIT TO DIRECT TO VIEW USER ##########
     return HttpResponse(user_info['firstname'])
 
+@csrf_exempt
+def setStatus(request):
+    # return HttpResponse('')
+    
+    slug = request.POST["ICD10"]
+    status = request.POST["status"]
+    if status == "True":
+        usp = UserProfile.objects.get(slug=slug)
+        usp.status = True
+        usp.save()
+    else : 
+        usp = UserProfile.objects.get(slug=slug)
+        usp.status = False
+        usp.save()
+
+    # .update(availability=availability)
+    # print (di.availability)
+    # di.availability = availability
+    # di.save()
+    # di = Disease.objects.filter(ICD10=ICD10)
+    # res = serializers.serialize('json',di)
+    return HttpResponse('')     

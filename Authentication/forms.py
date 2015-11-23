@@ -51,3 +51,9 @@ class AdminCreateUser(forms.ModelForm):
             'firstname': forms.TextInput(attrs={'class': 'form-control input-lg','placeholder':'Firstname'}),
             'lastname': forms.TextInput(attrs={'class': 'form-control input-lg','placeholder':'Lastname'}),
         }
+
+class AdminCreateDoctor(forms.ModelForm):
+    Department = forms.ModelChoiceField(queryset=dee,to_field_name="name")
+    class Meta:
+        model = Doctor
+        fields = ('department')

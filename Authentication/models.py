@@ -34,4 +34,11 @@ class Patient(models.Model):
     def __unicode__(self):
         return self.userprofile.user.username
 
+class Doctor(models.Model):
+    userprofile=models.OneToOneField(UserProfile, default=None)
+    department=models.CharField(max_length=50)
+
+    def __unicode__(self):
+        return self.userprofile.user.username
+
 
