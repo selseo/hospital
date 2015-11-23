@@ -70,7 +70,7 @@ def index(request):
         role = getUserProfile(request.user).role
         if role==0:
             #return render(request, 'default/index.html')
-            return render(request, 'default/index.html',{
+            return render(request, 'patient/index.html',{
                 'firstname':getUserProfile(request.user).firstname,
                 'lastname':getUserProfile(request.user).lastname,
                 'role':getUserProfile(request.user).role}
@@ -248,6 +248,7 @@ def user_login(request):
         # blank dictionary object...
             return render(request, 'theme/login.html', {})
 
+@login_required
 @user_passes_test(admin_check)
 def admin_create_user(request):
 
@@ -524,8 +525,7 @@ def edituser(request, userl_slug):
 
     except UserProfile.DoesNotExist:
         return HttpResponseRedirect('/default/viewuserlist/')
-    if userl.role==0:
-        return HttpResponseRedirect('/default/viewuserlist/')
+    
 
     # A boolean value for telling the template whether the registration was successful.
     # Set to False initially. Code changes value to True when registration succeeds.
@@ -539,24 +539,27 @@ def edituser(request, userl_slug):
         admin_user_form = AdminCreateUser(data=request.POST)
 
         # If the two forms are valid...
-        if user_form.is_valid() or admin_user_form.is_valid():
+        if admin_user_form.is_valid():
             # Save the user's form data to the database.
             #user = user_form.save()
-            userprofile = get_object_or_404(UserProfile,slug=userl_slug)
+            userprofile = userl
             #user = user_form.save()
-            userprofile.firstname = admin_user_form.firstname
-
+            userprofile.firstname = request.POST['firstname']
+            userprofile.lastname = request.POST['lastname']
+            userprofile.role = request.POST['role']
+            userprofile.status = True
             # Now we hash the password with the set_password method.
             # Once hashed, we can update the user object.
-            userAccount.set_password(userAccount.password)
+            if(request.POST['password']):
+                userAccount.set_password(request.POST['password'])
             userAccount.save()
-
+            userprofile.save()
             # Now sort out the UserProfile instance.
             # Since we need to set the user attribute ourselves, we set commit=False.
             # This delays saving the model until we're ready to avoid integrity problems.
-            userl = admin_user_form.save(commit=False)
-            userl.user = user
-            userl.status=True
+            # userl = admin_user_form.save(commit=False)
+            # userl.user = user
+            
 
             # Did the user provide a profile picture?
             # If so, we need to get it from the input form and put it in the UserProfile model.
@@ -564,7 +567,7 @@ def edituser(request, userl_slug):
             #    profile.picture = request.FILES['picture']
 
             # Now we save the UserProfile model instance.
-            userl.save()
+            
 
 
             # Update our variable to tell the template registration was successful.
@@ -598,7 +601,7 @@ def edituser(request, userl_slug):
 @user_passes_test(admin_check)
 def testtry(request):
     return HttpResponse('You are admin')
-    
+
 @csrf_exempt
 def setStatus(request):
     # return HttpResponse('')

@@ -100,12 +100,6 @@
                 <li>
                     <a href="a_view_patient_info.html"><i class="fa fa-users sidebar-nav-icon"></i>View your appointment</a>
                 </li>
-                <li>
-                    <a href="/app/patientlist" class=" active"><i class="fa fa-calendar sidebar-nav-icon"></i>View Timetable</a>
-                </li>
-                <li>
-                    <a href="/app/timetable" class=" active"><i class="fa fa-pencil-square-o sidebar-nav-icon"></i>Edit Timetable</a>
-                </li>
                 {% elif request.user.userprofile.role == 2 %}
                 <li>
                     <a href="a_view_patient_info.html"><i class="fa fa-users sidebar-nav-icon"></i>View patient info</a>
