@@ -30,7 +30,8 @@ Pharmacist : SE hospital
                            
                             
                             <strong>Name : </strong> {{pvi.appointment.patient_id.userprofile.firstname}} {{pvi.appointment.patient_id.userprofile.lastname}} <br>
-                            <strong>By doctor : </strong>{{pvi.appointment.timetable_id.doctor_id.userprofile.firstname}} {{pvi.appointment.timetable_id.doctor_id.userprofile.lastname}}<br>
+                            <strong>Responsible doctor : </strong>{{pvi.appointment.timetable_id.doctor_id.userprofile.firstname}} {{pvi.appointment.timetable_id.doctor_id.userprofile.lastname}}<br>
+                             <strong>Allergy : </strong> {{pvi.appointment.patient_id.allergy}}<br>
                             <strong>Last updated : </strong> {{pvi.lastUpdate}}
                             
                         </p>
