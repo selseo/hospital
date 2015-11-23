@@ -15,6 +15,7 @@ from django.contrib.auth.decorators import login_required
 from Authentication.models  import Patient
 from django.contrib.auth.decorators import login_required, user_passes_test
 from Authentication.models import UserProfile
+import datetime as datetime2
 # Create your views here.
 #Method for get user profile
 def getUserProfile(user):
@@ -29,9 +30,16 @@ def nurse_check(user):
 @login_required
 @user_passes_test(nurse_check)
 def index(request):
+	allapp=Appointment.objects.filter(timetable_id__date=datetime2.date.today()).count()
+	wait=PatientVisitInfo.objects.filter(lastUpdate__day=datetime.now().day,
+		lastUpdate__month=datetime.now().month,
+		lastUpdate__year=datetime.now().year,status=0).count()
+	checked=PatientVisitInfo.objects.filter(lastUpdate__day=datetime.now().day,
+		lastUpdate__month=datetime.now().month,
+		lastUpdate__year=datetime.now().year,status=1).count()
 	#if request.user.is_authenticated():
 		#if getUserProfile(request.user).role==2://Nurse
-			return render(request, 'nurse/index.html')
+	return render(request, 'nurse/index.html',{'checked':checked,'wait':wait,'allapp':allapp})
 		#else :
 			#return HttpResponseRedirect('/default/')
 	#else :
