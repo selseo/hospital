@@ -281,7 +281,8 @@ def admin_create_user(request):
 
 
 def view_user_list(request):
-    user_list = UserProfile.objects.all()
+    #user_list = UserProfile.objects.all()
+    user_list = UserProfile.objects.exclude(role=0)
     paginator = Paginator(user_list, 15) # Show 25 contacts per page
 
     page = request.GET.get('page')
@@ -464,13 +465,15 @@ def viewuser(request, userl_slug):
         # We get here if we didn't find the specified category.
         # Don't do anything - the template displays the "no category" message for us.
         return HttpResponseRedirect('/default/viewuserlist/')
-
+    if userl.role==0:
+        return HttpResponseRedirect('/default/viewuserlist/')
     ####### PLEASE EDIT TO DIRECT TO VIEW USER ##########
     return HttpResponse(user_info['firstname'])
 
 def edituser(request, userl_slug):
     ##### THIS METHOD MUST EDIT#####
     ## It looks like viewusermethod but you should to edit to make it can edit user profile in database ##
+
     user_info = {}
     try:
         userl = UserProfile.objects.get(slug=userl_slug)
@@ -478,6 +481,8 @@ def edituser(request, userl_slug):
         user_info['lastname'] = userl.lastname
         user_info['role'] = userl.lastname
     except UserProfile.DoesNotExist:
+        return HttpResponseRedirect('/default/viewuserlist/')
+    if userl.role==0:
         return HttpResponseRedirect('/default/viewuserlist/')
 
     ####### PLEASE EDIT TO DIRECT TO VIEW USER ##########
