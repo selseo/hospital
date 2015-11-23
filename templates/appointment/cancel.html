@@ -4,87 +4,82 @@
 
 
 {% block content %}
-   
-                    <!-- Blank Header -->
-                    <div class="content-header">
-                        <div class="header-section animation-stretchRight">
-                            <h1>
-                                <i class="gi gi-brush"></i>Cancel Appointment 
-                                <a type="button" class="btn btn-primary" href="javascript:history.back()">Back</a>
-                                <br>
-                            </h1>
-                        </div>
-                    </div>
-                    <ul class="breadcrumb breadcrumb-top">
-                        <li><a href="javascript:void(0)"><i class="fa fa-home"></i> Dashboard</a></li>
-                        <li>Cancel Appointment</li>
-                    </ul>
-                    <!-- END Blank Header -->
 
-                    <!-- Example Block -->
-                    <div class="block">
-                        <!-- Example Title -->
-                        <div class="block-title">
-                            <div class="block-options pull-right">
-                                <a href="javascript:void(0)" class="btn btn-alt btn-sm btn-primary" data-toggle="block-toggle-content"><i class="fa fa-arrows-v"></i></a>
-                                <a href="javascript:void(0)" class="btn btn-alt btn-sm btn-primary" data-toggle="block-toggle-fullscreen"><i class="fa fa-desktop"></i></a>
-                            </div>
-                            <h2>Patient : Huhuhihi kikihuhu</h2>
-                        </div>
-                        <!-- END Example Title -->
+<!-- Blank Header -->
+<div class="content-header">
+    <div class="header-section animation-stretchRight">
+        <h1>
+            <i class="gi gi-brush"></i>Cancel Appointment 
+            <a type="button" class="btn btn-primary" href="javascript:history.back()">Back</a>
+            <br>
+        </h1>
+    </div>
+</div>
+<ul class="breadcrumb breadcrumb-top">
+    <li><a href="javascript:void(0)"><i class="fa fa-home"></i> Dashboard</a></li>
+    <li>Cancel Appointment</li>
+</ul>
+<!-- END Blank Header -->
 
-                        <!-- Example Content -->
-                        <p class="well">
-                            <!-- <a href="#modal-patient" data-toggle="modal" type="button" class="btn btn-lg btn-warning pull-right">View patient information</a> -->
-                            <strong>Appointment Number : </strong> 483904 <br>
-                            <strong>Doctor Name : </strong> Abudabee kikihihi <br>
-                            <strong>Department : </strong> Surgery<br>
-                            <strong>Appointment Date : </strong> 03/11/2558, Morning
-                            
-                        </p>
-                        <!-- END Example Content -->
-                        <!--
-                         <form action="" method="post" enctype="multipart/form-data" class="form-horizontal form-bordered" onsubmit="return false;">
-                            <fieldset>
-                                <legend>New Appointment</legend>
-                                <div class="form-group">
-                                    <label class="col-md-4 control-label">Date</label>
-                                    <div class="col-md-6" id="select-date-napp">
-                                        <select class="form-control">
-                                            <option value="1">03/11/2558, Afternoon</option>
-                                            <option value="1">04/11/2558, Afternoon</option>
-                                            <option value="1">05/11/2558, Afternoon</option>
-                                        </select>
-                                    </div>
-                                </div>
-                            </fieldset>
-                        </form>
-                        <hr>
-                        -->
-                        <a href="#modal-confirm"  data-toggle="modal" type="button"  class="btn btn-block btn-danger" style="margin-bottom:2em;" data-target=".bs-example-modal-sm">Cancel this Appointment</a>
+<!-- Example Block -->
+<div class="block">
+    <!-- Example Title -->
+    <div class="block-title">
+        <div class="block-options pull-right">
+            <a href="javascript:void(0)" class="btn btn-alt btn-sm btn-primary" data-toggle="block-toggle-content"><i class="fa fa-arrows-v"></i></a>
+            <a href="javascript:void(0)" class="btn btn-alt btn-sm btn-primary" data-toggle="block-toggle-fullscreen"><i class="fa fa-desktop"></i></a>
+        </div>
+        <h2><strong>Appointment Cancellation</strong> Form</h2>
+    </div>
+    <!-- END Example Title -->
 
-                        <div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
-                            <div class="modal-dialog modal-sm">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-                                        <h4 class="modal-title" id="mySmallModalLabel">Delete this Appointment?</h4>
-                                    </div>
-                                    <div class="modal-body">
-                                        <a type="button"  class="btn btn-block btn-danger">Delete</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+    <!-- Example Content -->
+    <p class="well">
+        <!-- <a href="#modal-patient" data-toggle="modal" type="button" class="btn btn-lg btn-warning pull-right">View patient information</a> -->
+        <strong>Appointment Number : </strong> {{ appointment.id }} <br>
+        <strong>Doctor Name : </strong> {{ appointment.timetable_id__doctor_id__userprofile__firstname }} {{ appointment.timetable_id__doctor_id__userprofile__lastname }} <br>
+        <strong>Department : </strong> {{ appointment.timetable_id__doctor_id__department }}<br>
+        <strong>Appointment Date : </strong> {{ appointment.timetable_id__date }}
+                            {% if appointment.timetable_id__period == 'm' %} 
+                                , Morning
+                            {% else %}
+                                , Afternoon
+                            {% endif %}
+    </p>
+    <!-- END Example Content -->
 
-                    </div>
-                    <!-- END Example Block -->
-            
+    <form action="./" method="post" enctype="multipart/form-data" class="form-horizontal form-bordered">
+        {% csrf_token %}
+        <hr>
+    <button type="submit"  class="btn btn-block btn-danger" style="margin-bottom:2em; width:90%; margin-left: 5%;" data-target=".bs-example-modal-sm">Cancel this Appointment</a>
+    </form>
+    
 
+    <!-- <div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                    <h4 class="modal-title" id="mySmallModalLabel">Save new Appointment?</h4>
+                </div>
+                <div class="modal-body">
+                    <a type="button"  class="btn btn-block btn-success">Save</a>
+                </div>
+            </div>
+        </div>
+    </div> -->
+
+</div>
+<!-- END Example Block -->
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.5.1/moment.min.js"></script>
 {% load staticfiles %}
 <script type="text/javascript" src="{% static 'js/jquery-2.1.3.js' %}"></script>
 <script type="text/javascript" src="{% static 'js/jquery-ui-1.11.2.js' %}"></script>
 <script type="text/javascript" src="{% static 'js/moment-2.5.1.js' %}"></script>
 <script type="text/javascript" src="{% static 'js/appointment/appointment.js' %}"></script>
-
+<script type="text/javascript" src="{% static 'js/appointment/patient.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/appointment/cancel_appointment.js' %}"></script>
 {% endblock %}
