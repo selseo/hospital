@@ -18,7 +18,7 @@ from Authentication.models  import Patient
 def index(request):
 	#if request.user.is_authenticated():
 		#if getUserProfile(request.user).role==4://Pharmacist
-			return render(request, 'pharmacist/view.html',{'table':PatientVisitInfo.objects.filter(
+			return render(request, 'pharmacist/index.html',{'table':PatientVisitInfo.objects.filter(
 		 		lastUpdate__day=datetime.now().day,
 		 		lastUpdate__month=datetime.now().month,
 		 		lastUpdate__year=datetime.now().year,
@@ -31,13 +31,14 @@ def index(request):
 
 @csrf_exempt
 def editStatus2(request,num):
-	mymodel = get_object_or_404(PatientVisitInfo, appointment_id=num)
-	form = PatientVisitPharmacistForms(request.POST or None, instance=mymodel)
-	if request.method == 'POST' and form.is_valid():
-		mymodel = form.save(commit=False)
-		mymodel.save()
-		return redirect('/visit/pharmacist/view')
-	return render(request, 'pharmacist/edit.html', { 'form' : form , 'num' : num})
+	myPatientVisitInfo = get_object_or_404(PatientVisitInfo, appointment_id=num)
+	myPrescription = myPatientVisitInfo.prescription_set.all()
+	if request.method == 'POST':
+		myPatientVisitInfo.status = 3
+		myPatientVisitInfo.save()
+		return redirect('/visit/pharmacist')
+	return render(request,'pharmacist/edit.html',{'myPrescription':myPrescription,'num' : num})
+
 
 #Method for get user profile
 def getUserProfile(user):

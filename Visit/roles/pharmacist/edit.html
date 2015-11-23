@@ -1,10 +1,15 @@
 edit.html {{num}}
 
-<form method='POST' action=''>
-		{{ form.as_p }}
-		<input type="submit" value="OK">
+<form method='POST' action="{% url 'Visit:pharmacist-editStatus2' num %}">
+<ul>
+        {% for prescription in myPrescription %}
+           <li>{{ prescription.medicines }} 
+            <li>{{ prescription.amount }}
+            <li>{{ prescription.usage }}
+        {% endfor %}
+        </ul>
+        <input type="submit" value="OK">
 </form>
-
 {% if form.errors %}
     {% for field in form %}
         {% for error in field.errors %}
