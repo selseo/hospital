@@ -59,7 +59,7 @@ def addDisease(request,num):
 	for Med in myMedicine:
 		MedicineAll = MedicineAll.exclude(name=Med.name)
 
-	return render(request,'doctor/edit.html',{'myPatientVisitInfo':myPatientVisitInfo, 'myPrescription':myPrescription,'Medicines': MedicineAll,'myMedicine' : myMedicine,'Diseases':DiseaseAll,'myDisease' : myDisease,'num' : num})
+	return render(request,'doctor/edit.html',{'myPatientVisitInfo':myPatientVisitInfo, 'myPrescription':myPrescription,'Medicines': MedicineAll,'myMedicine' : myMedicine,'Diseases':DiseaseAll,'myDisease' : myDisease,'num' : num,'dAdd':"true"})
 
 @csrf_exempt
 def addMedicine(request,num):
@@ -83,7 +83,7 @@ def addMedicine(request,num):
 	for Med in myMedicine:
 		MedicineAll = MedicineAll.exclude(name=Med.name)
 
-	return render(request,'doctor/edit.html',{'myPatientVisitInfo':myPatientVisitInfo, 'myPrescription':myPrescription,'Medicines': MedicineAll,'myMedicine' : myMedicine,'Diseases':DiseaseAll,'myDisease' : myDisease,'num' : num})
+	return render(request,'doctor/edit.html',{'myPatientVisitInfo':myPatientVisitInfo, 'myPrescription':myPrescription,'Medicines': MedicineAll,'myMedicine' : myMedicine,'Diseases':DiseaseAll,'myDisease' : myDisease,'num' : num,'mAdd':"true"})
 
 
 @csrf_exempt
@@ -106,7 +106,7 @@ def deleteDisease(request,num,ICD10):
 	for Med in myMedicine:
 		MedicineAll = MedicineAll.exclude(name=Med.name)
 		
-	return render(request,'doctor/edit.html',{'myPatientVisitInfo':myPatientVisitInfo, 'myPrescription':myPrescription,'Medicines': MedicineAll,'myMedicine' : myMedicine,'Diseases':DiseaseAll,'myDisease' : myDisease,'num' : num})
+	return render(request,'doctor/edit.html',{'myPatientVisitInfo':myPatientVisitInfo, 'myPrescription':myPrescription,'Medicines': MedicineAll,'myMedicine' : myMedicine,'Diseases':DiseaseAll,'myDisease' : myDisease,'num' : num,'dDel':"true"})
 
 @csrf_exempt
 def deleteMedicine(request,num,medicine_name):
@@ -115,6 +115,7 @@ def deleteMedicine(request,num,medicine_name):
 
 	if myMedicine1 and myPatientVisitInfo:
 			myPatientVisitInfo.medicines.remove(myMedicine1)
+
 
 	myPrescription = myPatientVisitInfo.prescription_set.all()
 
@@ -128,7 +129,7 @@ def deleteMedicine(request,num,medicine_name):
 	for Med in myMedicine:
 		MedicineAll = MedicineAll.exclude(name=Med.name)
 
-	return render(request,'doctor/edit.html',{'myPatientVisitInfo':myPatientVisitInfo, 'myPrescription':myPrescription,'Medicines':MedicineAll,'myMedicine' : myMedicine,'Diseases':DiseaseAll,'myDisease' : myDisease,'num' : num})
+	return render(request,'doctor/edit.html',{'myPatientVisitInfo':myPatientVisitInfo, 'myPrescription':myPrescription,'Medicines':MedicineAll,'myMedicine' : myMedicine,'Diseases':DiseaseAll,'myDisease' : myDisease,'num' : num,'mDel':"true"})
 
 
 # @csrf_exempt
@@ -149,8 +150,7 @@ def editStatus1(request,num):
 	myPatientVisitInfo = get_object_or_404(PatientVisitInfo, appointment_id=num)
 	myPrescription = myPatientVisitInfo.prescription_set.all()
 	if request.method == 'POST':
-		myPatientVisitInfo.status = 2
-		myPatientVisitInfo.note = request.POST["note"]
+		myPatientVisitInfo.note = request.POST.get("note","")
 		myMedicine = myPatientVisitInfo.medicines.all()
 		for prescription in myPrescription:
 			name = str(prescription.medicines) + "_amount"
@@ -158,6 +158,13 @@ def editStatus1(request,num):
 			name = str(prescription.medicines) + "_usage"
 			prescription.usage = request.POST[name]
 			prescription.save()
+		myPatientVisitInfo.save()
+		if request.POST.get("addD",False):
+			return addDisease(request,num)
+		elif request.POST.get("addM",False):
+			return addMedicine(request,num)
+		
+		myPatientVisitInfo.status = 2
 		myPatientVisitInfo.save()
 		return redirect('/visit/doctor/view')
 

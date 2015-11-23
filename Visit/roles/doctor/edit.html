@@ -10,17 +10,8 @@ Doctor : SE hospital
 <!-- edit.html {{num}} -->
         <!-- Stylesheets -->
         <!-- Bootstrap is included in its original form, unaltered -->
- {{num}}
- <br><strong>Weight</strong>
-        {{ myPatientVisitInfo.weight}}
-        <br><strong>Height</strong>
-        {{ myPatientVisitInfo.height}}
-        <br><strong>Pulse</strong>
-        {{ myPatientVisitInfo.pulse}}
-        <br><strong>Systolic</strong>
-        {{ myPatientVisitInfo.systolic}}
-        <br><strong>Diastolic</strong>
-        {{ myPatientVisitInfo.diastolic}}
+ 
+
       
 <div class="row">
                         <div class="col-md-12">
@@ -28,51 +19,92 @@ Doctor : SE hospital
                             <div class="block">
                                 <!-- Basic Wizard Title -->
                                 <div class="block-title">
-                                    <h2><strong>Basic</strong> Wizard</h2>
+                                    <h2><strong>{{myPatientVisitInfo.appointment.patient_id.userprofile.firstname}} {{myPatientVisitInfo.appointment.patient_id.userprofile.lastname}}</strong> </h2>
                                 </div>
                                 <!-- END Basic Wizard Title -->
 
                                 <!-- Basic Wizard Content -->
-                                <form id="basic-wizard"  method="post" class="form-horizontal form-bordered">
+                                <form action="{% url 'Visit:doctor-editStatus1' num %}" id="basic-wizard"  method="post" class="form-horizontal form-bordered" onsubmit="return canSubmit();">
                                     <!-- First Step -->
                                     <div id="first" class="step">
                                         <!-- Step Info -->
                                         <div class="wizard-steps">
                                             <div class="row">
                                                 <div class="col-xs-4 active">
-                                                    <span>1. Account</span>
+                                                    <span>1. Information</span>
                                                 </div>
                                                 <div class="col-xs-4">
-                                                    <span>2. Personal</span>
+                                                    <span>2. Disease</span>
                                                 </div>
                                                 <div class="col-xs-4">
-                                                    <span>3. Extras</span>
+                                                    <span>3. Medicine</span>
                                                 </div>
                                             </div>
                                         </div>
                                         <!-- END Step Info -->
                                         <div class="form-group">
-                                            <label class="col-md-4 control-label" for="example-username">Username</label>
-                                            <div class="col-md-6">
-                                                <input type="text" id="example-username" name="example-username" class="form-control" placeholder="Your username..">
+                                            <label class="col-md-4 control-label" for="example-username">Birthdate</label>
+                                            <div class="col-md-6 control-label">
+                                                <div class="col-md-6">
+                                                    {{myPatientVisitInfo.appointment.patient_id.birthdate}}
+                                                </div> 
+                                                
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <label class="col-md-4 control-label" for="example-email">Email</label>
-                                            <div class="col-md-6">
-                                                <input type="text" id="example-email" name="example-email" class="form-control" placeholder="test@example.com">
+                                            <label class="col-md-4 control-label" for="example-username">Weight</label>
+                                            <div class="col-md-6 control-label">
+                                                <div class="col-md-6">
+                                                    {{ myPatientVisitInfo.weight}}
+                                                </div> 
+                                                kilograms 
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <label class="col-md-4 control-label" for="example-password">Password</label>
-                                            <div class="col-md-6">
-                                                <input type="password" id="example-password" name="example-password" class="form-control" placeholder="Choose a crazy one..">
+                                            <label class="col-md-4 control-label" for="example-username">Height</label>
+                                            <div class="col-md-6 control-label">
+                                                <div class="col-md-6">
+                                                    {{ myPatientVisitInfo.height}}
+                                                </div> 
+                                                metres 
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="form-group">
+                                            <label class="col-md-4 control-label" for="example-username">Purse</label>
+                                            <div class="col-md-6 control-label">
+                                                <div class="col-md-6">
+                                                    {{ myPatientVisitInfo.pulse}}
+                                                </div> 
+                                                bpm
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <label class="col-md-4 control-label" for="example-password2">Retype Password</label>
-                                            <div class="col-md-6">
-                                                <input type="password" id="example-password2" name="example-password2" class="form-control" placeholder="..and confirm it!">
+                                            <label class="col-md-4 control-label" for="example-username">Blood Pressure</label>
+                                            <div class="col-md-6 control-label">
+                                                <div class="col-md-6">
+                                                    {{ myPatientVisitInfo.systolic}}/{{myPatientVisitInfo.diastolic}}
+                                                </div> 
+                                                mmHg 
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="form-group">
+                                            <label class="col-md-4 control-label" for="example-username">Allergy</label>
+                                            <div class="col-md-6 control-label">
+                                                <div class="col-md-6">
+                                                    {{ myPatientVisitInfo.height}}
+                                                </div> 
+                                                
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-md-4 control-label" for="example-username">Symptom Draft</label>
+                                            <div class="col-md-6 control-label">
+                                                <div class="col-md-6">
+                                                    {{ myPatientVisitInfo.appointment.symptom}}
+                                                </div> 
+                                                 
                                             </div>
                                         </div>
                                     </div>
@@ -87,38 +119,61 @@ Doctor : SE hospital
                                                     <span><i class="fa fa-check"></i></span>
                                                 </div>
                                                 <div class="col-xs-4 active">
-                                                    <span>2. Personal</span>
+                                                    <span>2. Add Disease</span>
                                                 </div>
                                                 <div class="col-xs-4">
-                                                    <span>3. Extras</span>
+                                                    <span>3. Add Medicine</span>
                                                 </div>
                                             </div>
                                         </div>
                                         <!-- END Step Info -->
                                         <div class="form-group">
-                                            <label class="col-md-4 control-label" for="example-firstname">Firstname</label>
-                                            <div class="col-md-6">
-                                                <input type="text" id="example-firstname" name="example-firstname" class="form-control" placeholder="John..">
+                                            <label class="col-md-4 control-label" for="example-firstname">Add Disease</label>
+                                            <div class="col-md-8">
+                                                <!-- <form method='POST' action="{% url 'Visit:doctor-add-disease' num %} "  onsubmit="return canSubmit();" enctype="multipart/form-data"> -->
+                                                 <select id="ICD10" name="ICD10">
+                                                {% for disease in Diseases %}
+                                                    <option value='{{disease.ICD10}}'>{{ disease }}</option>
+                                                {% endfor %}
+                                                </select>
+                                                <input id="addD" type="hidden" name="addD">
+                                                <input type="button" value="OK" onclick="addDisease();">
+                                                <script type="text/javascript">
+                                                function addDisease(){
+                                                    $('#addD').attr('value','True');
+                                                    $('#basic-wizard')[0].submit();
+                                                }
+                                                </script>
+                                                <!-- </form> -->
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <label class="col-md-4 control-label" for="example-lastname">Lastname</label>
+                                            <label class="col-md-4 control-label"  for="example-lastname">Disease</label>
                                             <div class="col-md-6">
-                                                <input type="text" id="example-lastname" name="example-lastname" class="form-control" placeholder="Doe..">
+                                                <div class="row" style="line-height:0.7;">
+<input id="delD" type="hidden" name="delD">
+                                                <!-- <input type="button" value="OK" onclick="addMedicine();"> -->
+                                                <script type="text/javascript">
+                                                function delDisease(){
+                                                    $('#delD').attr('value','True');
+                                                    // $('#basic-wizard')[0].submit();
+                                                }
+                                                </script>
+                                                    {% for disease in myDisease %}
+                                                       <li class="label label-info" >{{ disease }}  <a href="{% url 'Visit:doctor-delete-disease' num disease.ICD10 %}"><i class="gi gi-remove_2" style="color:cyan; margin-bottom:5px;" onclick="delDisease();"></i></a></li>
+                                                       <br>
+                                                       <br>
+                                                    {% endfor %}
+                                                </div>
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <label class="col-md-4 control-label" for="example-address">Address</label>
+                                            <label class="col-md-4 control-label"  for="example-lastname">Note</label>
                                             <div class="col-md-6">
-                                                <input type="text" id="example-address" name="example-address" class="form-control" placeholder="Where do you live?">
+                                                <input type="text" id="example-lastname" name="note" class="form-control" placeholder="Note..">
                                             </div>
                                         </div>
-                                        <div class="form-group">
-                                            <label class="col-md-4 control-label" for="example-city">City</label>
-                                            <div class="col-md-6">
-                                                <input type="text" id="example-city" name="example-city" class="form-control" placeholder="Which one?">
-                                            </div>
-                                        </div>
+                                        
                                     </div>
                                     <!-- END Second Step -->
 
@@ -134,34 +189,80 @@ Doctor : SE hospital
                                                     <span><i class="fa fa-check"></i></span>
                                                 </div>
                                                 <div class="col-xs-4 active">
-                                                    <span>3. Extras</span>
+                                                    <span>3. Add Medicine</span>
                                                 </div>
                                             </div>
                                         </div>
+                                       
                                         <!-- END Step Info -->
                                         <div class="form-group">
-                                            <label class="col-md-4 control-label" for="example-bio">Bio</label>
+                                            <label class="col-md-4 control-label" for="example-firstname">Add Medicine</label>
                                             <div class="col-md-8">
-                                                <textarea id="example-bio" name="example-bio" rows="5" class="form-control" placeholder="Tell us your story.."></textarea>
+                                                <!-- <form method='POST' action="{% url 'Visit:doctor-add-disease' num %} "  onsubmit="return canSubmit();" enctype="multipart/form-data"> -->
+                                                 <select id="medicine_name" name="medicine_name">
+                                                {% for medicine in Medicines %}
+                                                <option value='{{medicine.name}}'>{{ medicine }}</option>
+                                                {% endfor %}
+                                                </select>
+                                                <input id="addM" type="hidden" name="addM">
+                                                <input type="button" value="OK" onclick="addMedicine();">
+                                                <script type="text/javascript">
+                                                function addMedicine(){
+                                                    $('#addM').attr('value','True');
+                                                    $('#basic-wizard')[0].submit();
+                                                }
+                                                </script>
+                                                <!-- </form> -->
                                             </div>
                                         </div>
+                                     <!--    <ul>
+        {% for medicine in myMedicine %}
+           <li>{{ medicine }} {{ medicine.amount }} - <a href="{% url 'Visit:doctor-delete-medicine' num medicine.name %}">Delete</a></li>
+        {% endfor %}
+        </ul> -->
+
                                         <div class="form-group">
-                                            <label class="col-md-4 control-label" for="example-newsletter">Newsletter</label>
+                                            <label class="col-md-4 control-label"  for="example-lastname">Medicine</label>
                                             <div class="col-md-6">
-                                                <div class="checkbox">
-                                                    <label for="example-newsletter">
-                                                        <input type="checkbox" id="example-newsletter" name="example-newsletter"> Sign up
-                                                    </label>
+                                                <div class="row" style="line-height:0.2;">
+
+                                                  <!--   {% for medicine in myMedicine %}
+                                                       <li class="label label-info">{{ medicine }} {{ medicine.amount }} <a href="{% url 'Visit:doctor-delete-medicine' num medicine.name %}"><i class="gi gi-remove_2" style="color:cyan; margin-bottom:5px;"></i></a></li>
+                                                    {% endfor %} -->
+                                                <input id="delM" type="hidden" name="delM">
+                                                <script type="text/javascript">
+                                                function delMedicine(){
+                                                    $('#delM').attr('value','True');
+                                                    // $('#basic-wizard')[0].submit();
+                                                }
+                                                </script>
+                                                
+                                                    {% for prescription in myPrescription %}
+
+                                                       
+                                                       <li class="label label-info">{{ prescription.medicines }} <a href="{% url 'Visit:doctor-delete-medicine' num prescription.medicines.name %}" onclick="delMedicine();"><i class="gi gi-remove_2" style="color:cyan; margin-bottom:5px;"> </i></a></li>
+                                                       
+                                                       <br>
+                                                       <div style="border:#428bca dashed 1px; margin-bottom:8px">  
+                                                        <div style="margin-bottom:6px; margin-top:6px; text-align:center;">
+                                                       Amount : 
+                                                        
+                                                        <input type="number" name="{{prescription.medicines}}_amount" size="3" value="{{ prescription.amount }}" style="width:10%;"/>
+                                                       
+                                                        
+                                                        Usage : 
+                                                       <input type="Text" name="{{prescription.medicines}}_usage" value="{{ prescription.usage }}" style="width:60%;"/>
+                                                       </div>
+                                                       </div>
+                                                       <br>
+                                                       <br>
+                                                    
+                                                    {% endfor %}
+                                                    </ul>
+                                                    
+                                                     
+                                                    <br>
                                                 </div>
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="col-md-4 control-label"><a href="#modal-terms" data-toggle="modal">Terms</a></label>
-                                            <div class="col-md-6">
-                                                <label class="switch switch-primary" for="example-terms">
-                                                    <input type="checkbox" id="example-terms" name="example-terms" value="1">
-                                                    <span data-toggle="tooltip" title="I agree to the terms!"></span>
-                                                </label>
                                             </div>
                                         </div>
                                     </div>
@@ -181,7 +282,7 @@ Doctor : SE hospital
                             <!-- END Basic Wizard Block -->
                         </div>
 
-
+<!-- 
 <form method='POST' action="{% url 'Visit:doctor-add-disease' num %}">
         ADD Disease
         <select id="ICD10" name="ICD10">
@@ -205,13 +306,13 @@ Doctor : SE hospital
         {% endfor %}
         </select>
         <input type="submit" value="OK">
-        <!-- {{ form.medicines }} -->
-        <!-- 
+        <!-- {{ form.medicines }} --
+        
         <ul>
         {% for medicine in myMedicine %}
            <li>{{ medicine }} {{ medicine.amount }} - <a href="{% url 'Visit:doctor-delete-medicine' num medicine.name %}">Delete</a></li>
         {% endfor %}
-        </ul> -->
+        </ul>
 </form>
 Hello
 <form method='POST' action="{% url 'Visit:doctor-editStatus1' num %}">
@@ -229,7 +330,7 @@ Hello
          <li><input type="Text" name="note" value="{{myPatientVisitInfo.note}}"/>
         <br>
         <input type="submit" value="OK">
-</form>
+</form> -->
 
 
 
@@ -250,7 +351,17 @@ Hello
 
 
  <!-- Include Jquery library from Google's CDN but if something goes wrong get Jquery from local file (Remove 'http:' if you have SSL) -->
+<script>
+  var submitted = false;
 
+  function canSubmit() {
+   console.log("eeee");
+   if(submitted) return false;
+   submitted = true;
+   return true;
+
+  }
+ </script>
  
         
 {% endblock %}
@@ -260,5 +371,24 @@ Hello
 <!-- Load and execute javascript code used only in this page -->
         {% load staticfiles %}
         <script src="{% static 'js/pages/formsWizard.js' %}"></script>
-        <script>$(function(){ FormsWizard.init(); });</script>
+        <script>
+            $(function(){
+                FormsWizard.init();
+                {% if dAdd %}
+                $('#next')[0].click();
+                {% endif %}
+                {% if mAdd %}
+                $('#next')[0].click();
+                $('#next')[0].click();
+                {% endif %}
+                {% if dDel%}
+                $('#next')[0].click();
+                {% endif %}
+                {% if mDel %}
+                $('#next')[0].click();
+                $('#next')[0].click();
+                {% endif %}
+                
+            });
+        </script>
 {% endblock %}
