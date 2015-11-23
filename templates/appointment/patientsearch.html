@@ -1,0 +1,170 @@
+{% extends "theme/base.html" %}
+{% load staticfiles %}
+
+
+
+{% block content %}
+   
+                    <!-- Dashboard Header -->
+                    <!-- For an image header add the class 'content-header-media' and an image as in the following example -->
+                    <div class="content-header content-header-media" style="height: 125px;">
+                        <div class="header-section">
+                            <div class="row">
+                                <!-- Main Title (hidden on small devices for the statistics to fit) -->
+                                <div class="col-md-4 col-lg-6 hidden-xs hidden-sm">
+                                    <h1>Welcome <strong>Patient</strong>
+                                        <br><small>{{ request.user.userprofile.firstname }} 
+                    {{ request.user.userprofile.lastname }}</small></h1>
+                                </div>
+                                <!-- END Main Title -->
+
+                                <!-- Top Stats -->
+                                <div class="col-md-8 col-lg-6">
+                                   <div class="row text-center">
+                                        <div class="col-xs-4 col-sm-3">
+                                            <h2 class="animation-hatch">
+                                                <strong>{% now "j" %} </strong><br>
+                                                <small><i class="fa fa-calendar-o"></i> day</small>
+                                            </h2>
+                                        </div>
+                                        <div class="col-xs-4 col-sm-3">
+                                            <h2 class="animation-hatch">
+                                                <strong>{% now "F" %} </strong><br>
+                                                <small> month</small>
+                                            </h2>
+                                        </div>
+                                        <div class="col-xs-4 col-sm-3">
+                                            <h2 class="animation-hatch">
+                                                <strong>{% now "Y" %} </strong><br>
+                                                <small>year</small>
+                                            </h2>
+                                        </div>
+                                        <!-- We hide the last stat to fit the other 3 on small devices -->
+                                        <div class="col-sm-3 hidden-xs">
+                                            <h2 class="animation-hatch">
+                                                <strong>29&deg; C</strong><br>
+                                                <small><i class="fa fa-map-marker"></i> Bangkok</small>
+                                            </h2>
+                                        </div>
+                                        
+                                    </div>
+                                </div>
+                                <!-- END Top Stats -->
+                            </div>
+                        </div>
+                    </div>
+                    <!-- END Dashboard Header -->
+
+                    <div class="row">
+                        <div class="col-sm-12 col-lg-6">
+                            <!-- Widget -->
+                            <a href="/app/editappointment" class="widget widget-hover-effect1">
+                                <div class="widget-simple">
+                                    <div class="widget-icon pull-left themed-background animation-fadeIn">
+                                        <i class="fa fa-calendar"></i>
+                                    </div>
+                                    <h3 class="widget-content text-right animation-pullDown">
+                                        <strong>View Appointment</strong> <br>
+                                    </h3>
+                                </div>
+                            </a>
+                            <!-- END Widget -->
+                        </div>
+                        <div class="col-sm-12 col-lg-6">
+                            <!-- Widget -->
+                            <a href="/app/show" class="widget widget-hover-effect1">
+                                <div class="widget-simple">
+                                    <div class="widget-icon pull-left themed-background-fancy animation-fadeIn">
+                                        <i class="fa fa-plus"></i>
+                                    </div>
+                                    <h3 class="widget-content text-right animation-pullDown">
+                                        <strong>Make Appointment</strong><br>
+                                    </h3>
+                                </div>
+                            </a>
+                            <!-- END Widget -->
+                        </div>
+                       
+                    </div>
+
+                  
+                    <!-- start edit -->
+                    <!-- Widgets Row --> 
+                    <div class="row">
+                        <div class="col-md-12">
+                            <!-- Your Plan Widget -->
+                            <div class="widget">
+                                <div class="widget-extra themed-background-dark">
+                                    <div class="widget-options">
+                                        <div class="btn-group btn-group-xs">
+                                            <a href="javascript:void(0)" class="btn btn-default" data-toggle="tooltip" title="Edit Widget"><i class="fa fa-pencil"></i></a>
+                                            <a href="javascript:void(0)" class="btn btn-default" data-toggle="tooltip" title="Quick Settings"><i class="fa fa-cog"></i></a>
+                                        </div>
+                                    </div>
+                                    <h3 class="widget-content-light">
+                                        <strong>Search</strong> for Patient
+                                    </h3>
+                                </div>
+                            </div>
+                            <!-- END Your Plan Widget -->
+                            <div class="block">
+                                <!-- Interactive Title -->
+                                <div class="block-title">
+                                    <!-- Interactive block controls (initialized in js/app.js -> interactiveBlocks()) -->
+                                    <div class="block-options pull-right">
+                                        <a href="javascript:void(0)" class="btn btn-alt btn-sm btn-primary" data-toggle="block-toggle-content"><i class="fa fa-arrows-v"></i></a>
+                                        <a href="javascript:void(0)" class="btn btn-alt btn-sm btn-primary" data-toggle="block-toggle-fullscreen"><i class="fa fa-desktop"></i></a>
+                                        
+                                    </div>
+                                    <h2><strong>Search</strong> for Patient</h2>
+                                </div>
+                                <!-- END Interactive Title -->
+
+                                <!-- Interactive Content -->
+                                <!-- The content you will put inside div.block-content, will be toggled -->
+                                <div class="block-content">
+                                   <div class="table-responsive">
+                                   <div class="col-md-12">
+                                       <div class="col-md-3">
+                                        <input id="patientid" name="patientidform" class="form-control"
+                                        placeholder="Patient ID" type="text">  
+                                      </div>
+                                      <div class="col-md-1">
+                                        <p style="margin: 8px 0 0 0;"> Or </p>
+                                      </div>
+                                      <div class="col-md-3">
+                                        <input id="patientidcard" name="patientidcard" class="form-control"
+                                        placeholder="Patient ID Card No." type="text"> 
+                                      </div>
+                                      <div class="col-md-5">
+                                        <input id="patientname" name="patientname" class="form-control"
+                                        placeholder="Patient Name" type="text" disabled="disabled"> 
+                                      </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                    <hr>
+                                        <a href="" id="gotopatient" type="button"  class="btn btn-block btn-primary" style="margin-bottom:2em;">
+                                            Edit Patient Appointment
+                                        </a>
+                                    </div>
+                                    </div>
+                                    <div class="clearfix"></div>
+                                </div>
+                                <!-- END Interactive Content -->
+                            </div>
+                            
+                        </div>
+                      
+                    </div>
+                    <!-- END Widgets Row -->
+        
+{% load staticfiles %}
+<script type="text/javascript" src="{% static 'js/jquery-2.1.3.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/jquery-ui-1.11.2.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/appointment/searchpatient.js' %}"></script>
+{% endblock %}
+
+
+
+
+

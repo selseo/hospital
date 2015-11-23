@@ -39,12 +39,13 @@ def seed(request):
             # )
             user0,xxx=User.objects.get_or_create(
                 username="test22t",
-                defaults={'username':"doctor0",'password':make_password(password="1234",hasher='sha1'),'email':"maillll@mail.com"}
+                defaults={'password':make_password(password="1234",hasher='sha1'),'email':"maillll@mail.com"}
             )
             user0.save()
             userp0,xxx=UserProfile.objects.get_or_create(
-                firstname="doctor0",
-                defaults={'user':user0,'firstname':"Doctor",'lastname':"Tneitap",'role':1,'status':True}
+                
+                user=user0,
+                defaults={'firstname':"Doctor",'lastname':"Tneitap",'role':1,'status':True}
             )
             userp0.save()
             d1,xxx=Doctor.objects.get_or_create(
@@ -64,11 +65,11 @@ def seed(request):
             t15.save()
             user1,xxx=User.objects.get_or_create(
                 username="test21t",
-                defaults={'username':"test21t",'password':make_password(password="1234",hasher='sha1'),'email':"mai12llll@mail.com"}
+                defaults={'password':make_password(password="1234",hasher='sha1'),'email':"mai12llll@mail.com"}
             )
             user1.save()
             userp1,xxx=UserProfile.objects.get_or_create(
-                firstname="Doctor123",
+                user=user1,
                 defaults={'user':user1,'firstname':"QQQ",'lastname':"WWWW",'role':1,'status':True}
             )
             userp1.save()
@@ -87,41 +88,42 @@ def seed(request):
             t24.save()
             t25,xxx=timeTable.objects.get_or_create(doctor_id=d2,date=datetime.now()-timedelta(hours=random.randrange(-200,200)),period=random.choice(['m','a']),)
             t25.save()
-            # for i in range(0,10) :
-            #     u = User(
-            #         username='username'+str(random.randrange(1,100000000)),
-            #         email='username'+str(random.randrange(1,100000000))+'@example.com',
-            #         password='pass'+str(random.randrange(1,100000000)),
-            #     )
-            #     u.save()
-            #     up = UserProfile(
-            #             user=u,
-            #             firstname='name'+str(random.randrange(1,100)),
-            #             lastname='sur'+str(random.randrange(1,100)),
-            #             role=0,
-            #     )
-            #     up.save()
-            #     pt = Patient(
-            #     userprofile=up,
-            #     sex=random.choice(['M','F']),
-            #     birthdate=datetime.now()-timedelta(days=random.randrange(1000,10000)),
-            #     idcard=str(random.randrange(1,100)),
-            #     address=str(random.randrange(1,100)),
-            #     phone=str(random.randrange(1,100)),
-            #     )
-            #     pt.save()
-            #     a = Appointment(timetable_id=random.choice([t11,t12,t13,t14,t15,t21,t22,t23,t24,t25,]), patient_id=pt, symptom="DiE dIe :) JubJub", cause="StupiD")
-            #     a.save()
-            #     v = PatientVisitInfo(appointment=a,
-            # weight=str(random.randrange(50,100)),
-            # height=str(random.randrange(100,200)),
-            # pulse=str(random.randrange(40,120)),
-            # systolic=str(random.randrange(50,110)),
-            # diastolic=str(random.randrange(100,200)),
-            # status=str(random.randrange(0,4)),
-            # note=str(random.randrange(13,103452350)),)
-            #     v.save()
-            #     PatientVisitInfo.objects.filter(appointment=a).update(lastUpdate=v.lastUpdate-timedelta(hours=random.randrange(0,200)))
+            for i in range(0,10) :
+                u = User(
+                    username='username'+str(random.randrange(1,100000000)),
+                    email='username'+str(random.randrange(1,100000000))+'@example.com',
+                    password='pass'+str(random.randrange(1,100000000)),
+                )
+                u.save()
+                up = UserProfile(
+                        user=u,
+                        firstname='name'+str(random.randrange(1,100)),
+                        lastname='sur'+str(random.randrange(1,100)),
+                        role=0,
+                )
+                up.save()
+                pt = Patient(
+                userprofile=up,
+                sex=random.choice(['M','F']),
+                birthdate=datetime.now()-timedelta(days=random.randrange(1000,10000)),
+                idcard=str(random.randrange(1,100)),
+                address=str(random.randrange(1,100)),
+                phone=str(random.randrange(1,100)),
+
+                )
+                pt.save()
+                a = Appointment(timetable_id=random.choice([t11,t12,t13,t14,t15,t21,t22,t23,t24,t25,]), patient_id=pt, symptom="DiE dIe :) JubJub", cause="StupiD")
+                a.save()
+                v = PatientVisitInfo(appointment=a,
+            weight=str(random.randrange(50,100)),
+            height=str(random.randrange(100,200)),
+            pulse=str(random.randrange(40,120)),
+            systolic=str(random.randrange(50,110)),
+            diastolic=str(random.randrange(100,200)),
+            status=str(random.randrange(0,4)),
+            note=str(random.randrange(13,103452350)),)
+                v.save()
+                PatientVisitInfo.objects.filter(appointment=a).update(lastUpdate=v.lastUpdate-timedelta(hours=random.randrange(0,40)))
             return render(request, 'seed.html')
         #else :
             #return HttpResponseRedirect('/default/')

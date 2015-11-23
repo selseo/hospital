@@ -1,0 +1,14 @@
+<form method='POST' action="{% url 'Visit:doctor-add-disease' num %}">
+        ADD Disease
+        <select id="ICD10" name="ICD10">
+        {% for disease in Diseases %}
+            <option value='{{disease.ICD10}}'>{{ disease }}</option>
+        {% endfor %}
+        </select>
+		<input type="submit" value="OK">
+        <ul>
+        {% for disease in myDisease %}
+           <li>{{ disease }} - <a href="{% url 'Visit:doctor-delete-disease' num disease.ICD10 %}">Delete</a></li>
+        {% endfor %}
+        </ul>
+</form>

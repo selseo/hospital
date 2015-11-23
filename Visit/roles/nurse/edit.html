@@ -1,4 +1,12 @@
-edit.html {{num}}
+
+{% extends "theme/base.html" %}
+{% load staticfiles %}
+
+{% block title %}
+Doctor : SE hospital
+{% endblock %}
+
+{% block content %}
 
 <form method='POST' action=''>
         {% if form.weight.errors %}
@@ -49,3 +57,4 @@ edit.html {{num}}
         </div>
     {% endfor %}
 {% endif %}
+{% endblock %}

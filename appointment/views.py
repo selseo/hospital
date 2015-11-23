@@ -81,8 +81,20 @@ def appointmentbystaff(request):
 def editappointment(request):
     return render(request, 'appointment/edit_appointment.html', {'appointment': []})
 
-def editappointmentbystaff(request):
-    return render(request, 'appointment/edit_appointmentbystaff.html', {'appointment': []})
+
+def patientsearchforapp(request):
+    return render(request, 'appointment/patientsearch.html')
+
+def editappointmentbystaff(request, pid):
+    app = Appointment.objects.filter(patient_id=pid, timetable_id__date__gte=datetime.date.today()).values(
+        'timetable_id__date',
+        'timetable_id__period', 
+        'timetable_id__doctor_id__userprofile__firstname', 
+        'timetable_id__doctor_id__userprofile__lastname', 
+        'timetable_id__doctor_id__department',
+        'id'
+        ).order_by('-timetable_id__date')
+    return render(request, 'appointment/edit_appointmentbystaff.html', {'appointment': app})
 
 
 def reschedule(request, aid):
