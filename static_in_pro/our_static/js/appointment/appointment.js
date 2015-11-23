@@ -70,15 +70,6 @@ function getAppointmentList(){
 			"doctor" : $('#doctor').val()
 		},
 		success: function(e){
-			// doctorlist = JSON.parse(e);
-			// doctorlist.forEach(function(doctor){
-			// 	var el = document.createElement('option');
-			// 	el.setAttribute('value', doctor.pk);
-			// 	var eltext = document.createTextNode(doctor.fields.firstname + ' ' + doctor.fields.lastname);
-			// 	el.appendChild(eltext);
-			// 	$('#doctor').append(el);
-			// 	console.log(el);
-			// });
 			console.log(e);
 			timelist = JSON.parse(e);
 			timelist.forEach(function(t){
@@ -129,7 +120,46 @@ function submitForm(){
 	$.ajax({
 		type: "POST",
 		url: "/app/show/bystaff",
-		data: $('#appointment-form').serialize(), // get the form data
+		// data: $('#appointment-form').serialize(), // get the form data
+		data: {
+			'appointment' : $('#appointment').val(),
+			'patientid' : $('#patientid').val(),
+			'cause' : $('#cause').val(),
+			'symptom' : $('#symptom').val()
+		},
+		success: function(e){
+			console.log('appointment' + e);
+			if(e == 'success') {
+				$('#modal-summary').modal('hide');
+				$('#modal-success').modal('show');
+
+				setTimeout(function(){
+					location.href = '/default/';
+				}, 4500);
+			}
+		},
+		error: function(rs, e){
+			console.log(rs.responseText);
+			$('#modal-summary').modal('hide');
+			$('#modal-fail').modal('show');
+			setTimeout(function(){
+				$('#modal-fail').modal('hide');
+			}, 1500);
+		}
+	})
+}
+
+function submitForm2(){
+	ajaxSetup();
+	$.ajax({
+		type: "POST",
+		url: "/app/show/",
+		// data: $('#appointment-form').serialize(), // get the form data
+		data: {
+			'appointment' : $('#appointment').val(),
+			'cause' : $('#cause').val(),
+			'symptom' : $('#symptom').val()
+		},
 		success: function(e){
 			console.log(e);
 			if(e == 'success') {
@@ -137,7 +167,7 @@ function submitForm(){
 				$('#modal-success').modal('show');
 
 				setTimeout(function(){
-					location.href = 'http://www.google.com';
+					location.href = '/default/';
 				}, 4500);
 			}
 		},

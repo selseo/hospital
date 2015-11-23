@@ -14,6 +14,7 @@ from rest_framework import viewsets
 from .serializers import DepartmentSerializer, DeeSerializer
 from django.views.decorators.csrf import csrf_exempt
 from django.core import serializers
+from django.db.models import F
 #for restframework
 class DepartmentViewset(viewsets.ModelViewSet):
     queryset = Department.objects.all()
@@ -27,6 +28,11 @@ class DeeViewset(viewsets.ModelViewSet):
 def getUserProfile(user):
     return UserProfile.objects.get(user=user)
 
+def getDoctor(user):
+    userprofile=getUserProfile(user)
+    return Doctor.objects.get(userprofile=userprofile)
+
+
 # Create your views here.
 def index(request):
     return HttpResponse("Hello, world. You're at the polls index.")
@@ -35,29 +41,26 @@ def doctor(request):
     return HttpResponse(json.dumps(['foo', {'bar': ('baz', None, 1.0, 2)}]))
 
 def show(request):
-    # if this is a POST request we need to process the form data
     if request.method == 'POST':
-        # create a form instance and populate it with data from the request:
-        form = AppForm(request.POST)
-        # check whether it's valid:
-        if form.is_valid():
-            # process the data in form.cleaned_data as required
-            # ...
-            
-            data = {'form': form.cleaned_data , 'hello': 'world'}
-            return HttpResponse(json.dumps(data), content_type='application/json')
+        data = request.POST;
+        # save to database
+        
+        timetable = timeTable.objects.get(id=data.get('appointment'))
+        patient = Patient.objects.get(id=getUserProfile(request.user).pk)
 
-            # redirect to a new URL:
-            #return HttpResponseRedirect('/app/')
-        return HttpResponse("Fake save : Invalid Form Input!")
-            
-
-    # if a GET (or any other method) we'll create a blank form
+        newapp = Appointment.objects.create(
+            patient_id=patient,
+            timetable_id=timetable,
+            cause=data.get('cause'),
+            symptom=data.get('symptom')
+            )
+        timetable.patientnum += 1
+        timetable.save()
+        return HttpResponse('success')
     else:
         form = AppForm()
-        department = Department.objects.all()
 
-    return render(request, 'appointment/appointment.html', {'department': department,'form':form})
+    return render(request, 'appointment/appointment.html', {'form':form})
 
 def appointmentbystaff(request):
     if request.method == 'POST':
@@ -73,7 +76,8 @@ def appointmentbystaff(request):
             cause=data.get('cause'),
             symptom=data.get('symptom')
             )
-
+        timetable.patientnum += 1
+        timetable.save()
         return HttpResponse('success')
     else:
         form = AppByStaff()
@@ -81,8 +85,15 @@ def appointmentbystaff(request):
 
 
 def editappointment(request):
-    return render(request, 'appointment/edit_appointment.html', {'appointment': []})
-
+    app = Appointment.objects.filter(patient_id=getUserProfile(request.user).pk, timetable_id__date__gte=datetime.date.today()).values(
+        'timetable_id__date',
+        'timetable_id__period', 
+        'timetable_id__doctor_id__userprofile__firstname', 
+        'timetable_id__doctor_id__userprofile__lastname', 
+        'timetable_id__doctor_id__department',
+        'id'
+        ).order_by('timetable_id__date')
+    return render(request, 'appointment/edit_appointment.html', {'appointment': app})
 
 def patientsearchforapp(request):
     return render(request, 'appointment/patientsearch.html')
@@ -116,7 +127,7 @@ def patientlist(request):
 
 def getpatientlist(request):
     # this below line should be replaced with session
-    doctor = Doctor.objects.get(id=getUserProfile(request.user).pk)
+    doctor = getDoctor(request.user)
     # Prepare data
     year = request.GET.get('year')
     month = request.GET.get('month')
@@ -150,7 +161,7 @@ def getdoctorlist(request):
 
 def getappointmentlist(request):
     doc = request.GET.get('doctor')
-    timelist = timeTable.objects.filter(doctor_id=doc, date__gte=datetime.date.today()).order_by('date')
+    timelist = timeTable.objects.filter(doctor_id__userprofile__id=doc, date__gte=datetime.date.today()).order_by('date')
     timelist = serializers.serialize('json', timelist)
     return HttpResponse(json.dumps(timelist), content_type='application/json')
 
@@ -180,12 +191,12 @@ def savetimetable(request):
     for available in availables:
         # Preparing and preprocessing data
         availableDate = str(available['date'])+"-"+str(month)+"-"+str(year)    
-        d = datetime.strptime(availableDate, "%d-%m-%Y")
+        d = datetime.datetime.strptime(availableDate, "%d-%m-%Y")
         # this below line must be replaced with session data
-        doctor = Doctor.objects.get(id=getUserProfile(request.user).pk)
+        # doctor = Doctor.objects.get(id=getUserProfile(request.user).id)
 
         # Call TimetableManager to edit timetable
-        timeTable.objects.editTimetable(doctor=doctor, d=d, available=available)
+        timeTable.objects.editTimetable(doctor=getDoctor(request.user), d=d, available=available)
 
     #return success
     return HttpResponse('success')
@@ -193,10 +204,10 @@ def savetimetable(request):
 @csrf_exempt
 def gettimetable(request):
     # this below line should be replaced with session
-    doctor = Doctor.objects.get(id=getUserProfile(request.user).pk)
+    # doctor = Doctor.objects.get(id=getUserProfile(request.user).id)
     year = request.GET.get('year')
     month = request.GET.get('month')
-    time = timeTable.objects.filter(doctor_id=doctor, date__month=month, date__year=year)
+    time = timeTable.objects.filter(doctor_id=getDoctor(request.user), date__month=month, date__year=year)
     for t in time :
         t.date = t.date.day
     result = serializers.serialize('json', time)
