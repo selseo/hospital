@@ -155,6 +155,10 @@
         <!-- END User Settings -->
 
         {% include 'theme/library.html' %}
+        {% load staticfiles %}
+    <!-- Load and execute javascript code used only in this page -->
+        <script src="{% static 'js/pages/tablesDatatables.js' %}"></script>
+        <script>$(function(){ TablesDatatables.init(); });</script>
 
         
     </body>

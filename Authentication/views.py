@@ -69,7 +69,10 @@ def index(request):
             #return HttpResponseRedirect('/default/createuser')
             users = User.objects.all()
             count_user = users.count()
-            return render(request, 'admin/index_.html',{'total':count_user,'role':role})
+            return render(request, 'admin/index_.html',{'total':count_user,
+                'firstname':getUserProfile(request.user).firstname,
+                'lastname':getUserProfile(request.user).lastname,
+                'role':role})
 
     # Render the response and send it back!
     return render(request, 'theme/login.html',{'message':'You have to login to view this Page.'})
@@ -286,7 +289,7 @@ def view_user_list(request):
         # If page is out of range (e.g. 9999), deliver last page of results.
         userls = paginator.page(paginator.num_pages)
 
-    return render(request,'admin/viewuserlistpage.html', {'userls': userls})
+    return render(request,'admin/viewuserlistpage_2.html', {'userls': userls})
     #return render (request,'admin/viewuserlistpage.html')
 
 @csrf_exempt

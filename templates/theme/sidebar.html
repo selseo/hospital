@@ -16,7 +16,26 @@
                         <img src="img/placeholders/avatars/avatar2.jpg" alt="avatar">
                     </a>
                 </div>
-                <div class="sidebar-user-name" style="font-size: 14px;">{{ firstname }} {{ lastname }}</div>
+                <div class="sidebar-user-name" style="font-size: 14px;">{{ firstname }} {{ lastname }}<br>
+                    <b>
+                        {% if role == 1 %}
+                        Doctor
+                        {% elif role == 0 %}
+                        Patient
+                        {% elif role == 2 %}
+                        Nurse
+                        {% elif role == 3 %}
+                        Officer
+                        {% elif role == 4 %}
+                        Pharmacist
+                        {% elif role == 5 %}
+                        Admin
+                        {% endif %}
+
+
+
+
+                    </b></div>
                 <div class="sidebar-user-links">
                     <a href="#" data-toggle="tooltip" data-placement="bottom" title="Profile"><i class="gi gi-user"></i></a>
                     <!-- Opens the user settings modal that can be found at the bottom of each page (page_footer.html in PHP version) -->
@@ -65,12 +84,7 @@
                 <li>
                     <a href="/default" class=" active"><i class="gi gi-stopwatch sidebar-nav-icon"></i>Dashboard</a>
                 </li>
-                <li>
-                    <a href="/app/patientlist" class=" active"><i class="fa fa-calendar sidebar-nav-icon"></i>View Timetable</a>
-                </li>
-                <li>
-                    <a href="/app/timetable" class=" active"><i class="fa fa-pencil-square-o sidebar-nav-icon"></i>Edit Timetable</a>
-                </li>
+                
                 <li class="sidebar-header">
 
                     <span class="sidebar-header-title">Menu</span>
@@ -88,6 +102,12 @@
                 {% elif role == 0 %}
                 <li>
                     <a href="a_view_patient_info.html"><i class="fa fa-users sidebar-nav-icon"></i>View your appointment</a>
+                </li>
+                <li>
+                    <a href="/app/patientlist" class=" active"><i class="fa fa-calendar sidebar-nav-icon"></i>View Timetable</a>
+                </li>
+                <li>
+                    <a href="/app/timetable" class=" active"><i class="fa fa-pencil-square-o sidebar-nav-icon"></i>Edit Timetable</a>
                 </li>
                 {% elif role == 2 %}
                 <li>

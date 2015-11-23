@@ -5,7 +5,7 @@
  */
 
 var TablesDatatables = function() {
-
+    console.log("this datatables file works.");
     return {
         init: function() {
             /* Initialize Bootstrap Datatables Integration */
