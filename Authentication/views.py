@@ -18,6 +18,9 @@ from django.utils import formats
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth.models import User
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from appointment.models import Appointment,timeTable
+from Visit.models import PatientVisitInfo
+import datetime
 # Create your views here.
 from django.contrib.auth.decorators import user_passes_test
 
@@ -58,14 +61,9 @@ def pharmacist_check(user):
     return False;
 
 def index(request):
-    #variable for already check patient today
-    #already_check_p=20
-    #variable for uncheck patient today
-   # uncheck_p=30
-    #variable for all patient today
-   # all_p=already_check_p+uncheck_p
-
-
+    #waitvisit=allvisit.filter(status=1).count()
+    #drcheckedvisit=allvisit.filter(status=2).count()
+    
     if request.user.is_authenticated():
         role = getUserProfile(request.user).role
         if role==0:
@@ -76,11 +74,15 @@ def index(request):
             #     'role':getUserProfile(request.user).role}
             #     )
         if role==1:
+            doctor=getDoctor(request.user)
+            allapp=Appointment.objects.filter(timetable_id__doctor_id=doctor, timetable_id__date=datetime.date.today()).count()
+            wait=PatientVisitInfo.objects.filter(appointment__timetable_id__date=datetime.date.today(),appointment__timetable_id__doctor_id=doctor,status=1).count()
+            checked=PatientVisitInfo.objects.filter(appointment__timetable_id__date=datetime.date.today(),appointment__timetable_id__doctor_id=doctor,status=2).count()
             #return render(request, 'theme/doctor/index.html')
             return render(request, 'doctor/index.html',{
-                'al_check_p':1,
-                'uncheck_p':2,
-                'all_p':3,
+                'checked':checked,
+                'wait':wait,
+                'allapp':allapp,
                 'firstname':getUserProfile(request.user).firstname,
                 'lastname':getUserProfile(request.user).lastname,
                 'role':getUserProfile(request.user).role}
@@ -194,6 +196,15 @@ def restricted(request):
 #Method for get user profile
 def getUserProfile(user):
     return UserProfile.objects.get(user=user)
+
+#Method for get Doctor
+def getDoctor(user):
+    userprofile=getUserProfile(user)
+    return Doctor.objects.get(userprofile=userprofile)
+    
+
+
+
 
 @login_required
 def user_logout(request):
