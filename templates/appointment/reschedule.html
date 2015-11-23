@@ -10,7 +10,7 @@
     <div class="header-section animation-stretchRight">
         <h1>
             <i class="gi gi-brush"></i>Reschedule Appointment 
-            <a type="button" class="btn btn-primary" href="a_index_pharma.html">Back</a>
+            <a type="button" class="btn btn-primary" href="javascript:history.back()">Back</a>
             <br>
         </h1>
     </div>
@@ -49,13 +49,15 @@
             <legend>New Appointment</legend>
             <div class="form-group">
                 <label class="col-md-4 control-label">Date</label>
-                <div class="col-md-6" id="select-date-napp">
+                <div class="col-md-4" id="select-date-napp">
+                <!--
                     <select class="form-control">
-                        <option value="1">03/11/2558, Afternoon</option>
-                        <option value="1">04/11/2558, Afternoon</option>
-                        <option value="1">05/11/2558, Afternoon</option>
+                        <option value="1">03/11/2558</option>
                     </select>
+                -->
+                    <input type="text" id="new-appointment" name="new-appointment" class="form-control" placeholder="New Appointment" value="03/11/2558">
                 </div>
+
             </div>
         </fieldset>
     </form>
