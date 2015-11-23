@@ -13,7 +13,8 @@ urlpatterns = [
     url(r'^createuser/$', views.admin_create_user, name='createuser'),
     url(r'^createpatient/$', views.officer_createPatient, name='createpatient'),
     url(r'^viewuserlist/$', views.view_user_list, name='viewuserlist'),
-    
+    url(r'^viewuser/(?P<userl_slug>\w+)$', views.viewuser, name='viewuser'),
+    url(r'^edituser/(?P<userl_slug>\w+)$', views.edituser, name='edituser'),
     #url(r'^admin/$', views.admin_index, name='createuser')
     url(r'^seed/$', views.seed,name='seed'),
 ]
