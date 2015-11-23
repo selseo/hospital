@@ -52,8 +52,6 @@ def setAvailability(request):
 		med.save()
 	return HttpResponse('')
 
-@login_required
-@user_passes_test(admin_check)
 @csrf_exempt
 def seed(request):
 	# var drugs = ["Aspirin","Stomachic Mixture","Sulfacetamide Eye Drop","Liquid Paraffin Emulsion","Tetracycline Eye Ointment"

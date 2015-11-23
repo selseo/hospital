@@ -69,8 +69,6 @@ def setAvailability(request):
 	# res = serializers.serialize('json',di)
 	return HttpResponse('')		
 
-@login_required
-@user_passes_test(admin_check)
 @csrf_exempt
 def seed(request):
 		dis,xxx=Disease.objects.get_or_create(
