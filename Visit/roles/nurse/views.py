@@ -61,7 +61,11 @@ def editStatus0(request,num):
 	if request.method == 'POST' and form.is_valid():
 		mymodel = form.save(commit=False)
 		mymodel.status = 1
+		p = mymodel.appointment.patient_id
+		p.allergy = request.POST["allergy"]
+		p.save()
 		mymodel.save()
 		return redirect('/visit/nurse/view')
-	return render(request, 'nurse/edit.html', { 'form' : form , 'num' : num})
+	# fullname =UserProfile.objects.filter(patient__Appointment__PatientVisitInfo_set=mymodel)
+	return render(request, 'nurse/edit.html', { 'form' : form , 'num' : num, 'mymodel' : mymodel})
 
