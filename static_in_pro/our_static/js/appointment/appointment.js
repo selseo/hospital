@@ -1,97 +1,123 @@
-'use strict';
-
-class Appointment {
-    constructor(aid, date, period, drid, drname, drdepartment, currentStatus) {
-        this._aid = aid;
-        this._date = date;
-        this._period = period;
-        this._drid = drid;
-        this._drname = drname;
-        this._drdepartment = drdepartment;
-        this._currentStatus = currentStatus;
-    }
-
-    get aid() { return this._aid }
-    set aid(aid) { this._aid = aid }
-
-    get date() { return this._date }
-    set date(date) {this._date = date}
-
-    get period() { return this._period }
-    set period(period) { this._period = period }
-    
-    get drid() { return this._drid }
-    set drid(drid) { this._drid = drid }
-
-    get drname() { return this._drname }
-    set drname(drname) { this._drname = drname }
-
-    get drdepartment() { return this._drdepartment }
-    set drdepartment(drdepartment) { this._drdepartment = drdepartment }
-
-    get currentStatus() { return this._currentStatus }
-    set currentStatus(currentStatus) { this._currentStatus = currentStatus }
-
-    reschedule(d, period) {
-        // $.ajax({
-    //     type: "POST",
-    //     url: "/appointment/reschedule",
-    //     data : {
-    //         "aid" : aid,
-    //         "date" : d,
-    //         "period" : period
-    //     },
-    //     success: function(e){
-    //          
-    //     },
-    //     error: function(e){
-    //         // this line must be removed
-    //         console.log(e);
-    //     },
-    //     async:false,
-    // })
-    }
-
-    cancel() {
-        if(this._currentStatus === 'Upcoming') {
-                // $.ajax({
-    //     type: "POST",
-    //     url: "/appointment/cancelAppointment",
-    //     data : {
-    //         "aid" : aid
-    //     },
-    //     success: function(e){
-    //          
-    //     },
-    //     error: function(e){
-    //         // this line must be removed
-    //         console.log(e);
-    //     },
-    //     async:false,
-    // })
-        } else {
-            console.log('This appointment can not be cancelled.');
-        }
-    }
-
-    getDoctorAvailableSlot() {
-        let available = [];
-        // $.ajax({
-    //     type: "POST",
-    //     url: "/appointment/getDoctorAvailableSlot",
-    //     data : {
-    //         "drid" : drid
-    //     },
-    //     success: function(e){
-    //          available = e;
-    //     },
-    //     error: function(e){
-    //         // this line must be removed
-    //         console.log(e);
-    //     },
-    //     asyn:false,
-    //})
-        return available;
-    }
-
+function searchPatient(){
+	console.log();
+	var el = $(this).attr('id');
+	var elval = $(this).val();
+	if(elval == '') {
+		$('#patientname').val('');
+		$('#patientid').val('');
+		$('#patientidcard').val('');
+	} else {
+		ajaxSetup();
+		$.ajax({
+			type: "GET",
+			url: "/app/searchpatient/",
+			data : {
+				"pid" : el == 'patientid' ? elval : '',
+				"pidcard" : el == 'patientidcard' ? elval : ''
+			},
+			success: function(e){
+				console.log(e);
+				$('#patientid').val(e[0].pk);
+				$('#patientname').val(e[0].fields.firstname + '  ' + e[0].fields.lastname);
+			},
+			error: function(rs, e){
+				console.log(rs.responseText);
+			}
+		})
+	}
+	
 }
+
+function getDoctorList(){
+	// TODO : get doctor list and add to $('#doctor') -- clear the existing one first
+	addSelectDoctorListener();
+}
+
+function getAppointmentList(){
+	// TODO : get appointment list and add to $('#appointment') -- clear the existing one first
+}
+
+
+function addSearchPatientListener() {
+	$('#patientid').change(searchPatient);
+	$('#patientidcard').change(searchPatient);
+}
+
+function addSelectDepartmentListener(){
+	$('#department').change(getDoctorList);
+}
+
+function addSelectDoctorListener(){
+	$('#doctor').change(getAppointmentList);
+}
+
+function addSubmitButtonListener(){
+	$('#submit-button').on('click', function(){
+		$('#s-name').html($('#patientname').val());
+		$('#s-department').html($('#department').val());
+		$('#s-doctor').html($('#doctor').val());
+		$('#s-date').html($('#appointment').val());
+		$('#s-cause').html($('#cause').val());
+		$('#s-symptom').html($('#symptom').val());
+		$('#modal-summary').modal('show');
+	});
+}
+
+function submitForm(){
+	ajaxSetup();
+	$.ajax({
+		type: "POST",
+		url: "/app/show/bystaff",
+		data: $('#appointment-form').serialize(), // get the form data
+		success: function(e){
+			if(e == 'success') {
+				$('#modal-summary').modal('hide');
+				$('#modal-success').modal('show');
+
+				setTimeout(function(){
+					location.href = 'http://www.google.com';
+				}, 4500);
+			}
+		},
+		error: function(rs, e){
+			console.log(rs.responseText);
+			$('#modal-summary').modal('hide');
+			$('#modal-fail').modal('show');
+			setTimeout(function(){
+				$('#modal-fail').modal('hide');
+			}, 1500);
+		}
+	})
+}
+
+function ajaxSetup() {
+	$.ajaxSetup({ 
+		beforeSend: function(xhr, settings) {
+			function getCookie(name) {
+				var cookieValue = null;
+				if (document.cookie && document.cookie != '') {
+					var cookies = document.cookie.split(';');
+					for (var i = 0; i < cookies.length; i++) {
+						var cookie = jQuery.trim(cookies[i]);
+					 // Does this cookie string begin with the name we want?
+					 if (cookie.substring(0, name.length + 1) == (name + '=')) {
+					 	cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+					 	break;
+					 }
+					}
+				}
+				return cookieValue;
+			}
+			if (!(/^http:.*/.test(settings.url) || /^https:.*/.test(settings.url))) {
+			 // Only send the token to relative URLs i.e. locally.
+			 xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
+			}
+		} 
+	});
+}
+
+!function() {
+	addSearchPatientListener();
+	addSelectDepartmentListener();
+	addSubmitButtonListener();
+}();

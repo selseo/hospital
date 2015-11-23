@@ -1,7 +1,7 @@
 from django.http import HttpResponseRedirect, HttpResponse
 from django.http import Http404
 from django.contrib.auth.models import User
-from .models import UserProfile,Patient
+from .models import UserProfile,Patient,Doctor
 from django.template import RequestContext, loader
 from django.shortcuts import get_object_or_404, render
 from django.core.urlresolvers import reverse
@@ -261,7 +261,7 @@ def admin_create_user(request):
         # Note that we make use of both UserForm and UserProfileForm.
         user_form = UserForm(data=request.POST)
         admin_user_form = AdminCreateUser(data=request.POST)
-
+        admin_doctor_form= AdminCreateDoctor(data=request.POST)
         # If the two forms are valid...
         if user_form.is_valid() and admin_user_form.is_valid():
             # Save the user's form data to the database.
@@ -286,6 +286,11 @@ def admin_create_user(request):
 
             # Now we save the UserProfile model instance.
             profile.save()
+            if profile.role==1:
+                doctor=admin_doctor_form.save(commit=False)
+                doctor.userprofile=profile
+                doctor.save()
+
 
 
             # Update our variable to tell the template registration was successful.
@@ -313,7 +318,8 @@ def admin_create_user(request):
 
 
 def view_user_list(request):
-    user_list = UserProfile.objects.all()
+    #user_list = UserProfile.objects.all()
+    user_list = UserProfile.objects.exclude(role=0)
     paginator = Paginator(user_list, 15) # Show 25 contacts per page
 
     page = request.GET.get('page')
@@ -345,7 +351,7 @@ def seed(request):
     userp0.save()
     userpp,xxx=Patient.objects.get_or_create(
         idcard="1100644983267",
-        defaults={'userprofile':userp0,'sex':"f",'idcard':"1100644983267",'phone':"0839826174",'address':"1",'birthdate':"1984-11-21"}
+        defaults={'userprofile':userp0,'sex':"f",'idcard':"1100644983267",'phone':"0839826174",'address':"1",'birthdate':"1984-11-21",'allergy':"xxx,aaa,eee,fkjfodhdj"}
     )
     userpp.save()
 
@@ -359,6 +365,11 @@ def seed(request):
         defaults={'user':user1,'firstname':"Doctor",'lastname':"Rotcod",'role':1,'status':True}
     )
     userp1.save()
+    userpd,xxx=Doctor.objects.get_or_create(
+        userprofile=userp1,
+        defaults={'userprofile':userp1,'department':"Cancer"}
+    )
+    userpd.save()
 
     user2,xxx=User.objects.get_or_create(
         username="user2",
@@ -492,7 +503,8 @@ def viewuser(request, userl_slug):
         # We get here if we didn't find the specified category.
         # Don't do anything - the template displays the "no category" message for us.
         return HttpResponseRedirect('/default/viewuserlist/')
-
+    if userl.role==0:
+        return HttpResponseRedirect('/default/viewuserlist/')
     ####### PLEASE EDIT TO DIRECT TO VIEW USER ##########
     return HttpResponse(user_info['firstname'])
 
@@ -501,6 +513,7 @@ def viewuser(request, userl_slug):
 def edituser(request, userl_slug):
     ##### THIS METHOD MUST EDIT#####
     ## It looks like viewusermethod but you should to edit to make it can edit user profile in database ##
+
     user_info = {}
     try:
         userl = UserProfile.objects.get(slug=userl_slug)
@@ -510,6 +523,8 @@ def edituser(request, userl_slug):
         userAccount = userl.user
 
     except UserProfile.DoesNotExist:
+        return HttpResponseRedirect('/default/viewuserlist/')
+    if userl.role==0:
         return HttpResponseRedirect('/default/viewuserlist/')
 
     # A boolean value for telling the template whether the registration was successful.
@@ -583,3 +598,27 @@ def edituser(request, userl_slug):
 @user_passes_test(admin_check)
 def testtry(request):
     return HttpResponse('You are admin')
+    
+@csrf_exempt
+def setStatus(request):
+    # return HttpResponse('')
+    
+    slug = request.POST["slug"]
+    status = request.POST["status"]
+    if status == "true":
+        usp = UserProfile.objects.get(slug=slug)
+        usp.status = True
+        usp.save()
+    else : 
+        usp = UserProfile.objects.get(slug=slug)
+        usp.status = False
+        usp.save()
+
+    # .update(availability=availability)
+    # print (di.availability)
+    # di.availability = availability
+    # di.save()
+    # di = Disease.objects.filter(ICD10=ICD10)
+    # res = serializers.serialize('json',di)
+    return HttpResponse('')     
+

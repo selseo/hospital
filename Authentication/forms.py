@@ -1,7 +1,9 @@
 from django import forms
 from django.contrib.auth.models import User
-from Authentication.models import UserProfile,Patient
+from Authentication.models import UserProfile,Patient,Doctor
+from appointment.models import Department
 
+department = Department.objects.all()
 
 class UserForm(forms.ModelForm):
     password = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control input-lg','placeholder':'Password'}))
@@ -32,12 +34,13 @@ class PatientProfile(forms.ModelForm):
 
     class Meta:
         model = Patient
-        fields = ('sex','birthdate','idcard','phone','address')
+        fields = ('sex','birthdate','idcard','phone','address','allergy')
         widgets = {
             'birthdate': forms.DateInput(attrs={'class': 'form-control input-lg input-datepicker','placeholder':'Birthdate','data-date-format':'mm/dd/yy'}),
             'idcard': forms.TextInput(attrs={'class': 'form-control input-lg','placeholder':'ID card'}),
             'phone': forms.TextInput(attrs={'class': 'form-control input-lg','placeholder':'Phone'}),
             'address': forms.TextInput(attrs={'class': 'form-control input-lg','placeholder':'Address'}),
+            'allergy': forms.TextInput(attrs={'class': 'form-control input-lg','placeholder':'Allergy'}),
         }
 
 class AdminCreateUser(forms.ModelForm):
@@ -52,3 +55,12 @@ class AdminCreateUser(forms.ModelForm):
             'firstname': forms.TextInput(attrs={'class': 'form-control input-lg','placeholder':'Firstname'}),
             'lastname': forms.TextInput(attrs={'class': 'form-control input-lg','placeholder':'Lastname'}),
         }
+
+class AdminCreateDoctor(forms.ModelForm):
+    department = forms.ModelChoiceField(queryset=department, to_field_name="name", required=True, empty_label="--- Select Department ---",
+        widget=forms.Select(attrs={'id': 'department', 'class': 'form-control'}))
+
+    class Meta:
+        model = Doctor
+        fields = ('department',)
+        
