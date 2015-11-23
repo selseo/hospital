@@ -27,7 +27,7 @@ class Prescription(models.Model):
 	patientVisitInfo=models.ForeignKey(PatientVisitInfo)
 	medicines=models.ForeignKey(Medicine)
 	amount=models.IntegerField(default = 1)
-	usage=models.CharField(max_length=200, null = True)
+	usage=models.CharField(max_length=200,null=True)
 
 # Validators.
 

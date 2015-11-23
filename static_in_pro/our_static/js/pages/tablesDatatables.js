@@ -17,10 +17,20 @@ var TablesDatatables = function() {
             //     "iDisplayLength": 10,
             //     "aLengthMenu": [[10, 20, 30, -1], [10, 20, 30, "All"]]
             // });
-            $('#example-datatable').dataTable();
+            // $('#example-datatable').dataTable({
+            //     "aoColumnDefs": [ { "bSortable": false, "aTargets": [ 1, 2 ] } ],
+
+            // });
+
+            var table = $('#example-datatable').DataTable({
+                "aaSorting": [],
+                "iDisplayLength": 10,
+            });
+            //table.order( [ 1, 'desc' ] ).draw();
 
             /* Add placeholder attribute to the search input */
             $('.dataTables_filter input').attr('placeholder', 'Search');
+
         }
     };
 }();
