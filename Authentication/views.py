@@ -109,7 +109,7 @@ def index(request):
                 )
         if role==5:
             #return HttpResponseRedirect('/default/createuser')
-            users = User.objects.all()
+            users = UserProfile.objects.exclude(role=0)
             count_user = users.count()
             return render(request, 'admin/index_.html',{'total':count_user,
                 'firstname':getUserProfile(request.user).firstname,
@@ -338,7 +338,7 @@ def view_user_list(request):
     user_list = UserProfile.objects.exclude(role=0).order_by('firstname')
     #user_list = UserProfile.objects.exclude(role=0)
     paginator = Paginator(user_list, 15) # Show 25 contacts per page
-    alluser=UserProfile.objects.all()
+    alluser=UserProfile.objects.exclude(role=0)
     allusernum=alluser.count()
     alluseravail=alluser.filter(status=True).count()
 
