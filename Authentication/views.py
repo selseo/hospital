@@ -104,11 +104,12 @@ def index(request):
                 )
         if role==4:
             #return HttpResponse("You are Pharmacist")
-            return render(request, 'pharmacist/index.html',{
-                'firstname':getUserProfile(request.user).firstname,
-                'lastname':getUserProfile(request.user).lastname,
-                'role':getUserProfile(request.user).role}
-                )
+            #return render(request, 'pharmacist/index.html',{
+            #    'firstname':getUserProfile(request.user).firstname,
+            #    'lastname':getUserProfile(request.user).lastname,
+            #    'role':getUserProfile(request.user).role}
+            #    )
+            return HttpResponseRedirect('/visit/pharmacist')
         if role==5:
             #return HttpResponseRedirect('/default/createuser')
             allusernum=UserProfile.objects.count()
