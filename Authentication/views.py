@@ -111,9 +111,8 @@ def index(request):
                 )
         if role==5:
             #return HttpResponseRedirect('/default/createuser')
-            alluser=UserProfile.objects.exclude(role=0)
-            allusernum=alluser.count()
-            alluseravail=alluser.filter(status=True).count()
+            allusernum=UserProfile.objects.count()
+            alluseravail=UserProfile.objects.filter(status=True).count()
             allds=Disease.objects.count()
             avds=Disease.objects.filter(availability=True).count()
             allmed=Medicine.objects.count()
@@ -343,12 +342,11 @@ def admin_create_user(request):
 
 def view_user_list(request):
     #user_list = UserProfile.objects.all()
-    user_list = UserProfile.objects.exclude(role=0).order_by('firstname')
+    user_list = UserProfile.objects.order_by('firstname')
     #user_list = UserProfile.objects.exclude(role=0)
     paginator = Paginator(user_list, 15) # Show 25 contacts per page
-    alluser=UserProfile.objects.exclude(role=0)
-    allusernum=alluser.count()
-    alluseravail=alluser.filter(status=True).count()
+    allusernum=UserProfile.objects.count()
+    alluseravail=UserProfile.objects.filter(status=True).count()
 
     page = request.GET.get('page')
     try:
@@ -534,8 +532,7 @@ def viewuser(request, userl_slug):
         # We get here if we didn't find the specified category.
         # Don't do anything - the template displays the "no category" message for us.
         return HttpResponseRedirect('/default/viewuserlist/')
-    if userl.role==0:
-        return HttpResponseRedirect('/default/viewuserlist/')
+
     ####### PLEASE EDIT TO DIRECT TO VIEW USER ##########
     return HttpResponse(user_info['firstname'])
 
