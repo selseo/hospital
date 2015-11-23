@@ -1,7 +1,9 @@
 from django import forms
 from django.contrib.auth.models import User
 from Authentication.models import UserProfile,Patient,Doctor
+from appointment.models import Department
 
+department = Department.objects.all()
 
 class UserForm(forms.ModelForm):
     password = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control input-lg','placeholder':'Password'}))
@@ -54,10 +56,10 @@ class AdminCreateUser(forms.ModelForm):
         }
 
 class AdminCreateDoctor(forms.ModelForm):
+    department = forms.ModelChoiceField(queryset=department, to_field_name="name", required=True, empty_label="--- Select Department ---",
+        widget=forms.Select(attrs={'id': 'department', 'class': 'form-control'}))
 
     class Meta:
         model = Doctor
         fields = ('department',)
-        # widgets = {
-        #     'department': forms.TextInput(attrs={'class': 'form-control input-lg','placeholder':'Department'}),
-        # }
+        
