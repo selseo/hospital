@@ -30,11 +30,71 @@ function searchPatient(){
 
 function getDoctorList(){
 	// TODO : get doctor list and add to $('#doctor') -- clear the existing one first
+	$.ajax({
+		type: "GET",
+		url: "/app/getdoctorlist/",
+		data : {
+			"department" : $('#department').val()
+		},
+		success: function(e){
+			doctorlist = JSON.parse(e);
+			var el = document.createElement('option');
+			var eltext = document.createTextNode("--- Select Doctor (Optional) ---");
+			el.appendChild(eltext);
+			$('#doctor').append(el);
+			doctorlist.forEach(function(doctor){
+				el = document.createElement('option');
+				el.setAttribute('value', doctor.pk);
+				el.setAttribute('id', 'doc' + doctor.pk);
+				eltext = document.createTextNode(doctor.fields.firstname + ' ' + doctor.fields.lastname);
+				el.appendChild(eltext);
+				$('#doctor').append(el);
+				console.log(el);
+			});
+			
+		},
+		error: function(rs, e){
+			console.log(rs.responseText);
+		}
+	})
 	addSelectDoctorListener();
 }
 
 function getAppointmentList(){
 	// TODO : get appointment list and add to $('#appointment') -- clear the existing one first
+	// console.log($('#doctor').val());
+	$.ajax({
+		type: "GET",
+		url: "/app/getappointmentlist/",
+		data : {
+			"doctor" : $('#doctor').val()
+		},
+		success: function(e){
+			// doctorlist = JSON.parse(e);
+			// doctorlist.forEach(function(doctor){
+			// 	var el = document.createElement('option');
+			// 	el.setAttribute('value', doctor.pk);
+			// 	var eltext = document.createTextNode(doctor.fields.firstname + ' ' + doctor.fields.lastname);
+			// 	el.appendChild(eltext);
+			// 	$('#doctor').append(el);
+			// 	console.log(el);
+			// });
+			console.log(e);
+			timelist = JSON.parse(e);
+			timelist.forEach(function(t){
+				console.log(t.fields.date);
+				var el = document.createElement('option');
+				el.setAttribute('value', t.pk);
+				el.setAttribute('id', 'app'+t.pk);
+				var eltext = document.createTextNode(t.fields.date + ', ' + (t.fields.period == 'm'? "Morning" : "Afternoon"));
+				el.appendChild(eltext);
+				$('#appointment').append(el);
+			})
+		},
+		error: function(rs, e){
+			console.log(rs.responseText);
+		}
+	})
 }
 
 
@@ -49,14 +109,15 @@ function addSelectDepartmentListener(){
 
 function addSelectDoctorListener(){
 	$('#doctor').change(getAppointmentList);
+	// console.log($('#doctor').val());
 }
 
 function addSubmitButtonListener(){
 	$('#submit-button').on('click', function(){
 		$('#s-name').html($('#patientname').val());
 		$('#s-department').html($('#department').val());
-		$('#s-doctor').html($('#doctor').val());
-		$('#s-date').html($('#appointment').val());
+		$('#s-doctor').html($('#doc'+$('#doctor').val()).html());
+		$('#s-date').html($('#app' + $('#appointment').val()).html());
 		$('#s-cause').html($('#cause').val());
 		$('#s-symptom').html($('#symptom').val());
 		$('#modal-summary').modal('show');
@@ -70,6 +131,7 @@ function submitForm(){
 		url: "/app/show/bystaff",
 		data: $('#appointment-form').serialize(), // get the form data
 		success: function(e){
+			console.log(e);
 			if(e == 'success') {
 				$('#modal-summary').modal('hide');
 				$('#modal-success').modal('show');

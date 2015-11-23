@@ -5,9 +5,11 @@ from .forms import AppForm, AppByStaff
 
 import json
 from django.http import JsonResponse
-from .models import Department,Dee,Doctor,timeTable,Appointment
-from Authentication.models import Patient, UserProfile
+from .models import Department,Dee,timeTable,Appointment
+from Authentication.models import Patient, UserProfile, Doctor
 from datetime import datetime
+
+import datetime
 
 #for restframework
 from rest_framework import viewsets
@@ -57,8 +59,19 @@ def show(request):
 
 def appointmentbystaff(request):
     if request.method == 'POST':
-        form = AppByStaff(request.POST);
+        data = request.POST;
         # save to database
+        
+        timetable = timeTable.objects.get(id=data.get('appointment'))
+        patient = Patient.objects.get(userprofile_id=3)
+
+        newapp = Appointment.objects.create(
+            patient_id=patient,
+            timetable_id=timetable,
+            cause=data.get('cause'),
+            symptom=data.get('symptom')
+            )
+
         return HttpResponse('success')
     else:
         form = AppByStaff()
@@ -73,10 +86,14 @@ def editappointmentbystaff(request):
 
 
 def reschedule(request, aid):
+   # appointment = Appointment.objects.get(id=aid)
+    
     return render(request, 'appointment/reschedule.html', {'appointment': []})
 
 
 def cancel(request, aid):
+   # appointment = Appointment.objects.get(id=aid)
+    
     return render(request, 'appointment/cancel.html', {'appointment': []})
 
 
@@ -111,6 +128,17 @@ def getpatientlist(request):
     # patientlist = Appointment.objects.filter(doctor_id=doctor, date__month=month, date__year=year)
     return HttpResponse(json.dumps(patient), content_type='application/json')
 
+def getdoctorlist(request):
+    dept = request.GET.get('department')
+    doctorlist = UserProfile.objects.filter(doctor__department=dept)
+    doctorlist = serializers.serialize('json', doctorlist)
+    return HttpResponse(json.dumps(doctorlist), content_type='application/json')
+
+def getappointmentlist(request):
+    doc = request.GET.get('doctor')
+    timelist = timeTable.objects.filter(doctor_id=doc, date__gte=datetime.date.today()).order_by('date')
+    timelist = serializers.serialize('json', timelist)
+    return HttpResponse(json.dumps(timelist), content_type='application/json')
 
 def getpatientappointment(request):
     pid = request.POST.get('pid')
@@ -176,10 +204,25 @@ def searchpatient(request):
 def seed(request):
     department = Department.objects.create(name="Anaesthetics")
     department.save()
-    department = Department.objects.create(name="Cardiology")
+    department = Department.objects.create(name="Cancer")
     department.save()
     department = Department.objects.create(name="Chaplaincy")
     department.save()
     department = Department.objects.create(name="Gastroenterology")
     department.save()
+    # user0,xxx=User.objects.get_or_create(
+    #     username="test22t",
+    #     defaults={'username':"doctor2",'password':make_password(password="1234",hasher='sha1'),'email':"maillll@mail.com"}
+    # )
+    # user0.save()
+    # userp0,xxx=UserProfile.objects.get_or_create(
+    #     firstname="doctor0",
+    #     defaults={'user':user0,'firstname':"WWW",'lastname':"QQQ",'role':1,'status':True}
+    # )
+    # userp0.save()
+    # d1,xxx=Doctor.objects.get_or_create(
+    #     department="Cancer",
+    #     defaults={'userprofile':userp0, 'department' : 'Cancer'}
+    # )
+    # d1.save()
     return HttpResponse('Done')
