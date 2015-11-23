@@ -14,8 +14,21 @@ from django.views import generic
 from django.contrib.auth import authenticate, login,logout
 from django.contrib.auth.decorators import login_required
 from Authentication.models  import Patient
+from django.contrib.auth.decorators import login_required, user_passes_test
+from Authentication.models import UserProfile
+# Create your views here.
+#Method for get user profile
+def getUserProfile(user):
+    return UserProfile.objects.get(user=user)
+def doctor_check(user):
+    userProfile = getUserProfile(user)
+    if(userProfile.role==1):
+        return True;
+    return False;
 # Create your views here.
 # please remove comment syntax to use authen
+@login_required
+@user_passes_test(doctor_check)
 def index(request):
 	#if request.user.is_authenticated():
 		#if getUserProfile(request.user).role==1://Doctor
@@ -24,7 +37,8 @@ def index(request):
 			#return HttpResponseRedirect('/default/')
 	#else :
 		#return HttpResponseRedirect('/default/')
-
+@login_required
+@user_passes_test(doctor_check)
 def view(request):
 	#if request.user.is_authenticated():
 		#if getUserProfile(request.user).role==1://Doctor
@@ -38,6 +52,9 @@ def view(request):
 			#return HttpResponseRedirect('/default/')
 	#else :
 		#return HttpResponseRedirect('/default/')
+
+@login_required
+@user_passes_test(doctor_check)
 @csrf_exempt
 def addDisease(request,num):
 	myPatientVisitInfo = get_object_or_404(PatientVisitInfo, appointment_id=num)
@@ -61,6 +78,8 @@ def addDisease(request,num):
 
 	return render(request,'doctor/edit.html',{'myPatientVisitInfo':myPatientVisitInfo, 'myPrescription':myPrescription,'Medicines': MedicineAll,'myMedicine' : myMedicine,'Diseases':DiseaseAll,'myDisease' : myDisease,'num' : num,'dAdd':"true"})
 
+@login_required
+@user_passes_test(doctor_check)
 @csrf_exempt
 def addMedicine(request,num):
 	myPatientVisitInfo = get_object_or_404(PatientVisitInfo, appointment_id=num)
@@ -86,6 +105,8 @@ def addMedicine(request,num):
 	return render(request,'doctor/edit.html',{'myPatientVisitInfo':myPatientVisitInfo, 'myPrescription':myPrescription,'Medicines': MedicineAll,'myMedicine' : myMedicine,'Diseases':DiseaseAll,'myDisease' : myDisease,'num' : num,'mAdd':"true"})
 
 
+@login_required
+@user_passes_test(doctor_check)
 @csrf_exempt
 def deleteDisease(request,num,ICD10):
 	myPatientVisitInfo = get_object_or_404(PatientVisitInfo, appointment_id=num)
@@ -108,6 +129,8 @@ def deleteDisease(request,num,ICD10):
 		
 	return render(request,'doctor/edit.html',{'myPatientVisitInfo':myPatientVisitInfo, 'myPrescription':myPrescription,'Medicines': MedicineAll,'myMedicine' : myMedicine,'Diseases':DiseaseAll,'myDisease' : myDisease,'num' : num,'dDel':"true"})
 
+@login_required
+@user_passes_test(doctor_check)
 @csrf_exempt
 def deleteMedicine(request,num,medicine_name):
 	myPatientVisitInfo = get_object_or_404(PatientVisitInfo, appointment_id=num)
@@ -145,6 +168,8 @@ def deleteMedicine(request,num,medicine_name):
 # 		return redirect('doctor/edit.html', { 'form' : form , 'num' : num})
 # 	return render(request, 'doctor/edit.html', { 'form' : form , 'num' : num})
 
+@login_required
+@user_passes_test(doctor_check)
 @csrf_exempt
 def editStatus1(request,num):
 	myPatientVisitInfo = get_object_or_404(PatientVisitInfo, appointment_id=num)
@@ -182,6 +207,3 @@ def editStatus1(request,num):
 
 	return render(request,'doctor/edit.html',{'myPatientVisitInfo':myPatientVisitInfo, 'myPrescription':myPrescription,'Medicines':MedicineAll,'myMedicine' : myMedicine,'Diseases':DiseaseAll,'myDisease' : myDisease,'num' : num})
 
-#Method for get user profile
-def getUserProfile(user):
-    return UserProfile.objects.get(user=user)

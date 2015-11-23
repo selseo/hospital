@@ -13,8 +13,21 @@ from django.views import generic
 from django.contrib.auth import authenticate, login,logout
 from django.contrib.auth.decorators import login_required
 from Authentication.models  import Patient
+from django.contrib.auth.decorators import login_required, user_passes_test
+from Authentication.models import UserProfile
+# Create your views here.
+#Method for get user profile
+def getUserProfile(user):
+    return UserProfile.objects.get(user=user)
+def nurse_check(user):
+    userProfile = getUserProfile(user)
+    if(userProfile.role==2):
+        return True;
+    return False;
 # Create your views here.
 # please remove comment syntax to use authen
+@login_required
+@user_passes_test(nurse_check)
 def index(request):
 	#if request.user.is_authenticated():
 		#if getUserProfile(request.user).role==2://Nurse
@@ -23,7 +36,8 @@ def index(request):
 			#return HttpResponseRedirect('/default/')
 	#else :
 		#return HttpResponseRedirect('/default/')
-
+@login_required
+@user_passes_test(nurse_check)
 def view(request):
 	#if request.user.is_authenticated():
 		#if getUserProfile(request.user).role==2://Nurse
@@ -38,6 +52,8 @@ def view(request):
 	#else :
 		#return HttpResponseRedirect('/default/')
 
+@login_required
+@user_passes_test(nurse_check)
 @csrf_exempt
 def editStatus0(request,num):
 	mymodel = get_object_or_404(PatientVisitInfo, appointment_id=num)
@@ -49,6 +65,3 @@ def editStatus0(request,num):
 		return redirect('/visit/nurse/view')
 	return render(request, 'nurse/edit.html', { 'form' : form , 'num' : num})
 
-#Method for get user profile
-def getUserProfile(user):
-    return UserProfile.objects.get(user=user)

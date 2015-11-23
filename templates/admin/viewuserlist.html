@@ -45,7 +45,7 @@
                         <!-- Responsive Full Title -->
                         <div class="block-title">
                             <h2><strong>Personnel</strong></h2>
-                            <h2 style="float:right;" class="text-right themed-color"><strong>135</strong><small>/150</small></h2>
+                            <h2 style="float:right;" class="text-right themed-color"><strong>{{ alluseravail }}</strong><small>/{{ allusernum }}</small></h2>
                         </div>
                         <!-- END Responsive Full Title -->
 
@@ -223,7 +223,5 @@
 {% block script %}
 
 <!-- Load and execute javascript code used only in this page -->
-<script src="{% static 'js/pages/tablesDatatables.js' %}"></script>
-<script>$(function(){ TablesDatatables.init(); });</script>
 
 {% endblock %}

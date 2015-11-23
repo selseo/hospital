@@ -4,136 +4,231 @@
 
 
 {% block content %}
-   
-                    <!-- Blank Header -->
-                    <div class="content-header">
-                        <div class="header-section animation-stretchRight">
-                            <h1>
-                                <i class="gi gi-brush"></i>Make an Appointment
-                                <a type="button" class="btn btn-primary" href="a_index_admin.html">Back</a>
-                                <br>
-                            </h1>
-                        </div>
-                    </div>
-                    <ul class="breadcrumb breadcrumb-top">
-                        <li><a href="javascript:void(0)"><i class="fa fa-home"></i> Dashboard</a></li>
-                        <li>Make an Appointment</li>
-                    </ul>
-                    <!-- END Blank Header -->
-                    <!-- Basic Form Elements Block -->
-                    <div class="block">
-                        <!-- Basic Form Elements Title -->
-                        <div class="block-title">
-                            <div class="block-options pull-right">
-                                <a href="javascript:void(0)" class="btn btn-alt btn-sm btn-primary" data-toggle="block-toggle-content"><i class="fa fa-arrows-v"></i></a>
-                                <a href="javascript:void(0)" class="btn btn-alt btn-sm btn-primary" data-toggle="block-toggle-fullscreen"><i class="fa fa-desktop"></i></a>
-                            </div>
-                            <h2><strong>Appointment</strong> Form</h2>
-                        </div>
-                        <!-- END Form Elements Title -->
 
-                        <!-- Basic Form Elements Content -->
-                        <form action="#" method="post" enctype="multipart/form-data" class="form-horizontal form-bordered" onsubmit="return false;">
-                        <div class="form-group">
-                            <label class="col-md-3 control-label" for="patientid">Patient Identification</label>
+<!-- Blank Header -->
+<div class="content-header">
+  <div class="header-section animation-stretchRight">
+    <h1>
+      <i class="gi gi-brush"></i>Make an Appointment
+      <a type="button" class="btn btn-primary" href="a_index_admin.html">Back</a>
+      <br>
+    </h1>
+  </div>
+</div>
+<ul class="breadcrumb breadcrumb-top">
+  <li><a href="javascript:void(0)"><i class="fa fa-home"></i> Dashboard</a></li>
+  <li>Make an Appointment</li>
+</ul>
+<!-- END Blank Header -->
+<!-- Basic Form Elements Block -->
+<div class="block">
+  <!-- Basic Form Elements Title -->
+  <div class="block-title">
+    <div class="block-options pull-right">
+      <a href="javascript:void(0)" class="btn btn-alt btn-sm btn-primary" data-toggle="block-toggle-content"><i class="fa fa-arrows-v"></i></a>
+      <a href="javascript:void(0)" class="btn btn-alt btn-sm btn-primary" data-toggle="block-toggle-fullscreen"><i class="fa fa-desktop"></i></a>
+    </div>
+    <h2><strong>Appointment</strong> Form</h2>
+  </div>
+  <!-- END Form Elements Title -->
+
+  <!-- Basic Form Elements Content -->
+  <form method="post" enctype="multipart/form-data" class="form-horizontal form-bordered" onsubmit="return false" id="appointment-form">
+    {% csrf_token %}
+    <div class="form-group">
+      <label class="col-md-3 control-label" for="patientid">Patient Identification</label>
+      <div class="col-md-9">
+        <div class="col-md-3" style="padding-left: 0px;">
+                                <!-- <input id="patientid" name="patientidform" class="form-control"
+                                placeholder="Patient ID" type="text">   -->
+                                {{ form.patientid }}
+                              </div>
+                              <div class="col-md-1">
+                                <p style="margin: 8px 0 0 0;"> Or </p>
+                              </div>
+                              <div class="col-md-3">
+                                <!-- <input id="patientidcard" name="patientidcard" class="form-control"
+                                placeholder="Patient ID Card No." type="text">  -->
+                                {{ form.patientidcard }}
+                              </div>
+                              <div class="col-md-5">
+                                <!-- <input id="patientname" name="patientname" class="form-control"
+                                placeholder="Patient Name" type="text" disabled="disabled">  -->
+                                {{ form.patientname }}
+                              </div>
+                            </div>
+
+                          </div>
+                          <div class="form-group">
+                            <label class="col-md-3 control-label" for="department">Department</label>
                             <div class="col-md-9">
-                              <div class="col-md-3" style="padding-left: 0px;">
-                                <input id="patientid" name="patientidform" class="form-control"
-                                     placeholder="Patient ID" type="text">  
-                              </div>
-                              <div class="col-md-3">
-                                <input id="patientname" name="patientnameform" class="form-control"
-                                     placeholder="Patient Name" type="text"> 
-                              </div>
-                              <div class="col-md-3">
-                                <input id="patientlastname" name="patientlastnameform" class="form-control"
-                                     placeholder="Patient Lastname" type="text"> 
-                              </div>
-                            </div>
-
-                            </div>
-                            <div class="form-group">
-                                <label class="col-md-3 control-label" for="department">Department</label>
-                                <div class="col-md-9">
-                                  <select id="department" name="department" class="select-chosen" data-placeholder="Select Departmenet .." style="width: 250px;">
+                                  <!-- <select id="department" name="department" class="select-chosen" data-placeholder="Select Departmenet .." style="width: 250px;">
                                       <option value="1">Dept 1</option>
                                       <option value="2">Dept 2</option>
                                       <option value="3">Dept 3</option>
-                                    </select>   
+                                    </select>    -->
+                                    {{ form.department }}
+                                  </div>
                                 </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="col-md-3 control-label" for="doctor">Doctor</label>
-                                <div class="col-md-9">
-                                  <select id="doctor" name="doctor" class="select-chosen" data-placeholder="Choose a Country.." style="width: 250px;">
+                                <div class="form-group">
+                                  <label class="col-md-3 control-label" for="doctor">Doctor</label>
+                                  <div class="col-md-9">
+                                  <!-- <select id="doctor" name="doctor" class="select-chosen" data-placeholder="Choose a Country.." style="width: 250px;">
                                       <option value="-">Not Specified</option>
                                       <option value="1">Peerapat Lamyai</option>
                                       <option value="2">Peerapat Rakkwamsook</option>
                                       <option value="3">Peerapat Lipimongkol</option>
-                                    </select>   
+                                    </select>   --> 
+                                    {{ form.doctor }}
+                                  </div>
                                 </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="col-md-3 control-label" for="appyear">Appointment Date</label>
-                                <div class="col-md-9">
-                                  <div class="col-md-2" style="padding-left: 0px;">
-                                    <select id="appyear" name="appyear" class="select-chosen" data-placeholder="Year" style="width: 250px;">
-                                        <option value="-">Year</option>
-                                    </select>   
+                                <div class="form-group">
+                                  <label class="col-md-3 control-label" for="appyear">Appointment Date</label>
+                                  <div class="col-md-9">
+                                  <!-- <select id="doctor" name="doctor" class="select-chosen" data-placeholder="Choose a Country.." style="width: 250px;">
+                                      <option value="-">Not Specified</option>
+                                      <option value="1">Peerapat Lamyai</option>
+                                      <option value="2">Peerapat Rakkwamsook</option>
+                                      <option value="3">Peerapat Lipimongkol</option>
+                                    </select>  -->  
+                                    {{ form.appointment }}
                                   </div>
-                                  <div class="col-md-2">
-                                    <select id="appmonth" name="appmonth" class="select-chosen" data-placeholder="Month" style="width: 250px;">
-                                        <option value="-">Month</option>
-                                    </select>   
-                                  </div>
-                                  <div class="col-md-2">
-                                    <select id="appdate" name="appdate" class="select-chosen" data-placeholder="Date" style="width: 250px;">
-                                        <option value="-">Date</option>
-                                    </select>   
-                                  </div>
-                                  <div class="col-md-4">
-                                    <label class="radio-inline" for="morningperiod">
-                                        <input type="radio" id="example-inline-radio1" name="morningperiod" value="morning"> Morning
-                                    </label>
-                                    <label class="radio-inline" for="afternoonperiod">
-                                        <input type="radio" id="example-inline-radio2" name="afternoonperiod" value="afternoon"> 
-                                        Afternoon
-                                    </label>
                                 </div>
+                                <div class="form-group">
+                                  <label class="col-md-3 control-label" for="causes">Causes</label>
+                                  <div class="col-md-9">
+                                    <!-- <textarea id="causes" name="patientcauses" rows="4" class="form-control" placeholder="Describe your cause of sickness here .."></textarea> -->
+                                    {{ form.cause }}
+                                  </div>
+                                </div>
+                                <div class="form-group">
+                                  <label class="col-md-3 control-label" for="symtoms">Symtoms</label>
+                                  <div class="col-md-9">
+                                    <!-- <textarea id="symtoms" name="patientsymtoms" rows="4" class="form-control" placeholder="Describe your symtoms here .."></textarea> -->
+                                    {{ form.symptom }}
+                                  </div>
                                 </div>
 
-                            </div>
-                            <div class="form-group">
-                                <label class="col-md-3 control-label" for="causes">Causes</label>
-                                <div class="col-md-9">
-                                    <textarea id="causes" name="patientcauses" rows="4" class="form-control" placeholder="Describe your cause of sickness here .."></textarea>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="col-md-3 control-label" for="symtoms">Symtoms</label>
-                                <div class="col-md-9">
-                                    <textarea id="symtoms" name="patientsymtoms" rows="4" class="form-control" placeholder="Describe your symtoms here .."></textarea>
-                                </div>
-                            </div>
-                            
-                            <div class="form-group form-actions">
-                                <div class="col-md-4 col-md-offset-4">
-                                    <a href="#modal-confirm" data-toggle="modal"  type="button"  class="btn btn-sm btn-primary"><i class="fa fa-angle-right"></i> Submit</a>
+                                <div class="form-group form-actions">
+                                  <div class="col-md-4 col-md-offset-4">
+                                    <a id="submit-button" type="button" class="btn btn-sm btn-primary"><i class="fa fa-angle-right"></i> Submit</a>
                                     <button type="reset" class="btn btn-sm btn-warning"><i class="fa fa-repeat"></i> Reset</button>
+                                  </div>
                                 </div>
+                              </form>
+                              <!-- END Basic Form Elements Content -->
                             </div>
-                        </form>
-                        <!-- END Basic Form Elements Content -->
-                    </div>
-                    <!-- END Basic Form Elements Block -->
-                    
+                          </div>
+                          <!-- END Basic Form Elements Block -->
+                          <div id="modal-summary" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+                            <div class="modal-dialog">
+                              <div class="modal-content">
+                                <!-- Modal Header -->
+                                <div class="modal-header text-center">
+                                  <h2 class="modal-title"><i class="fa fa-navicon"></i> Appointment Summary</h2>
+                                </div>
+                                <!-- END Modal Header -->
 
-                
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.5.1/moment.min.js"></script>
-{% load staticfiles %}
-<script type="text/javascript" src="{% static 'js/jquery-2.1.3.js' %}"></script>
-<script type="text/javascript" src="{% static 'js/jquery-ui-1.11.2.js' %}"></script>
-<script type="text/javascript" src="{% static 'js/moment-2.5.1.js' %}"></script>
-{% endblock %}
+                                <!-- Modal Body -->
+                                <div class="modal-body">
+                                  <form action="index.html" method="post" enctype="multipart/form-data" class="form-horizontal form-bordered" onsubmit="return false;">
+                                    <fieldset>
+                                      <legend>Appointment Info</legend>
+                                      <div class="form-group">
+                                        <label class="col-md-4 control-label">Patient Name</label>
+                                        <div class="col-md-8">
+                                          <p class="form-control-static" id="s-name">Loading ...</p>
+                                        </div>
+                                      </div>
+                                      <div class="form-group">
+                                        <label class="col-md-4 control-label">Department</label>
+                                        <div class="col-md-8">
+                                          <p class="form-control-static" id="s-department">Loading ...</p>
+                                        </div>
+                                      </div>
+                                      <div class="form-group">
+                                        <label class="col-md-4 control-label">Doctor</label>
+                                        <div class="col-md-8">
+                                          <p class="form-control-static" id="s-doctor">Loading ...</p>
+                                        </div>
+                                      </div>
+                                      <div class="form-group">
+                                        <label class="col-md-4 control-label">Appointment Date</label>
+                                        <div class="col-md-8">
+                                          <p class="form-control-static" id="s-date">Loading ...</p>
+                                        </div>
+                                      </div>
+                                    </fieldset>
+                                    <fieldset>
+                                      <legend>Causes and Symtoms</legend>
+                                      <div class="form-group">
+                                        <label class="col-md-4 control-label">Causes</label>
+                                        <div class="col-md-8">
+                                          <p class="form-control-static" id="s-cause">Loading ...</p>
+                                        </div>
+                                      </div>
+                                      <div class="form-group">
+                                        <label class="col-md-4 control-label">Symtoms</label>
+                                        <div class="col-md-8">
+                                          <p class="form-control-static" id="s-symptom">Loading ...</p>
+                                        </div>
+                                      </div>
+                                    </fieldset>
+                                    <div class="form-group form-actions">
+                                      <div class="col-xs-12 text-right">
+                                        <button type="button" class="btn btn-sm btn-success viewfullprofile" onclick="submitForm()">
+                                          Submit
+                                        </button>
+                                        <button type="button" class="btn btn-sm btn-default" data-dismiss="modal">Close</button>
+                                      </div>
+                                    </div>
+                                  </form>
+                                </div>
+                                <!-- END Modal Body -->
+                              </div>
+                            </div>
+                          </div>
+
+                          <div id="modal-success" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+                            <div class="modal-dialog">
+                              <div class="modal-content">
+                                <!-- Modal Header -->
+                                <div class="modal-header text-center">
+                                  <h2 class="modal-title"><i class="fa fa-check"></i> Save Successfully</h2>
+                                </div>
+                                <!-- Modal Body -->
+                                <div class="modal-body">
+                                  <p> Appointment has been sent to doctor. Redirecting in 5 sec ...
+                                </div>
+                                <!-- END Modal Body -->
+                              </div>
+                            </div>
+                          </div>
+
+                          <div id="modal-fail" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+                            <div class="modal-dialog">
+                              <div class="modal-content">
+                                <!-- Modal Header -->
+                                <div class="modal-header text-center">
+                                  <h2 class="modal-title"><i class="fa fa-times"></i> Save Failed</h2>
+                                </div>
+                                <!-- Modal Body -->
+                                <div class="modal-body">
+                                  <p> Please fill the form carefully. </p>
+                                </div>
+
+                                <!-- END Modal Body -->
+                              </div>
+                            </div>
+                          </div>
+
+
+
+                          <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+                          <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js"></script>
+                          {% load staticfiles %}
+                          <script type="text/javascript" src="{% static 'js/jquery-2.1.3.js' %}"></script>
+                          <script type="text/javascript" src="{% static 'js/jquery-ui-1.11.2.js' %}"></script>
+                          <script type="text/javascript" src="{% static 'js/moment-2.5.1.js' %}"></script>
+                          <script type="text/javascript" src="{% static 'js/appointment/appointment.js' %}"></script>
+                          {% endblock %}
