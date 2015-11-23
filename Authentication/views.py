@@ -69,7 +69,10 @@ def index(request):
             #return HttpResponseRedirect('/default/createuser')
             users = User.objects.all()
             count_user = users.count()
-            return render(request, 'admin/index_.html',{'total':count_user,'role':role})
+            return render(request, 'admin/index_.html',{'total':count_user,
+                'firstname':getUserProfile(request.user).firstname,
+                'lastname':getUserProfile(request.user).lastname,
+                'role':role})
 
     # Render the response and send it back!
     return render(request, 'theme/login.html',{'message':'You have to login to view this Page.'})
@@ -432,6 +435,7 @@ def officer_createPatient(request):
             'officer/addPatient.html',
             {'user_form': user_form, 'profile_form': profile_form, 'patient_form':patient_form,'registered': registered} )
 
+
 def viewuser(request, userl_slug):
 
     # Create a context dictionary which we can pass to the template rendering engine.
@@ -468,3 +472,4 @@ def edituser(request, userl_slug):
 
     ####### PLEASE EDIT TO DIRECT TO VIEW USER ##########
     return HttpResponse(user_info['firstname'])
+

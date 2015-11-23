@@ -16,5 +16,5 @@ urlpatterns = [
     url(r'^viewuser/(?P<userl_slug>\w+)$', views.viewuser, name='viewuser'),
     url(r'^edituser/(?P<userl_slug>\w+)$', views.edituser, name='edituser'),
     #url(r'^admin/$', views.admin_index, name='createuser')
-    url(r'^seed/$', views.seed,name='seed')
+    url(r'^seed/$', views.seed,name='seed'),
 ]

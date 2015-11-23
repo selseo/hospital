@@ -32,7 +32,7 @@
                         <!-- Responsive Full Content -->
                         <div class="row">
                             <div class="form-group">
-                                    <a href="/default/createuserform/"><button  class="btn btn-sm btn-primary"><i class="fa fa-plus-circle"></i> Add Personnel</button></a>
+                                    <a href="/default/createuser/"><button  class="btn btn-sm btn-primary"><i class="fa fa-plus-circle"></i> Add Personnel</button></a>
                                 <br>
                             </div>
                         </div>
@@ -218,4 +218,12 @@
                 </div>
             </div>
         </div>
+{% endblock %}
+
+{% block script %}
+
+<!-- Load and execute javascript code used only in this page -->
+<script src="{% static 'js/pages/tablesDatatables.js' %}"></script>
+<script>$(function(){ TablesDatatables.init(); });</script>
+
 {% endblock %}
