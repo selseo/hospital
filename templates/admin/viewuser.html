@@ -1,0 +1,83 @@
+{% extends "theme/base.html" %}
+{% load staticfiles %}
+
+{% block title %}
+    Admin : SE hospital
+{% endblock %}
+
+
+
+
+{% block content %}
+<div id="page-content">
+                    <!-- Blank Header -->
+                    <div class="content-header">
+                        <div class="header-section animation-stretchRight">
+                            <h1>
+                                <i class="gi gi-user"></i>View User
+                                <a type="button" class="btn btn-primary" href="/default/viewuserlist/">Back</a>
+                                <br>
+                            </h1>
+                        </div>
+                    </div>
+                    <ul class="breadcrumb breadcrumb-top">
+                        <li><a href="javascript:void(0)"><i class="fa fa-home"></i> Dashboard</a></li>
+                        <li>View User</li>
+                    </ul>
+                    <!-- END Blank Header -->
+                    <!-- Basic Form Elements Block -->
+                    <div class="block">
+                        <!-- Basic Form Elements Title -->
+                        <div class="block-title">
+                            
+                            <h2><strong>View User</strong> : {{firstname}} {{lastname}} </h2>
+                        </div>
+                        <!-- END Form Elements Title -->
+
+                        <!-- Basic Form Elements Content -->
+                        <form action="page_forms_general.html" method="post" enctype="multipart/form-data" class="form-horizontal form-bordered" onsubmit="return false;">
+                            <!-- <div class="form-group">
+                                <label class="col-md-3 control-label">Static</label>
+                                <div class="col-md-9">
+                                    <p class="form-control-static">Username</p>
+                                </div>
+                            </div> -->
+                            <div class="form-group">
+                                <label class="col-md-3 control-label" for="example-text-input"><strong>Firstname :</strong></label> {{firstname}}
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-3 control-label" for="example-text-input"><strong>Lastname :</strong> </label>{{lastname}}
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-3 control-label" for="example-text-input"><strong>Role :</strong> </label>{{role}}
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="col-md-3 control-label" for="example-text-input"><strong>Sex :</strong> </label>{{sex}}
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-3 control-label" for="example-text-input"><strong>Birthdate :</strong> </label>{{birthdate}}
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-3 control-label" for="example-text-input"><strong>ID card :</strong> </label>{{idcard}}
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-3 control-label" for="example-text-input"><strong>Phone :</strong> </label>{{phone}}
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="col-md-3 control-label" for="example-text-input"><strong>Department :</strong> </label>{{department}}
+                            </div>
+                            
+
+                            
+                        </form>
+                        <!-- END Basic Form Elements Content -->
+                    </div>
+                    <!-- END Basic Form Elements Block -->
+                    
+
+                </div>
+
+
+{% endblock %}

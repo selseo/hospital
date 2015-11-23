@@ -519,23 +519,40 @@ def viewuser(request, userl_slug):
 
     # Create a context dictionary which we can pass to the template rendering engine.
     user_info = {}
-
     try:
-        # Can we find a category name slug with the given name?
-        # If we can't, the .get() method raises a DoesNotExist exception.
-        # So the .get() method returns one model instance or raises an exception.
         userl = UserProfile.objects.get(slug=userl_slug)
-        user_info['firstname'] = userl.firstname
-        user_info['lastname'] = userl.lastname
-        user_info['role'] = userl.lastname
+        firstname=userl.firstname
+        lastname=userl.lastname
+        role=userl.role
+        if role==0:
+            sex=Patient.objects.get(userprofile=userl).sex
+            idcard=Patient.objects.get(userprofile=userl).idcard
+            birthdate=Patient.objects.get(userprofile=userl).birthdate
+            phone=Patient.objects.get(userprofile=userl).phone
+        else :
+            sex=None
+            idcard=None
+            birthdate=None
+            phone=None
+        if role==1:
+            department=Doctor.objects.get(userprofile=userl).department
+        else :
+            department=None
 
-    except UserProfile.DoesNotExist:
-        # We get here if we didn't find the specified category.
-        # Don't do anything - the template displays the "no category" message for us.
+    except UserProfile.DoesNotExist :
         return HttpResponseRedirect('/default/viewuserlist/')
-
-    ####### PLEASE EDIT TO DIRECT TO VIEW USER ##########
-    return HttpResponse(user_info['firstname'])
+     
+    return render(request,
+            'admin/viewuser.html',
+            {'firstname':firstname,
+            'lastname':lastname,
+            'role':role,
+            'sex':sex,
+            'idcard':idcard,
+            'birthdate':birthdate,
+            'phone':phone,
+            'department':department,
+            'userl':userl} )
 
 
 @user_passes_test(admin_check)
@@ -549,11 +566,12 @@ def edituser(request, userl_slug):
         user_info['firstname'] = userl.firstname
         user_info['lastname'] = userl.lastname
         user_info['role'] = userl.role
-        user_info['department']=Doctor.objects.get(userprofile=userl).department
-        userDoc=Doctor.objects.get(userprofile=userl)
+        if userl.role==1:
+            user_info['department']=Doctor.objects.get(userprofile=userl).department
+            userDoc=Doctor.objects.get(userprofile=userl)
         userAccount = userl.user
 
-    except UserProfile.DoesNotExist or Doctor.DoesNotExist:
+    except UserProfile.DoesNotExist:
         return HttpResponseRedirect('/default/viewuserlist/')
 
     
@@ -623,8 +641,9 @@ def edituser(request, userl_slug):
             'firstname': user_info['firstname'],
             'lastname':user_info['lastname'],
             'role':user_info['role']})
-        admin_doctor_form= AdminCreateDoctor(initial={
-            'department': user_info['department']})
+        if user_info['role']==1:
+            admin_doctor_form= AdminCreateDoctor(initial={
+                'department': user_info['department']})
 
 
 
