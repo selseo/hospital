@@ -30,9 +30,8 @@ urlpatterns = [
     url(r'^timetable/$',views.timetable,name='timetable'),
     url(r'^gettimetable/$',views.gettimetable),
     url(r'^savetimetable/$',views.savetimetable),
-    url(r'^seeddoctor/$',views.seedDoctor),
-    url(r'^seedpatient/$',views.seedPatient),
-    url(r'^seedappointment/$',views.seedAppointment),
+    url(r'^searchpatient/$',views.searchpatient),
+    url(r'^seed/$',views.seed),
 ]
 
 if settings.DEBUG:
