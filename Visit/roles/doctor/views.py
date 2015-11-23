@@ -29,9 +29,9 @@ def view(request):
 	#if request.user.is_authenticated():
 		#if getUserProfile(request.user).role==1://Doctor
 			return render(request, 'doctor/view.html',{'table':PatientVisitInfo.objects.filter(
-		 		lastUpdate__day=datetime.now().day,
-		 		lastUpdate__month=datetime.now().month,
-		 		lastUpdate__year=datetime.now().year,
+		 		# lastUpdate__day=datetime.now().day,
+		 		# lastUpdate__month=datetime.now().month,
+		 		# lastUpdate__year=datetime.now().year,
 		 		status=1
 			)})
 	#else :
