@@ -73,10 +73,14 @@ def editappointmentbystaff(request):
 
 
 def reschedule(request, aid):
+   # appointment = Appointment.objects.get(id=aid)
+    
     return render(request, 'appointment/reschedule.html', {'appointment': []})
 
 
 def cancel(request, aid):
+   # appointment = Appointment.objects.get(id=aid)
+    
     return render(request, 'appointment/cancel.html', {'appointment': []})
 
 
