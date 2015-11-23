@@ -111,15 +111,41 @@ def editappointmentbystaff(request, pid):
 
 
 def reschedule(request, aid):
-   # appointment = Appointment.objects.get(id=aid)
-    
-    return render(request, 'appointment/reschedule.html', {'appointment': []})
+    if request.method == 'POST':
+        newapp = request.POST.get('newapp')
+        timetable = timeTable.objects.get(id=newapp)
+        app = Appointment.objects.get(id=aid)
+        app.timetable_id = timetable
+        app.save()
+        return HttpResponseRedirect('/default/')
+
+
+    appointment = Appointment.objects.filter(id=aid).values(
+        'id', 'timetable_id__doctor_id__department', 'timetable_id__doctor_id__userprofile__firstname', 'timetable_id__doctor_id__userprofile__lastname',
+        'timetable_id__date', 'timetable_id__period'
+        )
+    doctor = Doctor.objects.get(timetable__appointment=aid)
+    # appointment = serializers.serialize('json', appointment)
+    timelist = timeTable.objects.filter(doctor_id=doctor, date__gte=datetime.date.today()).order_by('date')
+    # timelist = serializers.serialize('json', timelist)
+    return render(request, 'appointment/reschedule.html', {'appointment': appointment.first, 'timelist': timelist })
 
 
 def cancel(request, aid):
-   # appointment = Appointment.objects.get(id=aid)
-    
-    return render(request, 'appointment/cancel.html', {'appointment': []})
+    if request.method == 'POST':
+        app = Appointment.objects.get(id=aid)
+        app.delete()
+        return HttpResponseRedirect('/default/')
+
+    appointment = Appointment.objects.filter(id=aid).values(
+        'id', 'timetable_id__doctor_id__department', 'timetable_id__doctor_id__userprofile__firstname', 'timetable_id__doctor_id__userprofile__lastname',
+        'timetable_id__date', 'timetable_id__period'
+        )
+    doctor = Doctor.objects.get(timetable__appointment=aid)
+    # appointment = serializers.serialize('json', appointment)
+    timelist = timeTable.objects.filter(doctor_id=doctor, date__gte=datetime.date.today()).order_by('date')
+    # timelist = serializers.serialize('json', timelist)
+    return render(request, 'appointment/cancel.html', {'appointment': appointment.first, 'timelist': timelist })
 
 
 def patientlist(request):

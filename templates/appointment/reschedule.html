@@ -29,22 +29,27 @@
             <a href="javascript:void(0)" class="btn btn-alt btn-sm btn-primary" data-toggle="block-toggle-content"><i class="fa fa-arrows-v"></i></a>
             <a href="javascript:void(0)" class="btn btn-alt btn-sm btn-primary" data-toggle="block-toggle-fullscreen"><i class="fa fa-desktop"></i></a>
         </div>
-        <h2>Patient : Huhuhihi kikihuhu</h2>
+        <h2><strong>Appointment Reschedule</strong> Form</h2>
     </div>
     <!-- END Example Title -->
 
     <!-- Example Content -->
     <p class="well">
         <!-- <a href="#modal-patient" data-toggle="modal" type="button" class="btn btn-lg btn-warning pull-right">View patient information</a> -->
-        <strong>Appointment Number : </strong> 483904 <br>
-        <strong>Doctor Name : </strong> Abudabee kikihihi <br>
-        <strong>Department : </strong> Surgery<br>
-        <strong>Appointment Date : </strong> 03/11/2558, Morning
-        
+        <strong>Appointment Number : </strong> {{ appointment.id }} <br>
+        <strong>Doctor Name : </strong> {{ appointment.timetable_id__doctor_id__userprofile__firstname }} {{ appointment.timetable_id__doctor_id__userprofile__lastname }} <br>
+        <strong>Department : </strong> {{ appointment.timetable_id__doctor_id__department }}<br>
+        <strong>Appointment Date : </strong> {{ appointment.timetable_id__date }}
+                            {% if appointment.timetable_id__period == 'm' %} 
+                                , Morning
+                            {% else %}
+                                , Afternoon
+                            {% endif %}
     </p>
     <!-- END Example Content -->
 
-    <form action="" method="post" enctype="multipart/form-data" class="form-horizontal form-bordered" onsubmit="return false;">
+    <form action="./" method="post" enctype="multipart/form-data" class="form-horizontal form-bordered">
+        {% csrf_token %}
         <fieldset>
             <legend>New Appointment</legend>
             <div class="form-group">
@@ -56,40 +61,30 @@
                     </select>
                 -->
                 <div class="col-md-9">
-                      <div class="col-md-4" style="padding-left: 0px;">
-                        <select id="example-chosen" name="example-chosen" class="select-chosen" data-placeholder="Choose a Country.." style="width: 250px;">
-                            <option value="United States">Year</option>
+                      <div class="col-md-12" style="padding-left: 0px;">
+                        <select id="newapp" name="newapp" class="form-control">
+                        {% for t in timelist %}
+                            <option value="{{t.pk}}">{{t.date}} 
+                            {% if t.period == 'm' %} 
+                                , Morning
+                            {% else %}
+                                , Afternoon
+                            {% endif %}
+                             </option>
+                        {% endfor %}
                         </select>   
                       </div>
-                      <div class="col-md-4">
-                        <select id="example-chosen" name="example-chosen" class="select-chosen" data-placeholder="Choose a Country.." style="width: 250px;">
-                            <option value="United States">Month</option>
-                        </select>   
-                      </div>
-                      <div class="col-md-4">
-                        <select id="example-chosen" name="example-chosen" class="select-chosen" data-placeholder="Choose a Country.." style="width: 250px;">
-                            <option value="United States">Date</option>
-                        </select>   
-                      </div>
-                      <div class="col-md-6">
-                        <label class="radio-inline" for="example-inline-radio1">
-                            <input type="radio" id="example-inline-radio1" name="example-inline-radios" value="option1"> Morning
-                        </label>
-                        <label class="radio-inline" for="example-inline-radio2">
-                            <input type="radio" id="example-inline-radio2" name="example-inline-radios" value="option2"> 
-                            Afternoon
-                        </label>
-                    </div>
                     </div>
                 </div>
 
             </div>
         </fieldset>
+        <hr>
+    <button type="submit"  class="btn btn-block btn-success" style="margin-bottom:2em; width:90%; margin-left: 5%;" data-target=".bs-example-modal-sm">Reschedule this Appointment</a>
     </form>
-    <hr>
-    <a href="#modal-confirm"  data-toggle="modal" type="button"  class="btn btn-block btn-success" style="margin-bottom:2em;" data-target=".bs-example-modal-sm">Reschedule this Appointment</a>
+    
 
-    <div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+    <!-- <div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
         <div class="modal-dialog modal-sm">
             <div class="modal-content">
                 <div class="modal-header">
@@ -101,7 +96,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> -->
 
 </div>
 <!-- END Example Block -->
