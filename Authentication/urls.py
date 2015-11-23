@@ -18,4 +18,5 @@ urlpatterns = [
     url(r'^setStatus/$', views.setStatus, name='setStatus'),
     #url(r'^admin/$', views.admin_index, name='createuser')
     url(r'^seed/$', views.seed,name='seed'),
+    url(r'^try/$', views.testtry,name='testtry'),
 ]
