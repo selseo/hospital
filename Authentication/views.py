@@ -70,7 +70,7 @@ def index(request):
         role = getUserProfile(request.user).role
         if role==0:
             #return render(request, 'default/index.html')
-            return render(request, 'default/index.html',{
+            return render(request, 'patient/index.html',{
                 'firstname':getUserProfile(request.user).firstname,
                 'lastname':getUserProfile(request.user).lastname,
                 'role':getUserProfile(request.user).role}
@@ -248,6 +248,7 @@ def user_login(request):
         # blank dictionary object...
             return render(request, 'theme/login.html', {})
 
+@login_required
 @user_passes_test(admin_check)
 def admin_create_user(request):
 
