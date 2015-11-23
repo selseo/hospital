@@ -7,8 +7,8 @@ import json
 from django.http import JsonResponse
 from .models import Department,Dee,timeTable,Appointment
 from Authentication.models import Patient, UserProfile, Doctor
-from datetime import datetime
-
+# from datetime import datetime
+import datetime
 #for restframework
 from rest_framework import viewsets
 from .serializers import DepartmentSerializer, DeeSerializer
@@ -65,7 +65,7 @@ def appointmentbystaff(request):
         # save to database
         
         timetable = timeTable.objects.get(id=data.get('appointment'))
-        patient = Patient.objects.get(userprofile_id=3)
+        patient = Patient.objects.get(userprofile_id=data.get('patientid'))
 
         newapp = Appointment.objects.create(
             patient_id=patient,
@@ -123,7 +123,7 @@ def getpatientlist(request):
     date = request.GET.get('date')
     # move below line to manager class
     availableDate = str(date)+"-"+str(month)+"-"+str(year)    
-    d = datetime.strptime(availableDate, "%d-%m-%Y")
+    d = datetime.datetime.strptime(availableDate, "%d-%m-%Y")
 
     # get timetable first to refer appointment
     mtimetable = timeTable.objects.filter(doctor_id=doctor, date=d, period='m')
