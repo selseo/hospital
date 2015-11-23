@@ -14,21 +14,16 @@ FAVORITE_COLORS_CHOICES = (
 )
 
 class AppForm(forms.Form):
-	Department = forms.ModelChoiceField(queryset=dee,to_field_name="name")
-	
-	Doctor = forms.ModelChoiceField(queryset=doctor,to_field_name="drname")
-	#Doctor = forms.CharField(required=True,max_length=100)
-	Date = forms.DateField(widget=SelectDateWidget())
-	Time = forms.MultipleChoiceField(required=True,
-		widget=forms.CheckboxSelectMultiple, 
-		choices=FAVORITE_COLORS_CHOICES)
-	Symptom = forms.CharField(widget=forms.Textarea)
-	Cause = forms.CharField(widget=forms.Textarea)
-
-	Doctor.widget.attrs['class'] = 'form-control'
-	Date.widget.attrs['class'] = 'form-control'
-	Symptom.widget.attrs['class'] = 'form-control'
-	Cause.widget.attrs['class'] = 'form-control'
+	department = forms.ModelChoiceField(queryset=department, to_field_name="name", required=True, empty_label="--- Select Department ---",
+		widget=forms.Select(attrs={'id': 'department', 'class': 'form-control'}))
+	doctor = forms.ChoiceField(required=True,
+		widget=forms.Select(attrs={'id': 'doctor', 'class': 'form-control'}))
+	appointment = forms.ChoiceField(required=True,
+		widget=forms.Select(attrs={'id': 'appointment', 'class': 'form-control'}))
+	symptom = forms.CharField(widget=forms.Textarea(
+		attrs={'id': 'symptom', 'class': 'form-control', 'rows': 4, 'placeholder' : 'Describe your symptoms here ....'}))
+	cause = forms.CharField(widget=forms.Textarea(
+		attrs={'id': 'cause', 'class': 'form-control', 'rows': 4, 'placeholder' : 'Describe your causes here ....'}))
 
 class AppByStaff(forms.Form):
 	patientid = forms.CharField(max_length=100, required=True, 
@@ -47,3 +42,4 @@ class AppByStaff(forms.Form):
 		attrs={'id': 'symptom', 'class': 'form-control', 'rows': 4, 'placeholder' : 'Describe your symptoms here ....'}))
 	cause = forms.CharField(widget=forms.Textarea(
 		attrs={'id': 'cause', 'class': 'form-control', 'rows': 4, 'placeholder' : 'Describe your causes here ....'}))
+	
