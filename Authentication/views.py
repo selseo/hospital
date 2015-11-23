@@ -322,6 +322,9 @@ def view_user_list(request):
     #user_list = UserProfile.objects.all()
     user_list = UserProfile.objects.exclude(role=0)
     paginator = Paginator(user_list, 15) # Show 25 contacts per page
+    alluser=UserProfile.objects.all()
+    allusernum=alluser.count()
+    alluseravail=alluser.filter(status=True).count()
 
     page = request.GET.get('page')
     try:
@@ -333,7 +336,10 @@ def view_user_list(request):
         # If page is out of range (e.g. 9999), deliver last page of results.
         userls = paginator.page(paginator.num_pages)
 
-    return render(request,'admin/viewuserlistpage.html', {'userls': userls})
+    return render(request,'admin/viewuserlistpage.html', {
+        'userls': userls,
+        'allusernum': allusernum,
+        'alluseravail': alluseravail})
     #return render (request,'admin/viewuserlistpage.html')
 
 @csrf_exempt
