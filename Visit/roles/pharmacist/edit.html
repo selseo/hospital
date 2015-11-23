@@ -97,14 +97,14 @@ Pharmacist : SE hospital
 
                     <!-- Modal Body -->
                     <div class="modal-body  text-center" style="margin-left:2px;margin-right:2px;">                        
-                       <form action="index.html" method="post" enctype="multipart/form-data" class="form-horizontal form-bordered" onsubmit="return false;">
+                       <form action="{% url 'Visit:pharmacist-editStatus2' num %}" method="POST">
                             <fieldset style="padding-left: 16px;padding-right: 16px;">
                                 <legend>Are you sure to complete this prescription?</legend>
                             </fieldset>
                             <div class="form-group form-actions">
-                                <div class="col-md-12">
-                                    <a href="{% url 'Visit:pharmacist-editStatus2' num %}" type="submit" class="btn  btn-success">
-                                        Confirm</a>
+                                <div class="col-md-12" >
+                                    <input type="submit" value="Confirm" class="btn  btn-success">
+                                    
                                     <button type="button" class="btn  btn-danger" data-dismiss="modal">
                                         No</button>
                                 </div>

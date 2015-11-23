@@ -44,6 +44,7 @@ def index(request):
 
 @login_required
 @user_passes_test(pharmacist_check)
+@csrf_exempt
 def editStatus2(request,num):
 	myPatientVisitInfo = get_object_or_404(PatientVisitInfo, appointment_id=num)
 	myPrescription = myPatientVisitInfo.prescription_set.all()
