@@ -48,7 +48,9 @@
                                         <td class="text-center">
                                             <div class="btn-group btn-group-xs col-xs-5">
                                                 <a href="/default/viewuser/{{ userl.slug }}" class="btn btn-alt btn-default" type="button"><i class="hi hi-user"></i></a>
+                                                {% if userl.role != 0 %}
                                                 <a href="/default/edituser/{{ userl.slug }}" class="btn btn-alt btn-default" type="button"><i class="hi hi-pencil"></i></a>
+                                                {% endif %}
                                             </div>
                                             <label class="switch switch-primary">
                                             <!-- <form action="{% url 'Disease:setAvail' %}" method="post"> -->
@@ -70,21 +72,7 @@
                             <script src="{% static 'js/pages/tablesDatatables.js' %}"></script>
                             <script>$(function(){ TablesDatatables.init(); });</script>
 
-    <div class="pagination">
-        <span class="step-links">
-            {% if contacts.has_previous %}
-            <a href="?page={{ contacts.previous_page_number }}">previous</a>
-            {% endif %}
 
-            <span class="current">
-                Page {{ contacts.number }} of {{ contacts.paginator.num_pages }}.
-            </span>
-
-            {% if contacts.has_next %}
-            <a href="?page={{ contacts.next_page_number }}">next</a>
-            {% endif %}
-        </span>
-    </div>
     
 </div>
 

@@ -1,6 +1,41 @@
-edit.html {{num}}
 
-<form method='POST' action="{% url 'Visit:pharmacist-editStatus2' num %}">
+{% extends "theme/base.html" %}
+{% load staticfiles %}
+
+{% block title %}
+Pharmacist : SE hospital
+{% endblock %}
+
+{% block content %}
+ <div id="page-content">
+                    <!-- Blank Header -->
+                 
+                   
+                    <!-- END Blank Header -->
+
+                    <!-- Example Block -->
+                    <div class="block">
+                        <!-- Example Title -->
+                        <div class="block-title">
+                            <div class="block-options pull-right">
+                                <a href="javascript:void(0)" class="btn btn-alt btn-sm btn-primary" data-toggle="block-toggle-content"><i class="fa fa-arrows-v"></i></a>
+                                <a href="javascript:void(0)" class="btn btn-alt btn-sm btn-primary" data-toggle="block-toggle-fullscreen"><i class="fa fa-desktop"></i></a>
+                            </div>
+                            <h2>Prescription : {{pvi.appointment.patient_id.userprofile.firstname}} {{pvi.appointment.patient_id.userprofile.lastname}}</h2>
+                        </div>
+                        <!-- END Example Title -->
+
+                        <!-- Example Content -->
+                        <p class="well">
+                           
+                            
+                            <strong>Name : </strong> {{pvi.appointment.patient_id.userprofile.firstname}} {{pvi.appointment.patient_id.userprofile.lastname}} <br>
+                            <strong>By doctor : </strong>{{pvi.appointment.timetable_id.doctor_id.userprofile.firstname}} {{pvi.appointment.timetable_id.doctor_id.userprofile.lastname}}<br>
+                            <strong>Last updated : </strong> {{pvi.lastUpdate}}
+                            
+                        </p>
+                        <!-- END Example Content -->
+<!-- <form method='POST' action="{% url 'Visit:pharmacist-editStatus2' num %}">
 <ul>
         {% for prescription in myPrescription %}
            <li>{{ prescription.medicines }} 
@@ -9,8 +44,81 @@ edit.html {{num}}
         {% endfor %}
         </ul>
         <input type="submit" value="OK">
-</form>
-{% if form.errors %}
+</form> -->
+                        <table class="table table-vcenter table-striped">
+                            <thead>
+
+                                <tr>
+                                
+                                    <th>Drug name</th>
+                                    <th>Amount</th>
+                                    <th>Usage</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+ {% for prescription in myPrescription %}                                
+                                <tr>
+                                    
+                                    <td>{{prescription.medicines}}</td>
+                                    <td>{{prescription.amount}}</td>
+                                    <td>
+                                       {{prescription.usage}}
+                                    </td>
+                                </tr>
+ {% endfor %}
+                               
+                            </tbody>
+                        </table>
+                        <hr>
+                        <a href="#modal-confirm"  data-toggle="modal" type="button"  class="btn btn-block btn-success" style="margin-bottom:2em;">Complete this prescription!</a>
+                    </div>
+                    <!-- END Example Block -->
+                </div>
+                <!-- END Page Content -->
+
+                <!-- Footer -->
+                
+                <!-- END Footer -->
+            </div>
+            <!-- END Main Container -->
+        </div>
+        <!-- END Page Container -->
+
+  
+
+        <div id="modal-confirm" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <!-- Modal Header -->
+                    <div class="modal-header text-center">
+                        <h2 class="modal-title"> Confirmation</h2>
+                    </div>
+                    <!-- END Modal Header -->
+
+                    <!-- Modal Body -->
+                    <div class="modal-body  text-center" style="margin-left:2px;margin-right:2px;">                        
+                       <form action="{% url 'Visit:pharmacist-editStatus2' num %}" method="POST">
+                            <fieldset style="padding-left: 16px;padding-right: 16px;">
+                                <legend>Are you sure to complete this prescription?</legend>
+                            </fieldset>
+                            <div class="form-group form-actions" style="margin-bottom:7%;">
+                                <div class="col-md-12" >
+                                    <input type="submit" value="Confirm" class="btn  btn-success">
+                                    
+                                    <button type="button" class="btn  btn-danger" data-dismiss="modal">
+                                        No</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <!-- END Modal Body -->
+                </div>
+            </div>
+        </div>
+        <!-- END User Settings -->
+
+
+<!-- {% if form.errors %}
     {% for field in form %}
         {% for error in field.errors %}
             <div class="alert alert-error">
@@ -23,4 +131,5 @@ edit.html {{num}}
             <strong>{{ error|escape }}</strong>
         </div>
     {% endfor %}
-{% endif %}
+{% endif %} -->
+{%endblock%}

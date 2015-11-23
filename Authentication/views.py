@@ -19,7 +19,9 @@ from django.contrib.auth.hashers import make_password
 from django.contrib.auth.models import User
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from appointment.models import Appointment,timeTable
-from Visit.models import PatientVisitInfo
+from Visit.models import *
+from Disease.models import Disease
+from Medicine.models import Medicine
 import datetime
 # Create your views here.
 from django.contrib.auth.decorators import user_passes_test
@@ -77,10 +79,10 @@ def index(request):
             doctor=getDoctor(request.user)
             allapp=Appointment.objects.filter(timetable_id__doctor_id=doctor, timetable_id__date=datetime.date.today()).count()
             wait=PatientVisitInfo.objects.filter(lastUpdate__day=datetime2.now().day,
-                 lastUpdate__month=datetime2.now().month,
+                lastUpdate__month=datetime2.now().month,
                 lastUpdate__year=datetime2.now().year,appointment__timetable_id__doctor_id=doctor,status=1).count()
             checked=PatientVisitInfo.objects.filter(lastUpdate__day=datetime2.now().day,
-                 lastUpdate__month=datetime2.now().month,
+                lastUpdate__month=datetime2.now().month,
                 lastUpdate__year=datetime2.now().year,appointment__timetable_id__doctor_id=doctor,status=2).count()
             #return render(request, 'theme/doctor/index.html')
             return render(request, 'doctor/index.html',{
@@ -102,16 +104,22 @@ def index(request):
                 )
         if role==4:
             #return HttpResponse("You are Pharmacist")
-            return render(request, 'pharmacist/index.html',{
-                'firstname':getUserProfile(request.user).firstname,
-                'lastname':getUserProfile(request.user).lastname,
-                'role':getUserProfile(request.user).role}
-                )
+            #return render(request, 'pharmacist/index.html',{
+            #    'firstname':getUserProfile(request.user).firstname,
+            #    'lastname':getUserProfile(request.user).lastname,
+            #    'role':getUserProfile(request.user).role}
+            #    )
+            return HttpResponseRedirect('/visit/pharmacist')
         if role==5:
             #return HttpResponseRedirect('/default/createuser')
-            users = UserProfile.objects.exclude(role=0)
-            count_user = users.count()
-            return render(request, 'admin/index_.html',{'total':count_user,
+            allusernum=UserProfile.objects.count()
+            alluseravail=UserProfile.objects.filter(status=True).count()
+            allds=Disease.objects.count()
+            avds=Disease.objects.filter(availability=True).count()
+            allmed=Medicine.objects.count()
+            avmed=Medicine.objects.filter(availability=True).count()
+            return render(request, 'admin/index_.html',{'total':allusernum, 'avail':alluseravail,
+                'allds' : allds, 'avds':avds, 'allmed':allmed,'avmed':avmed,
                 'firstname':getUserProfile(request.user).firstname,
                 'lastname':getUserProfile(request.user).lastname,
                 'role':role})
@@ -335,12 +343,11 @@ def admin_create_user(request):
 
 def view_user_list(request):
     #user_list = UserProfile.objects.all()
-    user_list = UserProfile.objects.exclude(role=0).order_by('firstname')
+    user_list = UserProfile.objects.order_by('firstname')
     #user_list = UserProfile.objects.exclude(role=0)
     paginator = Paginator(user_list, 15) # Show 25 contacts per page
-    alluser=UserProfile.objects.exclude(role=0)
-    allusernum=alluser.count()
-    alluseravail=alluser.filter(status=True).count()
+    allusernum=UserProfile.objects.count()
+    alluseravail=UserProfile.objects.filter(status=True).count()
 
     page = request.GET.get('page')
     try:
@@ -526,8 +533,7 @@ def viewuser(request, userl_slug):
         # We get here if we didn't find the specified category.
         # Don't do anything - the template displays the "no category" message for us.
         return HttpResponseRedirect('/default/viewuserlist/')
-    if userl.role==0:
-        return HttpResponseRedirect('/default/viewuserlist/')
+
     ####### PLEASE EDIT TO DIRECT TO VIEW USER ##########
     return HttpResponse(user_info['firstname'])
 
