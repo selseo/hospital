@@ -104,7 +104,7 @@ def register(request):
             profile = profile_form.save(commit=False)
             profile.user = user
             profile.role=0
-            profile.status=1
+            profile.status=True
 
             # Did the user provide a profile picture?
             # If so, we need to get it from the input form and put it in the UserProfile model.
@@ -237,7 +237,7 @@ def admin_create_user(request):
             # This delays saving the model until we're ready to avoid integrity problems.
             profile = admin_user_form.save(commit=False)
             profile.user = user
-            profile.status=1
+            profile.status=True
 
             # Did the user provide a profile picture?
             # If so, we need to get it from the input form and put it in the UserProfile model.
@@ -300,7 +300,7 @@ def seed(request):
     user0.save()
     userp0,xxx=UserProfile.objects.get_or_create(
         firstname="Patient",
-        defaults={'user':user0,'firstname':"Patient",'lastname':"Tneitap",'role':0,'status':1}
+        defaults={'user':user0,'firstname':"Patient",'lastname':"Tneitap",'role':0,'status':True}
     )
     userp0.save()
     userpp,xxx=Patient.objects.get_or_create(
@@ -316,7 +316,7 @@ def seed(request):
     user1.save()
     userp1,xxx=UserProfile.objects.get_or_create(
         firstname="Doctor",
-        defaults={'user':user1,'firstname':"Doctor",'lastname':"Rotcod",'role':1,'status':1}
+        defaults={'user':user1,'firstname':"Doctor",'lastname':"Rotcod",'role':1,'status':True}
     )
     userp1.save()
 
@@ -327,7 +327,7 @@ def seed(request):
     user2.save()
     userp2,xxx=UserProfile.objects.get_or_create(
         firstname="Nurse",
-        defaults={'user':user2,'firstname':"Nurse",'lastname':"Rotcod",'role':2,'status':1}
+        defaults={'user':user2,'firstname':"Nurse",'lastname':"Rotcod",'role':2,'status':True}
     )
     userp2.save()
 
@@ -338,7 +338,7 @@ def seed(request):
     user3.save()
     userp3,xxx=UserProfile.objects.get_or_create(
         firstname="Officer",
-        defaults={'user':user3,'firstname':"Officer",'lastname':"Rotcod",'role':3,'status':1}
+        defaults={'user':user3,'firstname':"Officer",'lastname':"Rotcod",'role':3,'status':True}
     )
     userp3.save()
 
@@ -349,7 +349,7 @@ def seed(request):
     user4.save()
     userp4,xxx=UserProfile.objects.get_or_create(
         firstname="Pharmacist",
-        defaults={'user':user4,'firstname':"Pharmacist",'lastname':"Rotcod",'role':4,'status':1}
+        defaults={'user':user4,'firstname':"Pharmacist",'lastname':"Rotcod",'role':4,'status':True}
     )
     userp4.save()
 
@@ -360,7 +360,7 @@ def seed(request):
     user5.save()
     userp5,xxx=UserProfile.objects.get_or_create(
         firstname="Admin",
-        defaults={'user':user5,'firstname':"Admin",'lastname':"Rotcod",'role':5,'status':1}
+        defaults={'user':user5,'firstname':"Admin",'lastname':"Rotcod",'role':5,'status':True}
     )
     userp5.save()
 
@@ -397,7 +397,7 @@ def officer_createPatient(request):
             profile = profile_form.save(commit=False)
             profile.user = user
             profile.role=0
-            profile.status=1
+            profile.status=True
 
             # Did the user provide a profile picture?
             # If so, we need to get it from the input form and put it in the UserProfile model.
@@ -432,3 +432,39 @@ def officer_createPatient(request):
             'officer/addPatient.html',
             {'user_form': user_form, 'profile_form': profile_form, 'patient_form':patient_form,'registered': registered} )
 
+def viewuser(request, userl_slug):
+
+    # Create a context dictionary which we can pass to the template rendering engine.
+    user_info = {}
+
+    try:
+        # Can we find a category name slug with the given name?
+        # If we can't, the .get() method raises a DoesNotExist exception.
+        # So the .get() method returns one model instance or raises an exception.
+        userl = UserProfile.objects.get(slug=userl_slug)
+        user_info['firstname'] = userl.firstname
+        user_info['lastname'] = userl.lastname
+        user_info['role'] = userl.lastname
+
+    except UserProfile.DoesNotExist:
+        # We get here if we didn't find the specified category.
+        # Don't do anything - the template displays the "no category" message for us.
+        return HttpResponseRedirect('/default/viewuserlist/')
+
+    ####### PLEASE EDIT TO DIRECT TO VIEW USER ##########
+    return HttpResponse(user_info['firstname'])
+
+def edituser(request, userl_slug):
+    ##### THIS METHOD MUST EDIT#####
+    ## It looks like viewusermethod but you should to edit to make it can edit user profile in database ##
+    user_info = {}
+    try:
+        userl = UserProfile.objects.get(slug=userl_slug)
+        user_info['firstname'] = userl.firstname
+        user_info['lastname'] = userl.lastname
+        user_info['role'] = userl.lastname
+    except UserProfile.DoesNotExist:
+        return HttpResponseRedirect('/default/viewuserlist/')
+
+    ####### PLEASE EDIT TO DIRECT TO VIEW USER ##########
+    return HttpResponse(user_info['firstname'])
