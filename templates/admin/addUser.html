@@ -109,14 +109,14 @@
                 </div>
             </div>
             <div class="form-group" id="department" style="display:none;">
-                {% if admin_user_form.role.errors %}
+                {% if admin_doctor_form.department.errors %}
                 <div class="has-error">
                 {% endif %}
                 <label class="col-md-3 control-label" for="example-text-input">Role</label>
                     <div class="col-md-9">
-                        Select department
-                {% if admin_user_form.role.errors %}
-                        <span class="help-block">{{admin_user_form.role.errors.as_text}} </span>
+                        {{admin_doctor_form.department}}
+                {% if admin_doctor_form.department.errors %}
+                        <span class="help-block">{{admin_doctor_form.department.errors.as_text}} </span>
                     </div>
                 {% endif %}
                 </div>

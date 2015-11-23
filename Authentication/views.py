@@ -10,7 +10,7 @@ from django.shortcuts import render
 from django.contrib.auth import authenticate, login,logout
 from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib.auth.decorators import login_required
-from Authentication.forms import UserForm, UserProfileForm, PatientProfile,AdminCreateUser
+from Authentication.forms import UserForm, UserProfileForm, PatientProfile,AdminCreateUser,AdminCreateDoctor
 from django.views.decorators.csrf import csrf_exempt
 from django.core import serializers
 from datetime import datetime
@@ -263,7 +263,7 @@ def admin_create_user(request):
         admin_user_form = AdminCreateUser(data=request.POST)
         admin_doctor_form= AdminCreateDoctor(data=request.POST)
         # If the two forms are valid...
-        if user_form.is_valid() and admin_user_form.is_valid():
+        if user_form.is_valid() and admin_user_form.is_valid() and admin_doctor_form.is_valid() :
             # Save the user's form data to the database.
             user = user_form.save()
 
@@ -301,20 +301,20 @@ def admin_create_user(request):
         # Print problems to the terminal.
         # They'll also be shown to the user.
         else:
-            print (user_form.errors, admin_user_form.errors)
+            print (user_form.errors, admin_user_form.errors,admin_doctor_form.errors)
 
     # Not a HTTP POST, so we render our form using two ModelForm instances.
     # These forms will be blank, ready for user input.
     else:
         user_form = UserForm()
         admin_user_form = AdminCreateUser()
-
+        admin_doctor_form=AdminCreateDoctor()
     # Render the template depending on the context.
     role = getUserProfile(request.user).role
 
     return render(request,
             'admin/addUser.html',
-            {'user_form': user_form, 'admin_user_form': admin_user_form,'registered': registered,'role':role} )
+            {'user_form': user_form, 'admin_user_form': admin_user_form,'admin_doctor_form': admin_doctor_form,'registered': registered,'role':role} )
 
 
 def view_user_list(request):
