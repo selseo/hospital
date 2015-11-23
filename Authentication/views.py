@@ -1,7 +1,7 @@
 from django.http import HttpResponseRedirect, HttpResponse
 from django.http import Http404
 from django.contrib.auth.models import User
-from .models import UserProfile,Patient
+from .models import UserProfile,Patient,Doctor
 from django.template import RequestContext, loader
 from django.shortcuts import get_object_or_404, render
 from django.core.urlresolvers import reverse
@@ -10,7 +10,7 @@ from django.shortcuts import render
 from django.contrib.auth import authenticate, login,logout
 from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib.auth.decorators import login_required
-from Authentication.forms import UserForm, UserProfileForm, PatientProfile,AdminCreateUser
+from Authentication.forms import UserForm, UserProfileForm, PatientProfile,AdminCreateUser,AdminCreateDoctor
 from django.views.decorators.csrf import csrf_exempt
 from django.core import serializers
 from datetime import datetime
@@ -19,7 +19,43 @@ from django.contrib.auth.hashers import make_password
 from django.contrib.auth.models import User
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 # Create your views here.
+from django.contrib.auth.decorators import user_passes_test
 
+def admin_check(user):
+    userProfile = getUserProfile(user)
+    if(userProfile.role==5):
+        return True;
+    return False;
+
+def doctor_check(user):
+    userProfile = getUserProfile(user)
+    if(userProfile.role==1):
+        return True;
+    return False;
+
+def patient_check(user):
+    userProfile = getUserProfile(user)
+    if(userProfile.role==0):
+        return True;
+    return False;
+
+def officer_check(user):
+    userProfile = getUserProfile(user)
+    if(userProfile.role==3):
+        return True;
+    return False;
+
+def nurse_check(user):
+    userProfile = getUserProfile(user)
+    if(userProfile.role==2):
+        return True;
+    return False;
+
+def pharmacist_check(user):
+    userProfile = getUserProfile(user)
+    if(userProfile.role==4):
+        return True;
+    return False;
 
 def index(request):
     #variable for already check patient today
@@ -33,12 +69,12 @@ def index(request):
     if request.user.is_authenticated():
         role = getUserProfile(request.user).role
         if role==0:
-            #return render(request, 'default/index.html')
-            return render(request, 'default/index.html',{
-                'firstname':getUserProfile(request.user).firstname,
-                'lastname':getUserProfile(request.user).lastname,
-                'role':getUserProfile(request.user).role}
-                )
+            return HttpResponseRedirect('/app/editappointment/')
+            # return render(request, 'patient/index.html',{
+            #     'firstname':getUserProfile(request.user).firstname,
+            #     'lastname':getUserProfile(request.user).lastname,
+            #     'role':getUserProfile(request.user).role}
+            #     )
         if role==1:
             #return render(request, 'theme/doctor/index.html')
             return render(request, 'doctor/index.html',{
@@ -212,6 +248,8 @@ def user_login(request):
         # blank dictionary object...
             return render(request, 'theme/login.html', {})
 
+@login_required
+@user_passes_test(admin_check)
 def admin_create_user(request):
 
     # A boolean value for telling the template whether the registration was successful.
@@ -224,9 +262,9 @@ def admin_create_user(request):
         # Note that we make use of both UserForm and UserProfileForm.
         user_form = UserForm(data=request.POST)
         admin_user_form = AdminCreateUser(data=request.POST)
-
+        admin_doctor_form= AdminCreateDoctor(data=request.POST)
         # If the two forms are valid...
-        if user_form.is_valid() and admin_user_form.is_valid():
+        if user_form.is_valid() and admin_user_form.is_valid() and admin_doctor_form.is_valid() :
             # Save the user's form data to the database.
             user = user_form.save()
 
@@ -249,6 +287,11 @@ def admin_create_user(request):
 
             # Now we save the UserProfile model instance.
             profile.save()
+            if profile.role==1:
+                doctor=admin_doctor_form.save(commit=False)
+                doctor.userprofile=profile
+                doctor.save()
+
 
 
             # Update our variable to tell the template registration was successful.
@@ -259,24 +302,25 @@ def admin_create_user(request):
         # Print problems to the terminal.
         # They'll also be shown to the user.
         else:
-            print (user_form.errors, admin_user_form.errors)
+            print (user_form.errors, admin_user_form.errors,admin_doctor_form.errors)
 
     # Not a HTTP POST, so we render our form using two ModelForm instances.
     # These forms will be blank, ready for user input.
     else:
         user_form = UserForm()
         admin_user_form = AdminCreateUser()
-
+        admin_doctor_form=AdminCreateDoctor()
     # Render the template depending on the context.
     role = getUserProfile(request.user).role
 
     return render(request,
             'admin/addUser.html',
-            {'user_form': user_form, 'admin_user_form': admin_user_form,'registered': registered,'role':role} )
+            {'user_form': user_form, 'admin_user_form': admin_user_form,'admin_doctor_form': admin_doctor_form,'registered': registered,'role':role} )
 
 
 def view_user_list(request):
-    user_list = UserProfile.objects.all()
+    #user_list = UserProfile.objects.all()
+    user_list = UserProfile.objects.exclude(role=0)
     paginator = Paginator(user_list, 15) # Show 25 contacts per page
 
     page = request.GET.get('page')
@@ -308,7 +352,7 @@ def seed(request):
     userp0.save()
     userpp,xxx=Patient.objects.get_or_create(
         idcard="1100644983267",
-        defaults={'userprofile':userp0,'sex':"f",'idcard':"1100644983267",'phone':"0839826174",'address':"1",'birthdate':"1984-11-21"}
+        defaults={'userprofile':userp0,'sex':"f",'idcard':"1100644983267",'phone':"0839826174",'address':"1",'birthdate':"1984-11-21",'allergy':"xxx,aaa,eee,fkjfodhdj"}
     )
     userpp.save()
 
@@ -322,6 +366,11 @@ def seed(request):
         defaults={'user':user1,'firstname':"Doctor",'lastname':"Rotcod",'role':1,'status':True}
     )
     userp1.save()
+    userpd,xxx=Doctor.objects.get_or_create(
+        userprofile=userp1,
+        defaults={'userprofile':userp1,'department':"Cancer"}
+    )
+    userpd.save()
 
     user2,xxx=User.objects.get_or_create(
         username="user2",
@@ -436,6 +485,7 @@ def officer_createPatient(request):
             {'user_form': user_form, 'profile_form': profile_form, 'patient_form':patient_form,'registered': registered} )
 
 
+@user_passes_test(admin_check)
 def viewuser(request, userl_slug):
 
     # Create a context dictionary which we can pass to the template rendering engine.
@@ -454,22 +504,132 @@ def viewuser(request, userl_slug):
         # We get here if we didn't find the specified category.
         # Don't do anything - the template displays the "no category" message for us.
         return HttpResponseRedirect('/default/viewuserlist/')
-
+    if userl.role==0:
+        return HttpResponseRedirect('/default/viewuserlist/')
     ####### PLEASE EDIT TO DIRECT TO VIEW USER ##########
     return HttpResponse(user_info['firstname'])
 
+
+@user_passes_test(admin_check)
 def edituser(request, userl_slug):
     ##### THIS METHOD MUST EDIT#####
     ## It looks like viewusermethod but you should to edit to make it can edit user profile in database ##
+
     user_info = {}
     try:
         userl = UserProfile.objects.get(slug=userl_slug)
         user_info['firstname'] = userl.firstname
         user_info['lastname'] = userl.lastname
-        user_info['role'] = userl.lastname
-    except UserProfile.DoesNotExist:
+        user_info['role'] = userl.role
+        user_info['department']=Doctor.objects.get(userprofile=userl).department
+        userDoc=Doctor.objects.get(userprofile=userl)
+        userAccount = userl.user
+
+    except UserProfile.DoesNotExist or Doctor.DoesNotExist:
         return HttpResponseRedirect('/default/viewuserlist/')
 
-    ####### PLEASE EDIT TO DIRECT TO VIEW USER ##########
-    return HttpResponse(user_info['firstname'])
+    
+    
+
+    # A boolean value for telling the template whether the registration was successful.
+    # Set to False initially. Code changes value to True when registration succeeds.
+    registered = False
+
+    # If it's a HTTP POST, we're interested in processing form data.
+    if request.method == 'POST':
+        # Attempt to grab information from the raw form information.
+        # Note that we make use of both UserForm and UserProfileForm.
+        user_form = UserForm(data=request.POST)
+        admin_user_form = AdminCreateUser(data=request.POST)
+        admin_doctor_form= AdminCreateDoctor(data=request.POST)
+        # If the two forms are valid...
+        if admin_user_form.is_valid() and admin_doctor_form.is_valid():
+            # Save the user's form data to the database.
+            #user = user_form.save()
+            userprofile = userl
+            #user = user_form.save()
+            userprofile.firstname = request.POST['firstname']
+            userprofile.lastname = request.POST['lastname']
+            userprofile.role = request.POST['role']
+            userprofile.status = True
+            # Now we hash the password with the set_password method.
+            # Once hashed, we can update the user object.
+            if(request.POST['password']):
+                userAccount.set_password(request.POST['password'])
+            userDoc.department=request.POST['department']
+            userAccount.save()
+            userprofile.save()
+            userDoc.save()
+            # Now sort out the UserProfile instance.
+            # Since we need to set the user attribute ourselves, we set commit=False.
+            # This delays saving the model until we're ready to avoid integrity problems.
+            # userl = admin_user_form.save(commit=False)
+            # userl.user = user
+            
+
+            # Did the user provide a profile picture?
+            # If so, we need to get it from the input form and put it in the UserProfile model.
+            #if 'picture' in request.FILES:
+            #    profile.picture = request.FILES['picture']
+
+            # Now we save the UserProfile model instance.
+            
+
+
+            # Update our variable to tell the template registration was successful.
+            registered = True
+            return HttpResponseRedirect('/default/viewuserlist/')
+
+        # Invalid form or forms - mistakes or something else?
+        # Print problems to the terminal.
+        # They'll also be shown to the user.
+        else:
+            print (user_form.errors, admin_user_form.errors,admin_doctor_form.errors)
+
+    # Not a HTTP POST, so we render our form using two ModelForm instances.
+    # These forms will be blank, ready for user input.
+    else:
+        user_form = UserForm(initial={'username': userAccount.username,'password':userAccount.password})
+       
+        admin_user_form = AdminCreateUser(initial={
+            'firstname': user_info['firstname'],
+            'lastname':user_info['lastname'],
+            'role':user_info['role']})
+        admin_doctor_form= AdminCreateDoctor(initial={
+            'department': user_info['department']})
+
+
+
+    return render(request,
+            'admin/editUser.html',
+            {'user_form': user_form, 'admin_user_form': admin_user_form,'admin_doctor_form': admin_doctor_form,'registered': registered,'userl':userl} )
+
+
+
+@user_passes_test(admin_check)
+def testtry(request):
+    return HttpResponse('You are admin')
+
+@csrf_exempt
+def setStatus(request):
+    # return HttpResponse('')
+    
+    slug = request.POST["slug"]
+    status = request.POST["status"]
+    if status == "true":
+        usp = UserProfile.objects.get(slug=slug)
+        usp.status = True
+        usp.save()
+    else : 
+        usp = UserProfile.objects.get(slug=slug)
+        usp.status = False
+        usp.save()
+
+    # .update(availability=availability)
+    # print (di.availability)
+    # di.availability = availability
+    # di.save()
+    # di = Disease.objects.filter(ICD10=ICD10)
+    # res = serializers.serialize('json',di)
+    return HttpResponse('')     
 

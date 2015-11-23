@@ -3,9 +3,20 @@ from django.http import HttpResponseRedirect,HttpResponse,HttpRequest
 from .models import Disease
 from django.views.decorators.csrf import csrf_exempt
 from django.core import serializers
+from django.contrib.auth.decorators import login_required, user_passes_test
+from Authentication.models import UserProfile
 # Create your views here.
+#Method for get user profile
+def getUserProfile(user):
+    return UserProfile.objects.get(user=user)
+def admin_check(user):
+    userProfile = getUserProfile(user)
+    if(userProfile.role==5):
+        return True;
+    return False;
 
-########################### please remove comment syntax to use authen ####################
+@login_required
+@user_passes_test(admin_check)
 @csrf_exempt
 def index(request):
 
@@ -16,7 +27,9 @@ def index(request):
             #return HttpResponseRedirect('/default/')
     #else :
         #return HttpResponseRedirect('/default/')
-	
+
+@login_required
+@user_passes_test(admin_check)	
 @csrf_exempt
 def addDisease(request):
     if request.method == 'POST':
@@ -31,6 +44,8 @@ def addDisease(request):
     	else :
     		return render(request,'admin/disease.html',{'table':Disease.objects.all(),'message':'Add Disease Fail! Please recheck diseases name and ICD10','length':Disease.objects.count(),'avail':Disease.objects.filter(availability=True).count()})
 
+@login_required
+@user_passes_test(admin_check)
 @csrf_exempt
 def setAvailability(request):
 	# return HttpResponse('')
@@ -53,6 +68,9 @@ def setAvailability(request):
 	# di = Disease.objects.filter(ICD10=ICD10)
 	# res = serializers.serialize('json',di)
 	return HttpResponse('')		
+
+@login_required
+@user_passes_test(admin_check)
 @csrf_exempt
 def seed(request):
 		dis,xxx=Disease.objects.get_or_create(

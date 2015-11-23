@@ -1,3 +1,4 @@
+{% load staticfiles %}
 <div id="sidebar">
     <!-- Wrapper for scrolling functionality -->
     <div class="sidebar-scroll">
@@ -13,28 +14,25 @@
             <div class="sidebar-section sidebar-user clearfix">
                 <div class="sidebar-user-avatar">
                     <a href="page_ready_user_profile.html">
-                        <img src="img/placeholders/avatars/avatar2.jpg" alt="avatar">
+                        <img src="{% static 'img/placeholders/avatars/avatar2.jpg' %}" alt="avatar">
                     </a>
                 </div>
-                <div class="sidebar-user-name" style="font-size: 14px;">{{ firstname }} {{ lastname }}<br>
+                <div class="sidebar-user-name" style="font-size: 14px;">{{ request.user.userprofile.firstname }} 
+                    {{ request.user.userprofile.lastname }}<br>
                     <b>
-                        {% if role == 1 %}
+                        {% if request.user.userprofile.role == 1 %}
                         Doctor
-                        {% elif role == 0 %}
+                        {% elif request.user.userprofile.role == 0 %}
                         Patient
-                        {% elif role == 2 %}
+                        {% elif request.user.userprofile.role == 2 %}
                         Nurse
-                        {% elif role == 3 %}
+                        {% elif request.user.userprofile.role == 3 %}
                         Officer
-                        {% elif role == 4 %}
+                        {% elif request.user.userprofile.role == 4 %}
                         Pharmacist
-                        {% elif role == 5 %}
+                        {% elif request.user.userprofile.role == 5 %}
                         Admin
                         {% endif %}
-
-
-
-
                     </b></div>
                 <div class="sidebar-user-links">
                     <a href="#" data-toggle="tooltip" data-placement="bottom" title="Profile"><i class="gi gi-user"></i></a>
@@ -89,7 +87,7 @@
 
                     <span class="sidebar-header-title">Menu</span>
                 </li>
-                {% if role == 1 %}
+                {% if request.user.userprofile.role == 1 %}
                 <li>
                     <a href="#"><i class="fa fa-users sidebar-nav-icon"></i>View patient info</a>
                 </li>
@@ -99,39 +97,36 @@
                 <li>
                     <a href="#"><i class="fa fa-pencil-square-o sidebar-nav-icon"></i>Create timetable</a>
                 </li>
-                {% elif role == 0 %}
+                {% elif request.user.userprofile.role == 0 %}
                 <li>
-                    <a href="a_view_patient_info.html"><i class="fa fa-users sidebar-nav-icon"></i>View your appointment</a>
+                    <a href="/app/editappointment"><i class="fa fa-calendar sidebar-nav-icon"></i>View your appointment</a>
                 </li>
                 <li>
-                    <a href="/app/patientlist" class=" active"><i class="fa fa-calendar sidebar-nav-icon"></i>View Timetable</a>
+                    <a href="/app/show"><i class="fa fa-plus sidebar-nav-icon"></i>Make appointment</a>
                 </li>
+                {% elif request.user.userprofile.role == 2 %}
                 <li>
-                    <a href="/app/timetable" class=" active"><i class="fa fa-pencil-square-o sidebar-nav-icon"></i>Edit Timetable</a>
+                    <a href="#"><i class="fa fa-users sidebar-nav-icon"></i>View patient info</a>
                 </li>
-                {% elif role == 2 %}
+                {% elif request.user.userprofile.role == 3 %}
                 <li>
-                    <a href="a_view_patient_info.html"><i class="fa fa-users sidebar-nav-icon"></i>View patient info</a>
-                </li>
-                {% elif role == 3 %}
-                <li>
-                    <a href="a_view_patient_info.html"><i class="fa fa-users sidebar-nav-icon"></i>View patient info</a>
+                    <a href="#"><i class="fa fa-users sidebar-nav-icon"></i>View patient info</a>
                 </li>
                 <li>
                     <a href="/default/createpatient"><i class="fa fa-users sidebar-nav-icon"></i>Add patient</a>
                 </li>
                 
-                {% elif role == 4 %}
+                {% elif request.user.userprofile.role == 4 %}
                 
-                {% elif role == 5 %}
+                {% elif request.user.userprofile.role == 5 %}
                 <li>
-                    <a href="a_admin_view_medicine.html"><i class="fa fa-medkit sidebar-nav-icon"></i>View medicines</a>
+                    <a href="/medicine"><i class="fa fa-medkit sidebar-nav-icon"></i>View medicines</a>
                 </li>
                 <li>
-                    <a href="a_admin_view_disease.html"><i class="fa fa-bug sidebar-nav-icon"></i>View diseases</a>
+                    <a href="/disease"><i class="fa fa-bug sidebar-nav-icon"></i>View diseases</a>
                 </li>
                 <li>
-                    <a href="a_admin_view_personnel.html"><i class="fa fa-users sidebar-nav-icon"></i>View personnel</a>
+                    <a href="/default/viewuserlist"><i class="fa fa-users sidebar-nav-icon"></i>View personnel</a>
                 </li>
                 {% endif %}
                 <li>

@@ -4,10 +4,26 @@ from .models import Medicine
 from django.views.decorators.csrf import csrf_exempt
 from django.core import serializers
 # Create your views here.
+from django.contrib.auth.decorators import login_required, user_passes_test
+from Authentication.models import UserProfile
+# Create your views here.
+#Method for get user profile
+def getUserProfile(user):
+    return UserProfile.objects.get(user=user)
+def admin_check(user):
+    userProfile = getUserProfile(user)
+    if(userProfile.role==5):
+        return True;
+    return False;
+
+@login_required
+@user_passes_test(admin_check)
 @csrf_exempt
 def index(request):
 	return render(request,'admin/medicine.html',{'table':Medicine.objects.all(),'length':Medicine.objects.count(),'avail':Medicine.objects.filter(availability=True).count()})
 
+@login_required
+@user_passes_test(admin_check)
 @csrf_exempt
 def addMedicine(request):
     if request.method == 'POST':
@@ -19,6 +35,9 @@ def addMedicine(request):
     		return render(request,'admin/medicine.html',{'table':Medicine.objects.all(),'message':"Add Medicine Success!",'length':Medicine.objects.count(),'avail':Medicine.objects.filter(availability=True).count()})
     	else:
     		return render(request,'admin/medicine.html',{'table':Medicine.objects.all(),'message':"Add Medicine Fail! Please recheck your medicine's name.",'length':Medicine.objects.count(),'avail':Medicine.objects.filter(availability=True).count()})
+
+@login_required
+@user_passes_test(admin_check)
 @csrf_exempt
 def setAvailability(request):
 	name = request.POST["name"]
@@ -32,6 +51,9 @@ def setAvailability(request):
 		med.availability = False
 		med.save()
 	return HttpResponse('')
+
+@login_required
+@user_passes_test(admin_check)
 @csrf_exempt
 def seed(request):
 	# var drugs = ["Aspirin","Stomachic Mixture","Sulfacetamide Eye Drop","Liquid Paraffin Emulsion","Tetracycline Eye Ointment"

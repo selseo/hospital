@@ -1,3 +1,4 @@
+{% load staticfiles %}
 <header class="navbar navbar-default navbar-fixed-top">
     <!-- Left Header Navigation -->
     <ul class="nav navbar-nav-custom">
@@ -17,21 +18,22 @@
         <!-- User Dropdown -->
         <li class="dropdown">
             <a href="javascript:void(0)" class="dropdown-toggle" data-toggle="dropdown">
-                <img src="img/placeholders/avatars/avatar2.jpg" alt="avatar"> <i class="fa fa-angle-down"></i>
+
+                <img src="{% static 'img/placeholders/avatars/avatar2.jpg' %}" alt="avatar"> <i class="fa fa-angle-down"></i>
             </a>
             <ul class="dropdown-menu dropdown-custom dropdown-menu-right">
                 <li class="dropdown-header text-center">Account</li>
                 <li class="divider"></li>
-                <li>
-                    <a href="page_ready_user_profile.html">
+                <!-- <li>
+                    <a href="">
                         <i class="fa fa-user fa-fw pull-right"></i>
                         Profile
                     </a>
                     <a href="page_ready_lock_screen.html"><i class="fa fa-lock fa-fw pull-right"></i> Lock Account</a>
-                </li>
-                <li class="divider"></li>
+                </li> 
+                <li class="divider"></li>-->
                 <li>
-                    <a href="login.html"><i class="fa fa-ban fa-fw pull-right"></i> Logout</a>
+                    <a href="/default/logout"><i class="fa fa-ban fa-fw pull-right"></i> Logout</a>
                 </li>
             </ul>
         </li>

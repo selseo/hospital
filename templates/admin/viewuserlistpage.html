@@ -8,60 +8,67 @@
 {% block tablelist %}
 
 
-<div class="table-responsive">
-  
-    <table id="example-datatable" class="table table-vcenter table-striped">
-        <thead>
-            <tr>
-                <th>Firstname</th>
-                <th>Lastname</th>
-                <th>Role</th>
-                <th style="width: 150px;" class="text-center">Actions</th>
-            </tr>
-        </thead>
-        <script>
-        function switchToggle(x,y){
-            alert("Set availability in DATABASE as >> " + x.checked);
-        }
-        </script>
-        <tbody>
-            {% for userl in userls %}
-            
+    <div class="table-responsive">
+                          
+                            <table id="example-datatable" class="table table-vcenter table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Firstname</th>
+                                        <th>Lastname</th>
+                                        <th>Role</th>
+                                        <th style="width: 150px;" class="text-center">Actions</th>
+                                    </tr>
+                                </thead>
+                                <script>
+                                    function switchToggle(x,y){
+                                        alert("Set availability in DATABASE as >> " + x.checked);
+                                    }
+                                </script>
+                                <tbody>
+                                    {% for userl in userls %}
+                                    
 
-            
-            <tr id="drugAppendPoint">
-                <td>{{ userl.firstname }}</td>
-                <td>{{ userl.lastname }}</td>
-                {% if userl.role == 0 %}
-                <td>Patient</td>
-                {% elif userl.role == 1 %}
-                <td>Doctor</td>
-                {% elif userl.role == 2 %}
-                <td>Nurse</td>
-                {% elif userl.role == 3 %}
-                <td>Officer</td>
-                {% elif userl.role == 4 %}
-                <td>Pharmacist</td>
-                {% elif userl.role == 5 %}
-                <td>Admin</td>
-                {% endif %}
-                <td class="text-center">
-                    <div class="btn-group btn-group-xs col-xs-5">
-                        <a href="/default/viewuser/{{ userl.slug }}" class="btn btn-alt btn-default" type="button"><i class="hi hi-user"></i></a>
-                        <a href="/default/edituser/{{ userl.slug }}" class="btn btn-alt btn-default" type="button"><i class="hi hi-pencil"></i></a>
-                    </div>
-                    <label class="switch switch-primary col-xs-3">
-                        <input type="checkbox" name="checked" checked="" onchange="switchToggle(this,0);">
-                        <span></span>
-                    </label>
-                </td>
-            </tr>
-            {% endfor %}
-            
-        </tbody>
-    </table>
-    <!-- Load and execute javascript code used only in this page -->
-
+                                    
+                                    <tr id="drugAppendPoint">
+                                        <td>{{ userl.firstname }}</td>
+                                        <td>{{ userl.lastname }}</td>
+                                        {% if userl.role == 0 %}
+                                        <td>Patient</td>
+                                        {% elif userl.role == 1 %}
+                                        <td>Doctor</td>
+                                        {% elif userl.role == 2 %}
+                                        <td>Nurse</td>
+                                        {% elif userl.role == 3 %}
+                                        <td>Officer</td>
+                                        {% elif userl.role == 4 %}
+                                        <td>Pharmacist</td>
+                                        {% elif userl.role == 5 %}
+                                        <td>Admin</td>
+                                        {% endif %}
+                                        <td class="text-center">
+                                            <div class="btn-group btn-group-xs col-xs-5">
+                                                <a href="/default/viewuser/{{ userl.slug }}" class="btn btn-alt btn-default" type="button"><i class="hi hi-user"></i></a>
+                                                <a href="/default/edituser/{{ userl.slug }}" class="btn btn-alt btn-default" type="button"><i class="hi hi-pencil"></i></a>
+                                            </div>
+                                            <label class="switch switch-primary">
+                                            <!-- <form action="{% url 'Disease:setAvail' %}" method="post"> -->
+                                                <input type="checkbox" class="avail" name="checked" 
+                                                {% if userl.status %}
+                                                checked
+                                                {% endif %}
+                                                onchange="switchToggle(this,0);" id="{{userl.slug}}">
+                                            <!-- </form> -->
+                                                <span></span>
+                                            </label>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                    
+                                </tbody>
+                            </table>
+                            <!-- Load and execute javascript code used only in this page -->
+                            <script src="{% static 'js/pages/tablesDatatables.js' %}"></script>
+                            <script>$(function(){ TablesDatatables.init(); });</script>
 
     <div class="pagination">
         <span class="step-links">
@@ -80,4 +87,74 @@
     </div>
     
 </div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.5.1/moment.min.js"></script>    
+<script>
+   $(function(){
+   {% if message %}
+      //whatever conditions and js code
+      alert('{{message}}');
+   {% endif %}
+ });
+     function switchToggle(x,y){
+        alert("Set availability in DATABASE as >> " + x.checked);
+    }
+    function ajaxSetup() {
+    $.ajaxSetup({ 
+       beforeSend: function(xhr, settings) {
+         function getCookie(name) {
+           var cookieValue = null;
+           if (document.cookie && document.cookie != '') {
+             var cookies = document.cookie.split(';');
+             for (var i = 0; i < cookies.length; i++) {
+               var cookie = jQuery.trim(cookies[i]);
+                     // Does this cookie string begin with the name we want?
+                     if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                       cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                       break;
+                     }
+                   }
+                 }
+                 return cookieValue;
+               }
+               if (!(/^http:.*/.test(settings.url) || /^https:.*/.test(settings.url))) {
+             // Only send the token to relative URLs i.e. locally.
+             xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
+           }
+         } 
+       });
+  }
+
+  
+
+            $('.avail').on('click', function(){
+
+                var key = $(this)[0].id;
+                var val = $(this)[0].checked;
+                console.log(key);
+                ajaxSetup();
+                $.ajax({
+                    type: "POST",
+                    url: "{% url "Authentication:setStatus" %}",
+                    data: {
+                      "slug": key,
+                      "status": val
+                    },
+                    success: function(e){
+                        console.log(e);
+                      // alert('Save change(s) successfully!');
+                    },
+                    error: function(rs,e){
+                        console.log(rs.responseText);
+                        console.log(e);
+                        alert('failed');
+                    }
+                })  
+             });
+
+
+        </script>
+    
 {% endblock %}
