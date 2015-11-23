@@ -42,6 +42,8 @@ Hello
             <a href="{% url 'Visit:doctor-delete-medicine' num prescription.medicines %}">Delete</a></li>
         {% endfor %}
         </ul>
+         <li><input type="Text" name="note" value="{{note}}"/>
+        <br>
         <input type="submit" value="OK">
 </form>
 
