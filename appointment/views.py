@@ -9,8 +9,6 @@ from .models import Department,Dee,timeTable,Appointment
 from Authentication.models import Patient, UserProfile, Doctor
 from datetime import datetime
 
-import datetime
-
 #for restframework
 from rest_framework import viewsets
 from .serializers import DepartmentSerializer, DeeSerializer
@@ -25,6 +23,9 @@ class DeeViewset(viewsets.ModelViewSet):
     queryset = Dee.objects.all()
     serializer_class = DeeSerializer
 
+#Method for get user profile
+def getUserProfile(user):
+    return UserProfile.objects.get(user=user)
 
 # Create your views here.
 def index(request):
@@ -115,7 +116,7 @@ def patientlist(request):
 
 def getpatientlist(request):
     # this below line should be replaced with session
-    doctor = Doctor.objects.get(id=1)
+    doctor = Doctor.objects.get(id=getUserProfile(request.user).pk)
     # Prepare data
     year = request.GET.get('year')
     month = request.GET.get('month')
@@ -181,7 +182,7 @@ def savetimetable(request):
         availableDate = str(available['date'])+"-"+str(month)+"-"+str(year)    
         d = datetime.strptime(availableDate, "%d-%m-%Y")
         # this below line must be replaced with session data
-        doctor = Doctor.objects.get(id=1)
+        doctor = Doctor.objects.get(id=getUserProfile(request.user).pk)
 
         # Call TimetableManager to edit timetable
         timeTable.objects.editTimetable(doctor=doctor, d=d, available=available)
@@ -192,7 +193,7 @@ def savetimetable(request):
 @csrf_exempt
 def gettimetable(request):
     # this below line should be replaced with session
-    doctor = Doctor.objects.get(id=1)
+    doctor = Doctor.objects.get(id=getUserProfile(request.user).pk)
     year = request.GET.get('year')
     month = request.GET.get('month')
     time = timeTable.objects.filter(doctor_id=doctor, date__month=month, date__year=year)
