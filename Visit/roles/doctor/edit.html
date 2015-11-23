@@ -1,5 +1,14 @@
 edit.html {{num}}
-
+ <br><strong>Weight</strong>
+        {{ myPatientVisitInfo.weight}}
+        <br><strong>Height</strong>
+        {{ myPatientVisitInfo.height}}
+        <br><strong>Pulse</strong>
+        {{ myPatientVisitInfo.pulse}}
+        <br><strong>Systolic</strong>
+        {{ myPatientVisitInfo.systolic}}
+        <br><strong>Diastolic</strong>
+        {{ myPatientVisitInfo.diastolic}}
 <form method='POST' action="{% url 'Visit:doctor-add-disease' num %}">
         ADD Disease
         <select id="ICD10" name="ICD10">
@@ -42,7 +51,8 @@ Hello
             <a href="{% url 'Visit:doctor-delete-medicine' num prescription.medicines %}">Delete</a></li>
         {% endfor %}
         </ul>
-         <li><input type="Text" name="note" value="{{note}}"/>
+        {{myPatientVisitInfo.note}}
+         <li><input type="Text" name="note" value="{{myPatientVisitInfo.note}}"/>
         <br>
         <input type="submit" value="OK">
 </form>

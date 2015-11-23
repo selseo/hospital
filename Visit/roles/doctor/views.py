@@ -59,7 +59,7 @@ def addDisease(request,num):
 	for Med in myMedicine:
 		MedicineAll = MedicineAll.exclude(name=Med.name)
 
-	return render(request,'doctor/edit.html',{'note':myPatientVisitInfo.note, 'myPrescription':myPrescription,'Medicines': MedicineAll,'myMedicine' : myMedicine,'Diseases':DiseaseAll,'myDisease' : myDisease,'num' : num})
+	return render(request,'doctor/edit.html',{'myPatientVisitInfo':myPatientVisitInfo, 'myPrescription':myPrescription,'Medicines': MedicineAll,'myMedicine' : myMedicine,'Diseases':DiseaseAll,'myDisease' : myDisease,'num' : num})
 
 @csrf_exempt
 def addMedicine(request,num):
@@ -83,7 +83,7 @@ def addMedicine(request,num):
 	for Med in myMedicine:
 		MedicineAll = MedicineAll.exclude(name=Med.name)
 
-	return render(request,'doctor/edit.html',{'note':myPatientVisitInfo.note, 'myPrescription':myPrescription,'Medicines': MedicineAll,'myMedicine' : myMedicine,'Diseases':DiseaseAll,'myDisease' : myDisease,'num' : num})
+	return render(request,'doctor/edit.html',{'myPatientVisitInfo':myPatientVisitInfo, 'myPrescription':myPrescription,'Medicines': MedicineAll,'myMedicine' : myMedicine,'Diseases':DiseaseAll,'myDisease' : myDisease,'num' : num})
 
 
 @csrf_exempt
@@ -106,7 +106,7 @@ def deleteDisease(request,num,ICD10):
 	for Med in myMedicine:
 		MedicineAll = MedicineAll.exclude(name=Med.name)
 		
-	return render(request,'doctor/edit.html',{'note':myPatientVisitInfo.note, 'myPrescription':myPrescription,'Medicines': MedicineAll,'myMedicine' : myMedicine,'Diseases':DiseaseAll,'myDisease' : myDisease,'num' : num})
+	return render(request,'doctor/edit.html',{'myPatientVisitInfo':myPatientVisitInfo, 'myPrescription':myPrescription,'Medicines': MedicineAll,'myMedicine' : myMedicine,'Diseases':DiseaseAll,'myDisease' : myDisease,'num' : num})
 
 @csrf_exempt
 def deleteMedicine(request,num,medicine_name):
@@ -128,7 +128,7 @@ def deleteMedicine(request,num,medicine_name):
 	for Med in myMedicine:
 		MedicineAll = MedicineAll.exclude(name=Med.name)
 
-	return render(request,'doctor/edit.html',{'note':myPatientVisitInfo.note, 'myPrescription':myPrescription,'Medicines':MedicineAll,'myMedicine' : myMedicine,'Diseases':DiseaseAll,'myDisease' : myDisease,'num' : num})
+	return render(request,'doctor/edit.html',{'myPatientVisitInfo':myPatientVisitInfo, 'myPrescription':myPrescription,'Medicines':MedicineAll,'myMedicine' : myMedicine,'Diseases':DiseaseAll,'myDisease' : myDisease,'num' : num})
 
 
 # @csrf_exempt
@@ -173,7 +173,7 @@ def editStatus1(request,num):
 	for Med in myMedicine:
 		MedicineAll = MedicineAll.exclude(name=Med.name)
 
-	return render(request,'doctor/edit.html',{'note':myPatientVisitInfo.note, 'myPrescription':myPrescription,'Medicines':MedicineAll,'myMedicine' : myMedicine,'Diseases':DiseaseAll,'myDisease' : myDisease,'num' : num})
+	return render(request,'doctor/edit.html',{'myPatientVisitInfo':myPatientVisitInfo, 'myPrescription':myPrescription,'Medicines':MedicineAll,'myMedicine' : myMedicine,'Diseases':DiseaseAll,'myDisease' : myDisease,'num' : num})
 
 #Method for get user profile
 def getUserProfile(user):
