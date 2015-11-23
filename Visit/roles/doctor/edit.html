@@ -1,3 +1,4 @@
+
 {% extends "theme/base.html" %}
 {% load staticfiles %}
 
@@ -9,7 +10,17 @@ Doctor : SE hospital
 <!-- edit.html {{num}} -->
         <!-- Stylesheets -->
         <!-- Bootstrap is included in its original form, unaltered -->
-       
+ {{num}}
+ <br><strong>Weight</strong>
+        {{ myPatientVisitInfo.weight}}
+        <br><strong>Height</strong>
+        {{ myPatientVisitInfo.height}}
+        <br><strong>Pulse</strong>
+        {{ myPatientVisitInfo.pulse}}
+        <br><strong>Systolic</strong>
+        {{ myPatientVisitInfo.systolic}}
+        <br><strong>Diastolic</strong>
+        {{ myPatientVisitInfo.diastolic}}
       
 <div class="row">
                         <div class="col-md-12">
@@ -214,7 +225,8 @@ Hello
             <a href="{% url 'Visit:doctor-delete-medicine' num prescription.medicines %}">Delete</a></li>
         {% endfor %}
         </ul>
-         <li><input type="Text" name="note" value="{{note}}"/>
+        {{myPatientVisitInfo.note}}
+         <li><input type="Text" name="note" value="{{myPatientVisitInfo.note}}"/>
         <br>
         <input type="submit" value="OK">
 </form>

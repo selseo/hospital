@@ -8,7 +8,7 @@
 {% block tablelist %}
     <div class="table-responsive">
                           
-                            <table class="table table-vcenter table-striped">
+                            <table id="example-datatable" class="table table-vcenter table-striped">
                                 <thead>
                                     <tr>
                                         <col>
@@ -34,11 +34,23 @@
                                     <tr id="drugAppendPoint">
                                         <td>{{ userl.firstname }}</td>
                                         <td>{{ userl.lastname }}</td>
-                                        <td>{{ userl.role }}</td>
+                                        {% if userl.role == 0 %}
+                                        <td>Patient</td>
+                                        {% elif userl.role == 1 %}
+                                        <td>Doctor</td>
+                                        {% elif userl.role == 2 %}
+                                        <td>Nurse</td>
+                                        {% elif userl.role == 3 %}
+                                        <td>Officer</td>
+                                        {% elif userl.role == 4 %}
+                                        <td>Pharmacist</td>
+                                        {% elif userl.role == 5 %}
+                                        <td>Admin</td>
+                                        {% endif %}
                                         <td class="text-center">
                                             <div class="btn-group btn-group-xs col-xs-5">
-                                                <a href="a_admin_viewNurseP.html" class="btn btn-alt btn-default" type="button"><i class="hi hi-user"></i></a>
-                                                <a href="a_admin_editNurseP.html" class="btn btn-alt btn-default" type="button"><i class="hi hi-pencil"></i></a>
+                                                <a href="/default/viewuser/{{ userl.slug }}" class="btn btn-alt btn-default" type="button"><i class="hi hi-user"></i></a>
+                                                <a href="/default/edituser/{{ userl.slug }}" class="btn btn-alt btn-default" type="button"><i class="hi hi-pencil"></i></a>
                                             </div>
                                             <label class="switch switch-primary col-xs-3">
                                                 <input type="checkbox" name="checked" checked="" onchange="switchToggle(this,0);">
@@ -50,6 +62,12 @@
                                     
                                 </tbody>
                             </table>
+                            <!-- Load and execute javascript code used only in this page -->
+                            <script src="{% static 'js/pages/tablesDatatables.js' %}"></script>
+                            <script>$(function(){ TablesDatatables.init(); });</script>
+
+
+
                             <div class="pagination">
                                 <span class="step-links">
                                     {% if contacts.has_previous %}
