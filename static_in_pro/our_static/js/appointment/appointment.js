@@ -45,6 +45,7 @@ function getDoctorList(){
 			doctorlist.forEach(function(doctor){
 				el = document.createElement('option');
 				el.setAttribute('value', doctor.pk);
+				el.setAttribute('id', 'doc' + doctor.pk);
 				eltext = document.createTextNode(doctor.fields.firstname + ' ' + doctor.fields.lastname);
 				el.appendChild(eltext);
 				$('#doctor').append(el);
@@ -84,6 +85,7 @@ function getAppointmentList(){
 				console.log(t.fields.date);
 				var el = document.createElement('option');
 				el.setAttribute('value', t.pk);
+				el.setAttribute('id', 'app'+t.pk);
 				var eltext = document.createTextNode(t.fields.date + ', ' + (t.fields.period == 'm'? "Morning" : "Afternoon"));
 				el.appendChild(eltext);
 				$('#appointment').append(el);
@@ -114,8 +116,8 @@ function addSubmitButtonListener(){
 	$('#submit-button').on('click', function(){
 		$('#s-name').html($('#patientname').val());
 		$('#s-department').html($('#department').val());
-		$('#s-doctor').html($('#doctor').val());
-		$('#s-date').html($('#appointment').val());
+		$('#s-doctor').html($('#doc'+$('#doctor').val()).html());
+		$('#s-date').html($('#app' + $('#appointment').val()).html());
 		$('#s-cause').html($('#cause').val());
 		$('#s-symptom').html($('#symptom').val());
 		$('#modal-summary').modal('show');
