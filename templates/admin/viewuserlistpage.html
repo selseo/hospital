@@ -6,85 +6,81 @@
 {% endblock %}
 
 {% block tablelist %}
-    <div class="table-responsive">
-                          
-                            <table id="example-datatable" class="table table-vcenter table-striped">
-                                <thead>
-                                    <tr>
-                                        <col>
-                                        <col>
-                                        <col>
-                                        <col width="20%">
-                                        <th>Firstname</th>
-                                        <th>Lastname</th>
-                                        <th>Role</th>
-                                        <th style="width: 150px;" class="text-center">Actions</th>
-                                    </tr>
-                                </thead>
-                                <script>
-                                    function switchToggle(x,y){
-                                        alert("Set availability in DATABASE as >> " + x.checked);
-                                    }
-                                </script>
-                                <tbody>
-                                    {% for userl in userls %}
-                                    
+<div class="table-responsive">
+  
+    <table id="example-datatable" class="table table-vcenter table-striped">
+        <thead>
+            <tr>
+                <th>Firstname</th>
+                <th>Lastname</th>
+                <th>Role</th>
+                <th style="width: 150px;" class="text-center">Actions</th>
+            </tr>
+        </thead>
+        <script>
+        function switchToggle(x,y){
+            alert("Set availability in DATABASE as >> " + x.checked);
+        }
+        </script>
+        <tbody>
+            {% for userl in userls %}
+            
 
-                                    
-                                    <tr id="drugAppendPoint">
-                                        <td>{{ userl.firstname }}</td>
-                                        <td>{{ userl.lastname }}</td>
-                                        {% if userl.role == 0 %}
-                                        <td>Patient</td>
-                                        {% elif userl.role == 1 %}
-                                        <td>Doctor</td>
-                                        {% elif userl.role == 2 %}
-                                        <td>Nurse</td>
-                                        {% elif userl.role == 3 %}
-                                        <td>Officer</td>
-                                        {% elif userl.role == 4 %}
-                                        <td>Pharmacist</td>
-                                        {% elif userl.role == 5 %}
-                                        <td>Admin</td>
-                                        {% endif %}
-                                        <td class="text-center">
-                                            <div class="btn-group btn-group-xs col-xs-5">
-                                                <a href="/default/viewuser/{{ userl.slug }}" class="btn btn-alt btn-default" type="button"><i class="hi hi-user"></i></a>
-                                                <a href="/default/edituser/{{ userl.slug }}" class="btn btn-alt btn-default" type="button"><i class="hi hi-pencil"></i></a>
-                                            </div>
-                                            <label class="switch switch-primary col-xs-3">
-                                                <input type="checkbox" name="checked" checked="" onchange="switchToggle(this,0);">
-                                                <span></span>
-                                            </label>
-                                        </td>
-                                    </tr>
-                                    {% endfor %}
-                                    
-                                </tbody>
-                            </table>
-                            <!-- Load and execute javascript code used only in this page -->
-                            <script src="{% static 'js/pages/tablesDatatables.js' %}"></script>
-                            <script>$(function(){ TablesDatatables.init(); });</script>
+            
+            <tr id="drugAppendPoint">
+                <td>{{ userl.firstname }}</td>
+                <td>{{ userl.lastname }}</td>
+                {% if userl.role == 0 %}
+                <td>Patient</td>
+                {% elif userl.role == 1 %}
+                <td>Doctor</td>
+                {% elif userl.role == 2 %}
+                <td>Nurse</td>
+                {% elif userl.role == 3 %}
+                <td>Officer</td>
+                {% elif userl.role == 4 %}
+                <td>Pharmacist</td>
+                {% elif userl.role == 5 %}
+                <td>Admin</td>
+                {% endif %}
+                <td class="text-center">
+                    <div class="btn-group btn-group-xs col-xs-5">
+                        <a href="/default/viewuser/{{ userl.slug }}" class="btn btn-alt btn-default" type="button"><i class="hi hi-user"></i></a>
+                        <a href="/default/edituser/{{ userl.slug }}" class="btn btn-alt btn-default" type="button"><i class="hi hi-pencil"></i></a>
+                    </div>
+                    <label class="switch switch-primary col-xs-3">
+                        <input type="checkbox" name="checked" checked="" onchange="switchToggle(this,0);">
+                        <span></span>
+                    </label>
+                </td>
+            </tr>
+            {% endfor %}
+            
+        </tbody>
+    </table>
+    <!-- Load and execute javascript code used only in this page -->
+    <script src="{% static 'js/pages/tablesDatatables.js' %}"></script>
+    <script>$(function(){ TablesDatatables.init(); });</script>
 
 
 
-                            <div class="pagination">
-                                <span class="step-links">
-                                    {% if contacts.has_previous %}
-                                    <a href="?page={{ contacts.previous_page_number }}">previous</a>
-                                    {% endif %}
+    <div class="pagination">
+        <span class="step-links">
+            {% if contacts.has_previous %}
+            <a href="?page={{ contacts.previous_page_number }}">previous</a>
+            {% endif %}
 
-                                <span class="current">
-                                    Page {{ contacts.number }} of {{ contacts.paginator.num_pages }}.
-                                </span>
+            <span class="current">
+                Page {{ contacts.number }} of {{ contacts.paginator.num_pages }}.
+            </span>
 
-                                {% if contacts.has_next %}
-                                <a href="?page={{ contacts.next_page_number }}">next</a>
-                                {% endif %}
-                                </span>
-                            </div>
-                            
-                        </div>
+            {% if contacts.has_next %}
+            <a href="?page={{ contacts.next_page_number }}">next</a>
+            {% endif %}
+        </span>
+    </div>
+    
+</div>
 
     
 {% endblock %}
