@@ -350,8 +350,8 @@ Calendar.prototype.listMorningPatient = function(patients,tid) {
           $('#m-name').html(pt.fields.firstname + ' ' + pt.fields.lastname );
           $('#m-age').html(age);
           $('#m-gender').html(profile.sex);
-          $('#m-causes').html(info.cause);
-          $('#m-symtoms').html(info.symptom);
+          $('#m-causes').html(info.cause.replace('<','&lt;'));
+          $('#m-symtoms').html(info.symptom.replace('<','&lt;'));
           $('.viewfullprofile').on('click', function(){
             location.href = "/patient/" + pid;
           });
