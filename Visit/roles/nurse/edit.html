@@ -14,78 +14,120 @@ Nurse : SE hospital
         <div class="block-title">
             <h2><strong>{{mymodel.appointment.patient_id.userprofile.firstname}} {{mymodel.appointment.patient_id.userprofile.lastname}}</strong> </h2>
         </div>
-        <div class="step">                      
+        <table class="table table-borderless table-striped">
+        <tbody>
+        
         {% if form.weight.errors %}
-        <div class="has-error"></div>
+        <div class="has-error">
         {% else %}
-        <div class="form-group">
-            <label class="col-md-3 control-label" for="example-username">Weight</label>
-            <div class="col-md-9 control-label">
-                    {{ form.weight}}
-                
-            kilograms
-            </div>
-
-        </div>
+        <tr>
+            <td style="width:30%">
+                Weight
+            </td>
+            <td>
+                {{form.weight}}
+            </td>
+            <td>
+                kilograms
+            </td>
+        </tr>
+         
         {% endif %}
         {% if form.height.errors %}
         <div class="has-error">
         {% else %}
-        <div class="form-group">
-            <label class="col-md-3 control-label" for="example-username">Height</label>
-            <div class="col-md-9 control-label">
-                    {{ form.height}}
-            centimetres    
-            </div>
-            
-        </div>
+        <tr>
+            <td style="width:30%">
+                Height
+            </td>
+            <td>
+                {{form.height}}
+            </td>
+            <td>
+                centimetres
+            </td>
+        </tr>
         {% endif %}
         {% if form.pulse.errors %}
         <div class="has-error">
         {% else %}
-        <div class="form-group">
-            <label class="col-md-3 control-label" for="example-username">Pulse</label>
-            <div class="col-md-9 control-label">
-                    {{ form.pulse}}
-            bpm    
-            </div>
-            
-        </div>
+        <tr>
+            <td style="width:30%">
+                Pulse
+            </td>
+            <td>
+                {{form.pulse}}
+            </td>
+
+            <td>
+                bpm
+            </td>
+        </tr>
         {% endif %}
         {% if form.systolic.errors %}
         <div class="has-error">
         {% else %}
-        <div class="form-group">
-            <label class="col-md-3 control-label" for="example-username">Systolic</label>
-            <div class="col-md-9 control-label">
-                    {{ form.systolic}}
-            mmHg    
-            </div>
-            
-        </div>
+        <tr>
+            <td style="width:30%">
+                Systolic
+            </td>
+            <td>
+                {{form.systolic}}
+            </td>
+
+            <td>
+                mmHg
+            </td>
+        </tr>
         {% endif %}
         {% if form.diastolic.errors %}
         <div class="has-error">
         {% else %}
-        <div class="form-group">
-            <label class="col-md-3 control-label" for="example-username">Diastolic</label>
-            <div class="col-md-9 control-label">
-                    {{ form.diastolic}}
-             mmHg   
-            </div>
+        <tr>
+            <td style="width:30%">
+                Diastolic
+            </td>
+            <td>
+                {{form.diastolic}}
+            </td>
 
+            <td>
+                mmHg
+            </td>
+        </tr>
+        
         </div>
         
         {% endif %}
-        <div class="form-group">
-            <label class="col-md-3 control-label" for="example-username">Allergy</label>
-            <div class="col-md-9 control-label">
+        <tr>
+            <td style="width:30%">
+                Allergy
+            </td>
+            <td>
                 <input type="text" name="allergy" value="{{mymodel.appointment.patient_id.allergy}}"></input>  
-            </div>
+            </td>
 
-        </div>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td style="width:30%">
+                Responsible Doctor
+            </td>
+            <td>
+                {{mymodel.appointment.timetable_id.doctor_id.userprofile.firstname}} 
+                {{mymodel.appointment.timetable_id.doctor_id.userprofile.lastname}} 
+            </td>
+            <td>
+                
+            </td>
+        </tr>
         
-		<br><br>
+
+
+        </tbody></table>
+		
             <div class="col-md-offset-4">
                 <input type="submit" value="Submit" class="btn btn-sm btn-primary">
             </div>
