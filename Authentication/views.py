@@ -313,7 +313,7 @@ def seed(request):
     userp0.save()
     userpp,xxx=Patient.objects.get_or_create(
         idcard="1100644983267",
-        defaults={'userprofile':userp0,'sex':"f",'idcard':"1100644983267",'phone':"0839826174",'address':"1",'birthdate':"1984-11-21"}
+        defaults={'userprofile':userp0,'sex':"f",'idcard':"1100644983267",'phone':"0839826174",'address':"1",'birthdate':"1984-11-21",'allergy':"xxx,aaa,eee,fkjfodhdj"}
     )
     userpp.save()
 
@@ -487,9 +487,9 @@ def edituser(request, userl_slug):
 def setStatus(request):
     # return HttpResponse('')
     
-    slug = request.POST["ICD10"]
+    slug = request.POST["slug"]
     status = request.POST["status"]
-    if status == "True":
+    if status == "true":
         usp = UserProfile.objects.get(slug=slug)
         usp.status = True
         usp.save()

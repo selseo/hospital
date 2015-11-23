@@ -139,7 +139,7 @@
                 ajaxSetup();
                 $.ajax({
                     type: "POST",
-                    url: "{% url "UserProfile:setStatus" %}",
+                    url: "{% url "Authentication:setStatus" %}",
                     data: {
                       "slug": key,
                       "status": val

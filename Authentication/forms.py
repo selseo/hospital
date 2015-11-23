@@ -32,12 +32,13 @@ class PatientProfile(forms.ModelForm):
 
     class Meta:
         model = Patient
-        fields = ('sex','birthdate','idcard','phone','address')
+        fields = ('sex','birthdate','idcard','phone','address','allergy')
         widgets = {
             'birthdate': forms.DateInput(attrs={'class': 'form-control input-lg input-datepicker','placeholder':'Birthdate','data-date-format':'mm/dd/yy'}),
             'idcard': forms.TextInput(attrs={'class': 'form-control input-lg','placeholder':'ID card'}),
             'phone': forms.TextInput(attrs={'class': 'form-control input-lg','placeholder':'Phone'}),
             'address': forms.TextInput(attrs={'class': 'form-control input-lg','placeholder':'Address'}),
+            'allergy': forms.TextInput(attrs={'class': 'form-control input-lg','placeholder':'Allergy'}),
         }
 
 class AdminCreateUser(forms.ModelForm):

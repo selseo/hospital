@@ -30,7 +30,7 @@ class Patient(models.Model):
     phone=models.CharField(max_length=15)
     address=models.CharField(max_length=200)
     birthdate=models.DateField()
-
+    allergy=models.CharField(max_length=200, default=None)
     def __unicode__(self):
         return self.userprofile.user.username
 
