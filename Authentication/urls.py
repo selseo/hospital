@@ -15,5 +15,5 @@ urlpatterns = [
     url(r'^viewuserlist/$', views.view_user_list, name='viewuserlist'),
     
     #url(r'^admin/$', views.admin_index, name='createuser')
-    url(r'^seed/$', views.seed,name='seed')
+    url(r'^seed/$', views.seed,name='seed'),
 ]

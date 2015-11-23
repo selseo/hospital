@@ -160,6 +160,9 @@
         <script src="{% static 'js/pages/tablesDatatables.js' %}"></script>
         <script>$(function(){ TablesDatatables.init(); });</script>
 
+        {% block script %}
+        {% endblock %}
+
         
     </body>
 </html>

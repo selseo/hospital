@@ -289,7 +289,7 @@ def view_user_list(request):
         # If page is out of range (e.g. 9999), deliver last page of results.
         userls = paginator.page(paginator.num_pages)
 
-    return render(request,'admin/viewuserlistpage_2.html', {'userls': userls})
+    return render(request,'admin/viewuserlistpage.html', {'userls': userls})
     #return render (request,'admin/viewuserlistpage.html')
 
 @csrf_exempt
@@ -434,4 +434,7 @@ def officer_createPatient(request):
     return render(request,
             'officer/addPatient.html',
             {'user_form': user_form, 'profile_form': profile_form, 'patient_form':patient_form,'registered': registered} )
+
+
+
 
