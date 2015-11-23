@@ -127,7 +127,7 @@ def seed(request):
             status=str(random.randrange(0,4)),
             note=str(random.randrange(13,103452350)),)
                 v.save()
-                PatientVisitInfo.objects.filter(appointment=a).update(lastUpdate=v.lastUpdate-timedelta(hours=random.randrange(0,40)))
+                PatientVisitInfo.objects.filter(appointment=a).update(lastUpdate=v.lastUpdate-timedelta(hours=random.randrange(0,4)*random.randrange(0,5)*random.randrange(0,6)*random.randrange(0,7)))
             return render(request, 'seed.html')
         #else :
             #return HttpResponseRedirect('/default/')
