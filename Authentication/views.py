@@ -239,7 +239,7 @@ def user_login(request):
         # with matching credentials was found.
             if user:
             # Is the account active? It could have been disabled.
-                if user.is_active:
+                if user.is_active and getUserProfile(user).status:
                 # If the account is valid and active, we can log the user in.
                 # We'll send the user back to the homepage.
                     login(request, user)
