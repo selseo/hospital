@@ -1,3 +1,4 @@
+{% load staticfiles %}
 <div id="sidebar">
     <!-- Wrapper for scrolling functionality -->
     <div class="sidebar-scroll">
@@ -13,7 +14,7 @@
             <div class="sidebar-section sidebar-user clearfix">
                 <div class="sidebar-user-avatar">
                     <a href="page_ready_user_profile.html">
-                        <img src="img/placeholders/avatars/avatar2.jpg" alt="avatar">
+                        <img src="{% static 'img/placeholders/avatars/avatar2.jpg' %}" alt="avatar">
                     </a>
                 </div>
                 <div class="sidebar-user-name" style="font-size: 14px;">{{ request.user.userprofile.firstname }} 
@@ -98,15 +99,18 @@
                 </li>
                 {% elif request.user.userprofile.role == 0 %}
                 <li>
-                    <a href="a_view_patient_info.html"><i class="fa fa-users sidebar-nav-icon"></i>View your appointment</a>
+                    <a href="/app/editappointment"><i class="fa fa-calendar sidebar-nav-icon"></i>View your appointment</a>
+                </li>
+                <li>
+                    <a href="/app/show"><i class="fa fa-plus sidebar-nav-icon"></i>Make appointment</a>
                 </li>
                 {% elif request.user.userprofile.role == 2 %}
                 <li>
-                    <a href="a_view_patient_info.html"><i class="fa fa-users sidebar-nav-icon"></i>View patient info</a>
+                    <a href="#"><i class="fa fa-users sidebar-nav-icon"></i>View patient info</a>
                 </li>
                 {% elif request.user.userprofile.role == 3 %}
                 <li>
-                    <a href="a_view_patient_info.html"><i class="fa fa-users sidebar-nav-icon"></i>View patient info</a>
+                    <a href="#"><i class="fa fa-users sidebar-nav-icon"></i>View patient info</a>
                 </li>
                 <li>
                     <a href="/default/createpatient"><i class="fa fa-users sidebar-nav-icon"></i>Add patient</a>
@@ -116,13 +120,13 @@
                 
                 {% elif request.user.userprofile.role == 5 %}
                 <li>
-                    <a href="a_admin_view_medicine.html"><i class="fa fa-medkit sidebar-nav-icon"></i>View medicines</a>
+                    <a href="/medicine"><i class="fa fa-medkit sidebar-nav-icon"></i>View medicines</a>
                 </li>
                 <li>
-                    <a href="a_admin_view_disease.html"><i class="fa fa-bug sidebar-nav-icon"></i>View diseases</a>
+                    <a href="/disease"><i class="fa fa-bug sidebar-nav-icon"></i>View diseases</a>
                 </li>
                 <li>
-                    <a href="a_admin_view_personnel.html"><i class="fa fa-users sidebar-nav-icon"></i>View personnel</a>
+                    <a href="/default/viewuserlist"><i class="fa fa-users sidebar-nav-icon"></i>View personnel</a>
                 </li>
                 {% endif %}
                 <li>
