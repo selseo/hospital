@@ -118,8 +118,8 @@ function addSubmitButtonListener(){
 		$('#s-department').html($('#department').val());
 		$('#s-doctor').html($('#doc'+$('#doctor').val()).html());
 		$('#s-date').html($('#app' + $('#appointment').val()).html());
-		$('#s-cause').html($('#cause').val());
-		$('#s-symptom').html($('#symptom').val());
+		$('#s-cause').html($('#cause').val().replace('<','&lt;'));
+		$('#s-symptom').html($('#symptom').val().replace('<','&lt;'));
 		$('#modal-summary').modal('show');
 	});
 }
