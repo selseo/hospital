@@ -1,6 +1,6 @@
 from datetime import datetime,timedelta
 from appointment.models import Appointment
-from Visit.models import PatientVisitInfo
+from Visit.models import PatientVisitInfo,Prescription
 from django.shortcuts import get_object_or_404, render, redirect
 from .forms import PatientVisitPharmacistForms
 from django.views.decorators.csrf import csrf_exempt
@@ -31,12 +31,22 @@ def pharmacist_check(user):
 def index(request):
 	#if request.user.is_authenticated():
 		#if getUserProfile(request.user).role==4://Pharmacist
+			prescription_num = Prescription.objects.filter(patientVisitInfo__lastUpdate__day=datetime.now().day,patientVisitInfo__lastUpdate__month=datetime.now().month,
+				patientVisitInfo__lastUpdate__year=datetime.now().year).count()
+			prescription_checked = Prescription.objects.filter(patientVisitInfo__lastUpdate__day=datetime.now().day,
+		 		patientVisitInfo__lastUpdate__month=datetime.now().month,
+		 		patientVisitInfo__lastUpdate__year=datetime.now().year,
+		 		patientVisitInfo__status=3
+		 		).count()
+			prescription_unchecked = prescription_num - prescription_checked
 			return render(request, 'pharmacist/index.html',{'table':PatientVisitInfo.objects.filter(
 		 		lastUpdate__day=datetime.now().day,
 		 		lastUpdate__month=datetime.now().month,
 		 		lastUpdate__year=datetime.now().year,
 		 		status=2
-			)})
+			),'prescription_num':prescription_num,
+			'prescription_checked':prescription_checked,
+			'prescription_unchecked':prescription_unchecked})
 		#else :
 			#return HttpResponseRedirect('/default/')
 	#else :
