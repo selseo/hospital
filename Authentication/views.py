@@ -1,7 +1,7 @@
 from django.http import HttpResponseRedirect, HttpResponse
 from django.http import Http404
 from django.contrib.auth.models import User
-from .models import UserProfile,Patient
+from .models import UserProfile,Patient,Doctor
 from django.template import RequestContext, loader
 from django.shortcuts import get_object_or_404, render
 from django.core.urlresolvers import reverse
