@@ -37,17 +37,21 @@ def seed(request):
             #         'draddress':"aaa",
             #         'dremail':"tes2tt@example.com"}
             # )
-            user0,xxx=User.objects.get_or_create(
-                username="test22t",
-                defaults={'password':make_password(password="1234",hasher='sha1'),'email':"maillll@mail.com"}
-            )
-            user0.save()
-            userp0,xxx=UserProfile.objects.get_or_create(
+            # user0,xxx=User.objects.get_or_create(
+            #     username="test22t",
+            #     defaults={'password':make_password(password="1234",hasher='sha1'),'email':"maillll@mail.com"}
+            # )
+            # user0.save()
+            # userp0,xxx=UserProfile.objects.get_or_create(
                 
-                user=user0,
-                defaults={'firstname':"Doctor",'lastname':"Tneitap",'role':1,'status':True}
+            #     user=user0,
+            #     defaults={'firstname':"Doctor",'lastname':"Tneitap",'role':1,'status':True}
+            # )
+            userp0=UserProfile.objects.get(
+                firstname="Doctor",
+                # defaults={'firstname':"Doctor",'lastname':"Tneitap",'role':1,'status':True}
             )
-            userp0.save()
+            # userp0.save()
             d1,xxx=Doctor.objects.get_or_create(
                 userprofile=userp0,
                 defaults={'department' : 'Cancer'}
