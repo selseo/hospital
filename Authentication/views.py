@@ -69,12 +69,12 @@ def index(request):
     if request.user.is_authenticated():
         role = getUserProfile(request.user).role
         if role==0:
-            #return render(request, 'default/index.html')
-            return render(request, 'patient/index.html',{
-                'firstname':getUserProfile(request.user).firstname,
-                'lastname':getUserProfile(request.user).lastname,
-                'role':getUserProfile(request.user).role}
-                )
+            return HttpResponseRedirect('/app/editappointment/')
+            # return render(request, 'patient/index.html',{
+            #     'firstname':getUserProfile(request.user).firstname,
+            #     'lastname':getUserProfile(request.user).lastname,
+            #     'role':getUserProfile(request.user).role}
+            #     )
         if role==1:
             #return render(request, 'theme/doctor/index.html')
             return render(request, 'doctor/index.html',{

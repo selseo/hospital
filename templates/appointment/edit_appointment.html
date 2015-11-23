@@ -12,29 +12,30 @@
                             <div class="row">
                                 <!-- Main Title (hidden on small devices for the statistics to fit) -->
                                 <div class="col-md-4 col-lg-6 hidden-xs hidden-sm">
-                                    <h1>Welcome <strong>Pharmacist</strong>
-                                        <br><small>Mr. Peerapat Lumyai</small></h1>
+                                    <h1>Welcome <strong>Patient</strong>
+                                        <br><small>{{ request.user.userprofile.firstname }} 
+                    {{ request.user.userprofile.lastname }}</small></h1>
                                 </div>
                                 <!-- END Main Title -->
 
                                 <!-- Top Stats -->
                                 <div class="col-md-8 col-lg-6">
-                                    <div class="row text-center">
+                                   <div class="row text-center">
                                         <div class="col-xs-4 col-sm-3">
                                             <h2 class="animation-hatch">
-                                                <strong>3</strong><br>
+                                                <strong>{% now "j" %} </strong><br>
                                                 <small><i class="fa fa-calendar-o"></i> day</small>
                                             </h2>
                                         </div>
                                         <div class="col-xs-4 col-sm-3">
                                             <h2 class="animation-hatch">
-                                                <strong>November</strong><br>
-                                                <small>month</small>
+                                                <strong>{% now "F" %} </strong><br>
+                                                <small> month</small>
                                             </h2>
                                         </div>
                                         <div class="col-xs-4 col-sm-3">
                                             <h2 class="animation-hatch">
-                                                <strong>2558</strong><br>
+                                                <strong>{% now "Y" %} </strong><br>
                                                 <small>year</small>
                                             </h2>
                                         </div>
@@ -45,6 +46,7 @@
                                                 <small><i class="fa fa-map-marker"></i> Bangkok</small>
                                             </h2>
                                         </div>
+                                        
                                     </div>
                                 </div>
                                 <!-- END Top Stats -->
@@ -52,6 +54,38 @@
                         </div>
                     </div>
                     <!-- END Dashboard Header -->
+
+                    <div class="row">
+                        <div class="col-sm-12 col-lg-6">
+                            <!-- Widget -->
+                            <a href="/app/editappointment" class="widget widget-hover-effect1">
+                                <div class="widget-simple">
+                                    <div class="widget-icon pull-left themed-background animation-fadeIn">
+                                        <i class="fa fa-calendar"></i>
+                                    </div>
+                                    <h3 class="widget-content text-right animation-pullDown">
+                                        <strong>View Appointment</strong> <br>
+                                    </h3>
+                                </div>
+                            </a>
+                            <!-- END Widget -->
+                        </div>
+                        <div class="col-sm-12 col-lg-6">
+                            <!-- Widget -->
+                            <a href="/app/show" class="widget widget-hover-effect1">
+                                <div class="widget-simple">
+                                    <div class="widget-icon pull-left themed-background-fancy animation-fadeIn">
+                                        <i class="fa fa-plus"></i>
+                                    </div>
+                                    <h3 class="widget-content text-right animation-pullDown">
+                                        <strong>Make Appointment</strong><br>
+                                    </h3>
+                                </div>
+                            </a>
+                            <!-- END Widget -->
+                        </div>
+                       
+                    </div>
 
                   
                     <!-- start edit -->
