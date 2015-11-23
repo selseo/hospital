@@ -15,7 +15,8 @@ from django.contrib.auth import authenticate, login,logout
 from django.contrib.auth.decorators import login_required
 from Authentication.models  import Patient
 from django.contrib.auth.decorators import login_required, user_passes_test
-from Authentication.models import UserProfile
+from Authentication.models import UserProfile,Doctor,Patient
+from appointment.models import Appointment,timeTable
 # Create your views here.
 #Method for get user profile
 def getUserProfile(user):
@@ -37,15 +38,25 @@ def index(request):
 			#return HttpResponseRedirect('/default/')
 	#else :
 		#return HttpResponseRedirect('/default/')
+#Method for get user profile
+def getUserProfile(user):
+    return UserProfile.objects.get(user=user)
+
+#Method for get Doctor
+def getDoctor(user):
+    userprofile=getUserProfile(user)
+    return Doctor.objects.get(userprofile=userprofile)
+
 @login_required
 @user_passes_test(doctor_check)
 def view(request):
 	#if request.user.is_authenticated():
 		#if getUserProfile(request.user).role==1://Doctor
 			return render(request, 'doctor/view.html',{'table':PatientVisitInfo.objects.filter(
-		 		# lastUpdate__day=datetime.now().day,
-		 		# lastUpdate__month=datetime.now().month,
-		 		# lastUpdate__year=datetime.now().year,
+		 		 lastUpdate__day=datetime.now().day,
+		 		 lastUpdate__month=datetime.now().month,
+		 		lastUpdate__year=datetime.now().year,
+		 		appointment__timetable_id__doctor_id=getDoctor(request.user),
 		 		status=1
 			)})
 	#else :

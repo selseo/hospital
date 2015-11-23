@@ -1,3 +1,4 @@
+from datetime import datetime as datetime2
 from django.http import HttpResponseRedirect, HttpResponse
 from django.http import Http404
 from django.contrib.auth.models import User
@@ -13,7 +14,6 @@ from django.contrib.auth.decorators import login_required
 from Authentication.forms import UserForm, UserProfileForm, PatientProfile,AdminCreateUser,AdminCreateDoctor
 from django.views.decorators.csrf import csrf_exempt
 from django.core import serializers
-from datetime import datetime
 from django.utils import formats
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth.models import User
@@ -76,8 +76,12 @@ def index(request):
         if role==1:
             doctor=getDoctor(request.user)
             allapp=Appointment.objects.filter(timetable_id__doctor_id=doctor, timetable_id__date=datetime.date.today()).count()
-            wait=PatientVisitInfo.objects.filter(appointment__timetable_id__date=datetime.date.today(),appointment__timetable_id__doctor_id=doctor,status=1).count()
-            checked=PatientVisitInfo.objects.filter(appointment__timetable_id__date=datetime.date.today(),appointment__timetable_id__doctor_id=doctor,status=2).count()
+            wait=PatientVisitInfo.objects.filter(lastUpdate__day=datetime2.now().day,
+                 lastUpdate__month=datetime2.now().month,
+                lastUpdate__year=datetime2.now().year,appointment__timetable_id__doctor_id=doctor,status=1).count()
+            checked=PatientVisitInfo.objects.filter(lastUpdate__day=datetime2.now().day,
+                 lastUpdate__month=datetime2.now().month,
+                lastUpdate__year=datetime2.now().year,appointment__timetable_id__doctor_id=doctor,status=2).count()
             #return render(request, 'theme/doctor/index.html')
             return render(request, 'doctor/index.html',{
                 'checked':checked,
@@ -331,7 +335,8 @@ def admin_create_user(request):
 
 def view_user_list(request):
     #user_list = UserProfile.objects.all()
-    user_list = UserProfile.objects.exclude(role=0)
+    user_list = UserProfile.objects.exclude(role=0).order_by('firstname')
+    #user_list = UserProfile.objects.exclude(role=0)
     paginator = Paginator(user_list, 15) # Show 25 contacts per page
     alluser=UserProfile.objects.all()
     allusernum=alluser.count()
