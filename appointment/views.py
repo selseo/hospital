@@ -1,7 +1,7 @@
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth.hashers import make_password
-from .forms import AppForm
+from .forms import AppForm, AppByStaff
 
 import json
 from django.http import JsonResponse
@@ -56,7 +56,13 @@ def show(request):
     return render(request, 'appointment/appointment.html', {'department': department,'form':form})
 
 def appointmentbystaff(request):
-    return render(request, 'appointment/appointmentbystaff.html', {'appointment': []})
+    if request.method == 'POST':
+        form = AppByStaff(request.POST);
+        # save to database
+        return HttpResponse('success')
+    else:
+        form = AppByStaff()
+    return render(request, 'appointment/appointmentbystaff.html', {'form': form})
 
 
 def editappointment(request):
@@ -154,58 +160,26 @@ def gettimetable(request):
     result = serializers.serialize('json', time)
     return HttpResponse(result, content_type='application/json')
 
+def searchpatient(request):
+    pid = request.GET.get('pid')
+    pidcard = request.GET.get('pidcard')
 
-def seedDoctor(request):
-    doctor=Doctor.objects.create(
-        drusername="test",
-        drpassword=make_password(password="test",hasher='sha1'),
-        drphone="021234567",
-        drname="John",
-        drsurname="Smith",
-        drsex='m',
-        drbirthdate="1990-12-12",
-        dridcard="1234567890123",
-        draddress="aaa",
-        dremail="test@example.com"
-    )
-    doctor.save()
-    return HttpResponse('done')
+    if pidcard == '':
+        patient = UserProfile.objects.filter(id=pid)
+    else :
+        patient = UserProfile.objects.filter(patient__idcard=pidcard)
+        
+    result = serializers.serialize('json', patient)
+    return HttpResponse(result, content_type='application/json') 
 
-def seedPatient(request):
-# 0|id|integer|1||1
-# 1|firstname|varchar(50)|1||0
-# 2|lastname|varchar(50)|1||0
-# 3|role|integer|1||0
-# 4|status|integer|1||0
-# 5|user_id|integer|1||0
-# 6|idcard|varchar(20)|1||0
-# 7|phone|varchar(15)|1||0
-# 8|sex|varchar(1)|1||0
-    p = UserProfile.objects.create(
-        user_id='1',
-        firstname="John",
-        lastname="Doe",
-        sex="m",
-        idcard="1234567890123",
-        phone="9999999999",
-        role="2"
-        )
-    p.save()
-    return HttpResponse('done')
 
-def seedAppointment(request):
-    # 0|id|integer|1||1
-    # 1|patient_id_id|integer|1||0
-    # 2|timetable_id_id|integer|1||0
-    # 3|symptom|varchar(100)|1||0
-    # 4|cause|varchar(100)|1||0
-    patient=UserProfile.objects.get(user_id=1)
-    timetable=timeTable.objects.all()[0]
-    a = Appointment.objects.create(
-        patient_id=patient,
-        timetable_id=timetable,
-        symptom='symptom',
-        cause='cause'
-        )
-    a.save()
-    return HttpResponse('done')
+def seed(request):
+    department = Department.objects.create(name="Anaesthetics")
+    department.save()
+    department = Department.objects.create(name="Cardiology")
+    department.save()
+    department = Department.objects.create(name="Chaplaincy")
+    department.save()
+    department = Department.objects.create(name="Gastroenterology")
+    department.save()
+    return HttpResponse('Done')
