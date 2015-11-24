@@ -646,11 +646,15 @@ def edituser(request, userl_slug):
                 'department': user_info['department']})
 
 
-
-    return render(request,
+    if user_info['role']==1:        
+        return render(request,
             'admin/editUser.html',
             {'user_form': user_form, 'admin_user_form': admin_user_form,'admin_doctor_form': admin_doctor_form,'registered': registered,'userl':userl} )
-
+    else :
+        return render(request,
+            'admin/editUser.html',
+            {'user_form': user_form, 'admin_user_form': admin_user_form,'registered': registered,'userl':userl} )
+            
 
 
 @user_passes_test(admin_check)
