@@ -651,9 +651,10 @@ def edituser(request, userl_slug):
             'admin/editUser.html',
             {'user_form': user_form, 'admin_user_form': admin_user_form,'admin_doctor_form': admin_doctor_form,'registered': registered,'userl':userl} )
     else :
+        admin_doctor_form= AdminCreateDoctor(data=request.POST)
         return render(request,
             'admin/editUser.html',
-            {'user_form': user_form, 'admin_user_form': admin_user_form,'registered': registered,'userl':userl} )
+            {'user_form': user_form, 'admin_user_form': admin_user_form,'admin_doctor_form':admin_doctor_form,'registered': registered,'userl':userl} )
             
 
 
