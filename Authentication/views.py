@@ -575,7 +575,7 @@ def viewuser(request, userl_slug):
 def edituser(request, userl_slug):
     ##### THIS METHOD MUST EDIT#####
     ## It looks like viewusermethod but you should to edit to make it can edit user profile in database ##
-
+    global userDoc
     user_info = {}
     try:
         userl = UserProfile.objects.get(slug=userl_slug)
@@ -584,6 +584,7 @@ def edituser(request, userl_slug):
         user_info['role'] = userl.role
         if userl.role==1:
             user_info['department']=Doctor.objects.get(userprofile=userl).department
+            
             userDoc=Doctor.objects.get(userprofile=userl)
         userAccount = userl.user
 
@@ -619,8 +620,9 @@ def edituser(request, userl_slug):
             if(request.POST['password']):
                 userAccount.set_password(request.POST['password'])
             #if userprofile.role==1:
-            if (request.POST['department']):
+            if (request.POST['department']) :
                 userDoc.department=request.POST['department']
+                userDoc.userprofile=userprofile
                 userDoc.save()
             userAccount.save()
             userprofile.save()
