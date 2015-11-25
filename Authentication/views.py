@@ -132,9 +132,11 @@ def register(request):
     # A boolean value for telling the template whether the registration was successful.
     # Set to False initially. Code changes value to True when registration succeeds.
     registered = False
+    
 
     # If it's a HTTP POST, we're interested in processing form data.
     if request.method == 'POST':
+        
         # Attempt to grab information from the raw form information.
         # Note that we make use of both UserForm and UserProfileForm.
         user_form = UserForm(data=request.POST)
@@ -178,11 +180,12 @@ def register(request):
         # Print problems to the terminal.
         # They'll also be shown to the user.
         else:
-            print (user_form.errors, profile_form.errors)
+            print (user_form.errors, profile_form.errors,patient_form.errors)
 
     # Not a HTTP POST, so we render our form using two ModelForm instances.
     # These forms will be blank, ready for user input.
     else:
+    
         user_form = UserForm()
         profile_form = UserProfileForm()
         patient_form = PatientProfile()
@@ -191,7 +194,7 @@ def register(request):
     return render(request,
             'theme/register.html',
             {'user_form': user_form, 'profile_form': profile_form, 'patient_form':patient_form,'registered': registered} )
-
+    
 def some_view(request):
     if not request.user.is_authenticated():
         return HttpResponse("You are logged in.")
