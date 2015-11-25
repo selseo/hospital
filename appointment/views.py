@@ -192,8 +192,14 @@ def getpatientlist(request):
 
 def getdoctorlist(request):
     dept = request.GET.get('department')
-    doctorlist = UserProfile.objects.filter(doctor__department=dept)
-    doctorlist = serializers.serialize('json', doctorlist)
+    doctorlist = UserProfile.objects.filter(doctor__department=dept).order_by('doctor__timetable__date')
+    result = []
+    seen = []
+    for d in doctorlist:
+        if d.pk not in seen:
+            seen.append(d.pk)
+            result.append(d)
+    doctorlist = serializers.serialize('json', result)
     return HttpResponse(json.dumps(doctorlist), content_type='application/json')
 
 def getappointmentlist(request):
