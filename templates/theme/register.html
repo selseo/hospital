@@ -1,0 +1,262 @@
+{% extends "theme/blank.html" %}
+{% load staticfiles %}
+
+
+
+{% block content %}
+
+<!-- Login Alternative Row -->
+<div class="container">
+    <div class="row">
+        <!-- <div class="col-md-5 ">
+            
+        </div> -->
+        <div class="col-md-8 col-md-offset-2">
+            <!-- Login Container -->
+            <div id="login-container" style="top:120px;">
+                <!-- Login Title -->
+                <div class="login-title text-center" style="background:#1BBAE1 none repeat scroll 0% 0%">
+                    <h1><i class="gi gi-flash"></i> <strong>SE hospital</strong> <i class="gi gi-flash"></i> 
+                        <br><small>Please <strong>Register</strong> or 
+                        <a href="/default/login/"><span class="badge">Login here!</span></a>
+                    </small></h1>
+                </div>
+                <!-- END Login Title -->
+
+                <!-- Login Block -->
+                <div class="block push-bit">
+                    <!-- Register Form -->
+                    <form id="user_form" method="post" action="/default/register/" 
+                    enctype="multipart/form-data" class="form-horizontal ">
+                        {% csrf_token %}
+                        {{user_form.errors}} <br> {{profile_form.errors}} <br> {{patient_form.errors}}
+                        <div class="form-group">
+                            <div class="col-xs-12">
+                                {% if user_form.username.errors %}
+                                <div class="has-error">
+                                {% endif %}
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-user"></i></span>
+                                        {{ user_form.username}}
+                                    </div>
+                                {% if user_form.username.errors %}
+                                <span class="help-block">
+                                    {{ user_form.username.errors }}
+                                </span>
+                                </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-xs-12">
+                                {% if user_form.password.errors %}
+                                <div class="has-error">
+                                {% endif %}
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="gi gi-asterisk"></i></span>
+                                        {{ user_form.password}}
+                                    </div>
+                                {% if user_form.password.errors %}
+                                <span class="help-block">
+                                    {{ user_form.password.errors }}
+                                </span>
+                                </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-xs-6">
+                                {% if profile_form.firstname.errors %}
+                                <div class="has-error">
+                                {% endif %}
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="gi gi-user"></i></span>
+                                        <!-- <input type="text" id="register-firstname" name="register-firstname" class="form-control input-lg" placeholder="Firstname"> -->
+                                        {{ profile_form.firstname}}
+                                    </div>
+                                {% if profile_form.firstname.errors %}
+                                <span class="help-block">
+                                    {{ profile_form.firstname.errors }}
+                                </span>
+                                </div>
+                                {% endif %}
+                            </div>
+                            <div class="col-xs-6">
+                                {% if profile_form.lastname.errors %}
+                                <div class="has-error">
+                                {% endif %}
+                                    {{ profile_form.lastname}}
+                                    {% if profile_form.lastname.errors %}
+                                    <span class="help-block">
+                                        {{ profile_form.lastname.errors }}
+                                    </span>
+                                </div>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-xs-12">
+                                {% if patient_form.birthdate.errors %}
+                                <div class="has-error">
+                                {% endif %}
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="gi gi-calendar"></i></span>
+                                        {{ patient_form.birthdate}}
+                                    </div>
+                                    {% if patient_form.birthdate.errors %}
+                                    <span class="help-block">
+                                        {{ patient_form.birthdate.errors }}
+                                    </span>
+                                </div>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-xs-12">
+                                {% if patient_form.address.errors %}
+                                <div class="has-error">
+                                {% endif %}
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-map-marker"></i></span>
+                                        {{ patient_form.address}}
+                                    </div>
+                                    {% if patient_form.address.errors %}
+                                    <span class="help-block">
+                                        {{ patient_form.address.errors }}
+                                    </span>
+                                </div>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-xs-12">
+                                {% if user_form.email.errors %}
+                                <div class="has-error">
+                                {% endif %}
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="gi gi-envelope"></i></span>
+                                        {{ user_form.email}}
+                                    </div>
+                                    {% if user_form.email.errors %}
+                                    <span class="help-block">
+                                        {{ user_form.email.errors }}
+                                    </span>
+                                </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-xs-6">
+                                {% if patient_form.sex.errors %}
+                                <div class="has-error">
+                                {% endif %}
+                                    <div class="input-group">
+                                        <span class="input-group-addon" >
+                                            <div class="radio-inline">
+                                                <i class="gi gi-parents" style="padding-bottom: 14px;margin-left: -28px;"></i>
+                                            </div>
+                                            {% for radio in patient_form.sex %}
+                                            <div class="radio-inline">
+                                                {{ radio }}
+                                            </div>
+                                            {% endfor %}
+                                        </span> 
+                                         <!--<div class="radio-inline">
+                                            <i class="gi gi-parents"></i>
+                                        </div>-->
+                                        
+                                    </div>
+                                    {% if patient_form.sex.errors %}
+                                    <span class="help-block">
+                                        {{ patient_form.sex.errors }}
+                                    </span>
+                                </div>
+                                {% endif %}
+                            </div>
+                            <div class="col-xs-6">
+                                {% if patient_form.phone.errors %}
+                                <div class="has-error">
+                                {% endif %}
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-fax"></i></span>
+                                        {{ patient_form.phone}}
+                                    </div>
+                                    {% if patient_form.phone.errors %}
+                                    <span class="help-block">
+                                        {{ patient_form.phone.errors }}
+                                    </span>
+                                </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-xs-12">
+                                {% if patient_form.idcard.errors %}
+                                <div class="has-error">
+                                {% endif %}
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-credit-card"></i></span>
+                                        {{ patient_form.idcard}}
+                                    </div>
+                                    {% if patient_form.idcard.errors %}
+                                    <span class="help-block">
+                                        {{ patient_form.idcard.errors }}
+                                    </span>
+                                </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="form-group form-actions">
+                            <div class="col-xs-6">
+                               <small>Do you have an account?</small> <a href="/default/login/" id="link-register"><small>Login</small></a>
+                            </div>
+                            <div class="col-xs-6 text-right">
+                                <button type="submit"  type="submit" name="submit" value="Register" class="btn btn-sm btn-success">
+                                    <i class="fa fa-plus"></i> Register Account</button>
+                                <!-- <input type="submit" name="submit" value="Register" /> -->
+                            </div>
+                        </div>
+                    </form>
+                    <!-- END Register Form -->
+                </div>
+                <!-- END Login Block -->
+            </div>
+            <!-- END Login Container -->
+        </div>
+    </div>
+</div>
+<!-- END Login Alternative Row -->
+
+<!-- Modal Terms -->
+<div id="modal-terms" class="modal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Terms &amp; Conditions</h4>
+            </div>
+            <div class="modal-body">
+                <h4>Title</h4>
+                <p>Donec lacinia venenatis metus at bibendum? In hac habitasse platea dictumst. Proin ac nibh rutrum lectus rhoncus eleifend. Sed porttitor pretium venenatis. Suspendisse potenti. Aliquam quis ligula elit. Aliquam at orci ac neque semper dictum. Sed tincidunt scelerisque ligula, et facilisis nulla hendrerit non. Suspendisse potenti. Pellentesque non accumsan orci. Praesent at lacinia dolor. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                <p>Donec lacinia venenatis metus at bibendum? In hac habitasse platea dictumst. Proin ac nibh rutrum lectus rhoncus eleifend. Sed porttitor pretium venenatis. Suspendisse potenti. Aliquam quis ligula elit. Aliquam at orci ac neque semper dictum. Sed tincidunt scelerisque ligula, et facilisis nulla hendrerit non. Suspendisse potenti. Pellentesque non accumsan orci. Praesent at lacinia dolor. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                <h4>Title</h4>
+                <p>Donec lacinia venenatis metus at bibendum? In hac habitasse platea dictumst. Proin ac nibh rutrum lectus rhoncus eleifend. Sed porttitor pretium venenatis. Suspendisse potenti. Aliquam quis ligula elit. Aliquam at orci ac neque semper dictum. Sed tincidunt scelerisque ligula, et facilisis nulla hendrerit non. Suspendisse potenti. Pellentesque non accumsan orci. Praesent at lacinia dolor. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                <p>Donec lacinia venenatis metus at bibendum? In hac habitasse platea dictumst. Proin ac nibh rutrum lectus rhoncus eleifend. Sed porttitor pretium venenatis. Suspendisse potenti. Aliquam quis ligula elit. Aliquam at orci ac neque semper dictum. Sed tincidunt scelerisque ligula, et facilisis nulla hendrerit non. Suspendisse potenti. Pellentesque non accumsan orci. Praesent at lacinia dolor. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                <h4>Title</h4>
+                <p>Donec lacinia venenatis metus at bibendum? In hac habitasse platea dictumst. Proin ac nibh rutrum lectus rhoncus eleifend. Sed porttitor pretium venenatis. Suspendisse potenti. Aliquam quis ligula elit. Aliquam at orci ac neque semper dictum. Sed tincidunt scelerisque ligula, et facilisis nulla hendrerit non. Suspendisse potenti. Pellentesque non accumsan orci. Praesent at lacinia dolor. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                <p>Donec lacinia venenatis metus at bibendum? In hac habitasse platea dictumst. Proin ac nibh rutrum lectus rhoncus eleifend. Sed porttitor pretium venenatis. Suspendisse potenti. Aliquam quis ligula elit. Aliquam at orci ac neque semper dictum. Sed tincidunt scelerisque ligula, et facilisis nulla hendrerit non. Suspendisse potenti. Pellentesque non accumsan orci. Praesent at lacinia dolor. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- END Modal Terms -->
+
+<!-- Load and execute javascript code used only in this page -->
+<script src="js/pages/login.js"></script>
+<script>$(function(){ Login.init(); });</script>
+
+
+{% endblock %}
