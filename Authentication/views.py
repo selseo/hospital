@@ -618,7 +618,8 @@ def edituser(request, userl_slug):
             # Once hashed, we can update the user object.
             if(request.POST['password']):
                 userAccount.set_password(request.POST['password'])
-            if userprofile.role==1:
+            #if userprofile.role==1:
+            if (request.POST['department']):
                 userDoc.department=request.POST['department']
                 userDoc.save()
             userAccount.save()
