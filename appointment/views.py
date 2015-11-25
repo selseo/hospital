@@ -8,7 +8,9 @@ from django.http import JsonResponse
 from .models import Department,Dee,timeTable,Appointment
 from Authentication.models import Patient, UserProfile, Doctor
 # from datetime import datetime
+from Visit.models import PatientVisitInfo
 import datetime
+
 #for restframework
 from rest_framework import viewsets
 from .serializers import DepartmentSerializer, DeeSerializer
@@ -56,6 +58,10 @@ def show(request):
             )
         timetable.patientnum += 1
         timetable.save()
+        visit = PatientVisitInfo(appointment=newapp,
+            status=0,
+            )
+        visit.save()
         return HttpResponse('success')
     else:
         form = AppForm()
@@ -78,6 +84,11 @@ def appointmentbystaff(request):
             )
         timetable.patientnum += 1
         timetable.save()
+
+        visit = PatientVisitInfo(appointment=newapp,
+            status=0,
+            )
+        visit.save()
         return HttpResponse('success')
     else:
         form = AppByStaff()
