@@ -375,18 +375,30 @@ Hello
             $(function(){
                 FormsWizard.init();
                 {% if dAdd %}
+                setTimeout(function(){
                 $('#next')[0].click();
+                },50);
                 {% endif %}
                 {% if mAdd %}
+                setTimeout(function(){
                 $('#next')[0].click();
+                },50);
+                setTimeout(function(){
                 $('#next')[0].click();
+                },100);
                 {% endif %}
                 {% if dDel%}
+                setTimeout(function(){
                 $('#next')[0].click();
+                },50);
                 {% endif %}
                 {% if mDel %}
+                setTimeout(function(){
                 $('#next')[0].click();
+                },50);
+                setTimeout(function(){
                 $('#next')[0].click();
+                },100);
                 {% endif %}
                 
             });

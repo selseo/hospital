@@ -126,7 +126,7 @@ def index(request):
 
     # Render the response and send it back!
     return render(request, 'theme/login.html',{'message':'You have to login to view this Page.'})
-
+@csrf_exempt
 def register(request):
 
     # A boolean value for telling the template whether the registration was successful.
