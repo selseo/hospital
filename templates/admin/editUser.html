@@ -9,7 +9,7 @@
 
 
 {% block content %}
-	<div class="content-header">
+    <div class="content-header">
         <div class="header-section animation-stretchRight">
             <h1>
                 <i class="gi gi-brush"></i>Edit User
@@ -38,6 +38,8 @@
         <!-- Basic Form Elements Content -->
         <form id="myForm" action="/default/edituser/{{ userl.slug }}" method="post" enctype="multipart/form-data" class="form-horizontal form-bordered" >
             {% csrf_token %}
+            
+
             <div class="form-group">
                 {% if admin_user_form.firstname.errors %}
                 <div class="has-error">

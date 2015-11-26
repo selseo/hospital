@@ -59,7 +59,7 @@ class AdminCreateUser(forms.ModelForm):
 class AdminCreateDoctor(forms.ModelForm):
     department = forms.ModelChoiceField(queryset=department, to_field_name="name", required=True, empty_label="--- Select Department ---",
         widget=forms.Select(attrs={'id': 'department', 'class': 'form-control'}))
-
+    
     class Meta:
         model = Doctor
         fields = ('department',)

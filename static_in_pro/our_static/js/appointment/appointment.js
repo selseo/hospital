@@ -16,7 +16,7 @@ function searchPatient(){
 				"pidcard" : el == 'patientidcard' ? elval : ''
 			},
 			success: function(e){
-				console.log(e);
+				// console.log(e);
 				$('#patientid').val(e[0].pk);
 				$('#patientname').val(e[0].fields.firstname + '  ' + e[0].fields.lastname);
 			},
@@ -37,13 +37,14 @@ function getDoctorList(){
 			"department" : $('#department').val()
 		},
 		success: function(e){
+			// console.log(e);
 			doctorlist = JSON.parse(e);
-			var el = document.createElement('option');
-			var eltext = document.createTextNode("--- Select Doctor (Optional) ---");
-			el.appendChild(eltext);
-			$('#doctor').append(el);
+			$('.doctorlist').remove();
+			
+			
 			doctorlist.forEach(function(doctor){
 				el = document.createElement('option');
+				el.className = 'doctorlist';
 				el.setAttribute('value', doctor.pk);
 				el.setAttribute('id', 'doc' + doctor.pk);
 				eltext = document.createTextNode(doctor.fields.firstname + ' ' + doctor.fields.lastname);
@@ -51,7 +52,8 @@ function getDoctorList(){
 				$('#doctor').append(el);
 				console.log(el);
 			});
-			
+			$('#doctor').val(doctorlist[0].pk);
+			getAppointmentList()
 		},
 		error: function(rs, e){
 			console.log(rs.responseText);
@@ -71,10 +73,12 @@ function getAppointmentList(){
 		},
 		success: function(e){
 			console.log(e);
+			$('.applist').remove();
 			timelist = JSON.parse(e);
 			timelist.forEach(function(t){
 				console.log(t.fields.date);
 				var el = document.createElement('option');
+				el.className = 'applist';
 				el.setAttribute('value', t.pk);
 				el.setAttribute('id', 'app'+t.pk);
 				var eltext = document.createTextNode(t.fields.date + ', ' + (t.fields.period == 'm'? "Morning" : "Afternoon"));
