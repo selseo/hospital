@@ -2,9 +2,7 @@ from django import forms
 from django.forms.extras.widgets import SelectDateWidget
 from .models import Department
 from .models import Doctor
-from .models import Dee
 
-dee = Dee.objects.all()
 department = Department.objects.all()
 doctor = Doctor.objects.all()
 BIRTH_YEAR_CHOICES = ('1980', '1981', '1982')

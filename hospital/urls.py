@@ -22,8 +22,6 @@ urlpatterns = [
     url(r'^default/', include('Authentication.urls', namespace="Authentication")),
     url(r'^app/', include('appointment.urls', namespace="appointment")),
     url(r'^admin/', include(admin.site.urls)),
-    #url(r'^register/', include('ptregister.urls', namespace="ptregister")),
-    url(r'^timetable/', include('doctor_timetable.urls', namespace="doctor_timetable")),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     url(r'^test/',include('testTheme.urls',namespace="testTheme")),
     url(r'^medicine/',include('Medicine.urls',namespace="Medicine")),

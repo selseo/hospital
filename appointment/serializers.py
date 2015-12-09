@@ -1,4 +1,4 @@
-from .models import Department, Dee
+from .models import Department, timeTable, Appointment 
 from rest_framework import serializers
 
 
@@ -7,8 +7,13 @@ class DepartmentSerializer(serializers.HyperlinkedModelSerializer):
         model = Department
         fields = ('url', 'name')
 
+# class timeTableSerializer(serializers.HyperlinkedModelSerializer):
+#     class Meta:
+#         model = timeTable
+#         fields = ('url','doctor_id','date','period','patientnum','objects')
 
-class DeeSerializer(serializers.HyperlinkedModelSerializer):
-    class Meta:
-        model = Dee
-        fields = ('url', 'name')
+# class AppointmentSerializer(serializers.HyperlinkedModelSerializer):
+# 	timetable_id = timeTableSerializer();
+#     class Meta:
+#         model = Appointment
+#         fields = ('url', 'patient_id','timetable_id','symptom','cause')

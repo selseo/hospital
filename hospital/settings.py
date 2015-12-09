@@ -45,10 +45,7 @@ INSTALLED_APPS = (
     #rest API
     'rest_framework',
 
-    'ptregister',
     'appointment',
-    'doctor_timetable',
-    'testTheme',
     'Authentication',
     'Visit',
     'Medicine',

@@ -11,7 +11,6 @@ from . import views
 
 router = routers.DefaultRouter()
 router.register(r'departments',views.DepartmentViewset)
-router.register(r'dee',views.DeeViewset)
 
 urlpatterns = [
     url(r'^', include(router.urls)),
