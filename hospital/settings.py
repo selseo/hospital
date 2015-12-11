@@ -50,6 +50,7 @@ INSTALLED_APPS = (
     'Visit',
     'Medicine',
     'Disease',
+    'api',
 
 
 )

@@ -1,0 +1,25 @@
+from django.conf.urls import patterns, url
+
+urlpatterns = patterns(
+    'api.views',
+    url(r'^departments/$', 'department_list', name='department_list'),
+    url(r'^departments/(?P<pk>[0-9]+)$', 'department_detail', name='department_detail'),
+    url(r'^timeTables/$', 'timeTable_list', name='timeTable_list'),
+    url(r'^timeTables/(?P<pk>[0-9]+)$', 'timeTable_detail', name='timeTable_detail'),
+    url(r'^appointments/$', 'appointment_list', name='appointment_list'),
+    url(r'^appointments/(?P<pk>[0-9]+)$', 'appointment_detail', name='appointment_detail'),
+    url(r'^doctors/$', 'doctor_list', name='doctor_list'),
+    url(r'^doctors/(?P<pk>[0-9]+)$', 'doctor_detail', name='doctor_detail'),
+    url(r'^patients/$', 'patient_list', name='patient_list'),
+    url(r'^patients/(?P<pk>[0-9]+)$', 'patient_detail', name='patient_detail'),
+    url(r'^userProfiles/$', 'userProfile_list', name='userProfile_list'),
+    url(r'^userProfiles/(?P<pk>[0-9]+)$', 'userProfile_detail', name='userProfile_detail'),
+    url(r'^patientVisitInfos/$', 'patientVisitInfo_list', name='patientVisitInfo_list'),
+    url(r'^patientVisitInfos/(?P<pk>[0-9]+)$', 'patientVisitInfo_detail', name='patientVisitInfo_detail'),
+    url(r'^prescriptions/$', 'prescription_list', name='prescription_list'),
+    url(r'^prescriptions/(?P<pk>[0-9]+)$', 'prescription_detail', name='prescription_detail'),
+    url(r'^diseases/$', 'disease_list', name='disease_list'),
+    url(r'^diseases/(?P<pk>(\w)+)$', 'disease_detail', name='disease_detail'),
+    url(r'^medicines/$', 'medicine_list', name='medicine_list'),
+    url(r'^medicines/(?P<pk>(\w)+)$', 'medicine_detail', name='medicine_detail'),
+)
