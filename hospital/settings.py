@@ -44,6 +44,7 @@ INSTALLED_APPS = (
     #'crispy_forms',
     #rest API
     'rest_framework',
+    
 
     'ptregister',
     'appointment',
