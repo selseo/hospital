@@ -5,7 +5,7 @@ from .forms import AppForm, AppByStaff
 
 import json
 from django.http import JsonResponse
-from .models import Department,Dee,timeTable,Appointment
+from .models import Department,timeTable,Appointment
 from Authentication.models import Patient, UserProfile, Doctor
 # from datetime import datetime
 from Visit.models import PatientVisitInfo
@@ -13,7 +13,7 @@ import datetime
 
 #for restframework
 from rest_framework import viewsets
-from .serializers import DepartmentSerializer, DeeSerializer
+from .serializers import DepartmentSerializer
 from django.views.decorators.csrf import csrf_exempt
 from django.core import serializers
 from django.db.models import F
@@ -21,10 +21,6 @@ from django.db.models import F
 class DepartmentViewset(viewsets.ModelViewSet):
     queryset = Department.objects.all()
     serializer_class = DepartmentSerializer
-
-class DeeViewset(viewsets.ModelViewSet):
-    queryset = Dee.objects.all()
-    serializer_class = DeeSerializer
 
 #Method for get user profile
 def getUserProfile(user):
