@@ -290,7 +290,7 @@ def admin_create_user(request):
         admin_user_form = AdminCreateUser(data=request.POST)
         admin_doctor_form= AdminCreateDoctor(data=request.POST)
         # If the two forms are valid...
-        if user_form.is_valid() and admin_user_form.is_valid() and admin_doctor_form.is_valid() :
+        if user_form.is_valid() and admin_user_form.is_valid() :
             # Save the user's form data to the database.
             user = user_form.save()
 
@@ -313,7 +313,7 @@ def admin_create_user(request):
 
             # Now we save the UserProfile model instance.
             profile.save()
-            if profile.role==1:
+            if profile.role==1 and admin_doctor_form.is_valid() :
                 doctor=admin_doctor_form.save(commit=False)
                 doctor.userprofile=profile
                 doctor.save()
@@ -322,7 +322,8 @@ def admin_create_user(request):
 
             # Update our variable to tell the template registration was successful.
             registered = True
-            return render(request,'theme/login.html', {'registered': registered} )
+            #return render(request,'theme/login.html', {'registered': registered} )
+            return HttpResponseRedirect('/default/viewuserlist',{'a':'a'})
 
         # Invalid form or forms - mistakes or something else?
         # Print problems to the terminal.
@@ -348,7 +349,7 @@ def view_user_list(request):
     #user_list = UserProfile.objects.all()
     user_list = UserProfile.objects.order_by('firstname')
     #user_list = UserProfile.objects.exclude(role=0)
-    paginator = Paginator(user_list, 15) # Show 25 contacts per page
+    paginator = Paginator(user_list,user_list.count()) # Show 25 contacts per page
     allusernum=UserProfile.objects.count()
     alluseravail=UserProfile.objects.filter(status=True).count()
 
