@@ -152,7 +152,7 @@ def editappointment(request):
     return render(request, 'appointment/edit_appointment.html', {'appointment': app})
 
 @login_required
-@user_passes_test(patient_check)
+@user_passes_test(patient_or_officer_check)
 def patientsearchforapp(request):
     return render(request, 'appointment/patientsearch.html')
 
