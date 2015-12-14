@@ -48,6 +48,22 @@ Nurse : SE hospital
             </td>
         </tr>
         {% endif %}
+        {% if form.bodyTemp.errors %}
+        <div class="has-error">
+        {% else %}
+        <tr>
+            <td style="width:30%">
+                Body Temperature
+            </td>
+            <td>
+                {{form.bodyTemp}}
+            </td>
+
+            <td>
+                °C
+            </td>
+        </tr>
+        {% endif %}
         {% if form.pulse.errors %}
         <div class="has-error">
         {% else %}

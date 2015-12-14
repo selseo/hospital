@@ -5,7 +5,7 @@
         <!-- Sidebar Content -->
         <div class="sidebar-content">
             <!-- Brand -->
-            <a href="a_index_doctor.html" class="sidebar-brand">
+            <a href="#" class="sidebar-brand">
                 <i class="fa fa-hospital-o" style="font-size:20px;margin-left:1.2em;"></i><strong>SE hospital</strong>
             </a>
             <!-- END Brand -->
@@ -13,7 +13,7 @@
             <!-- User Info -->
             <div class="sidebar-section sidebar-user clearfix">
                 <div class="sidebar-user-avatar">
-                    <a href="page_ready_user_profile.html">
+                    <a href="#">
                         <img src="{% static 'img/placeholders/avatars/avatar2.jpg' %}" alt="avatar">
                     </a>
                 </div>
@@ -89,13 +89,13 @@
                 </li>
                 {% if request.user.userprofile.role == 1 %}
                 <li>
-                    <a href="#"><i class="fa fa-users sidebar-nav-icon"></i>View patient info</a>
+                    <a href="/visit/doctor/view"><i class="fa fa-users sidebar-nav-icon"></i>View patient info</a>
                 </li>
                 <li>
-                    <a href="#"><i class="fa fa-calendar sidebar-nav-icon"></i>View timetable</a>
+                    <a href="/app/patientlist/"><i class="fa fa-calendar sidebar-nav-icon"></i>View timetable</a>
                 </li>
                 <li>
-                    <a href="#"><i class="fa fa-pencil-square-o sidebar-nav-icon"></i>Create timetable</a>
+                    <a href="/app/timetable/"><i class="fa fa-pencil-square-o sidebar-nav-icon"></i>Create timetable</a>
                 </li>
                 {% elif request.user.userprofile.role == 0 %}
                 <li>
@@ -106,14 +106,17 @@
                 </li>
                 {% elif request.user.userprofile.role == 2 %}
                 <li>
-                    <a href="#"><i class="fa fa-users sidebar-nav-icon"></i>View patient info</a>
+                    <a href="/visit/nurse/view"><i class="fa fa-users sidebar-nav-icon"></i>View patient info</a>
                 </li>
                 {% elif request.user.userprofile.role == 3 %}
                 <li>
-                    <a href="#"><i class="fa fa-users sidebar-nav-icon"></i>View patient info</a>
+                    <a href="/app/editappointment/bystaff/"><i class="fa fa-users sidebar-nav-icon"></i>Manage Appointment</a>
                 </li>
                 <li>
-                    <a href="/default/createpatient"><i class="fa fa-users sidebar-nav-icon"></i>Add patient</a>
+                    <a href="/default/createpatient"><i class="fa fa-plus sidebar-nav-icon"></i>Add patient</a>
+                </li>
+                <li>
+                    <a href="/app/show/bystaff"><i class="fa fa-plus sidebar-nav-icon"></i>Manage Appointment</a>
                 </li>
                 
                 {% elif request.user.userprofile.role == 4 %}

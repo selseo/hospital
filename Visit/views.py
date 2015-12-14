@@ -121,6 +121,7 @@ def seed(request):
                 v = PatientVisitInfo(appointment=a,
             weight=str(random.randrange(50,100)),
             height=str(random.randrange(100,200)),
+            bodyTemp=str(random.randrange(26,35)),
             pulse=str(random.randrange(40,120)),
             systolic=str(random.randrange(50,110)),
             diastolic=str(random.randrange(100,200)),
