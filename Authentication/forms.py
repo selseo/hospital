@@ -13,7 +13,7 @@ class UserForm(forms.ModelForm):
         fields = ('username', 'email', 'password')
         widgets = {
             'username': forms.TextInput(attrs={'class': 'form-control input-lg','placeholder':'Username'}),
-            'email': forms.TextInput(attrs={'class': 'form-control input-lg','placeholder':'Email'}),
+            'email': forms.EmailInput(attrs={'class': 'form-control input-lg','placeholder':'Email'}),
         }
 
         
@@ -37,8 +37,8 @@ class PatientProfile(forms.ModelForm):
         fields = ('sex','birthdate','idcard','phone','address')
         widgets = {
             'birthdate': forms.DateInput(attrs={'class': 'form-control input-lg input-datepicker','placeholder':'Birthdate','data-date-format':'mm/dd/yy'}),
-            'idcard': forms.TextInput(attrs={'class': 'form-control input-lg','placeholder':'ID card'}),
-            'phone': forms.TextInput(attrs={'class': 'form-control input-lg','placeholder':'Phone'}),
+            'idcard': forms.TextInput(attrs={'class': 'form-control input-lg','placeholder':'ID card' }),
+            'phone': forms.TextInput(attrs={'class': 'form-control input-lg','placeholder':'Phone', 'required pattern':'[0-9]{3}-[0-9]{3}-[0-9]{4}'}),
             'address': forms.TextInput(attrs={'class': 'form-control input-lg','placeholder':'Address'}),
             # 'allergy': forms.TextInput(attrs={'class': 'form-control input-lg','placeholder':'Allergy'}),
         }

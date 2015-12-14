@@ -31,12 +31,8 @@ def nurse_check(user):
 @user_passes_test(nurse_check)
 def index(request):
 	allapp=Appointment.objects.filter(timetable_id__date=datetime2.date.today()).count()
-	wait=PatientVisitInfo.objects.filter(lastUpdate__day=datetime.now().day,
-		lastUpdate__month=datetime.now().month,
-		lastUpdate__year=datetime.now().year,status=0).count()
-	checked=PatientVisitInfo.objects.filter(lastUpdate__day=datetime.now().day,
-		lastUpdate__month=datetime.now().month,
-		lastUpdate__year=datetime.now().year,status=1).count()
+	wait=PatientVisitInfo.objects.filter(appointment__timetable_id__date=datetime2.date.today(),status=0).count()
+	checked=PatientVisitInfo.objects.filter(appointment__timetable_id__date=datetime2.date.today(),status=1).count()
 	#if request.user.is_authenticated():
 		#if getUserProfile(request.user).role==2://Nurse
 	return render(request, 'nurse/index.html',{'checked':checked,'wait':wait,'allapp':allapp})
@@ -49,16 +45,22 @@ def index(request):
 def view(request):
 	#if request.user.is_authenticated():
 		#if getUserProfile(request.user).role==2://Nurse
+			#return render(request, 'nurse/view.html',{'table':PatientVisitInfo.objects.filter(
+		 	#	lastUpdate__day=datetime.now().day,
+		 	#	lastUpdate__month=datetime.now().month,
+		 	#	lastUpdate__year=datetime.now().year,
+		 	#	status=0
+			#)})
 			return render(request, 'nurse/view.html',{'table':PatientVisitInfo.objects.filter(
-		 		lastUpdate__day=datetime.now().day,
-		 		lastUpdate__month=datetime.now().month,
-		 		lastUpdate__year=datetime.now().year,
+		 		appointment__timetable_id__date=datetime2.date.today(),
 		 		status=0
 			)})
 	#else :
 			#return HttpResponseRedirect('/default/')
 	#else :
 		#return HttpResponseRedirect('/default/')
+
+
 
 @login_required
 @user_passes_test(nurse_check)

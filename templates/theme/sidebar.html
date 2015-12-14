@@ -92,10 +92,10 @@
                     <a href="/visit/doctor/view"><i class="fa fa-users sidebar-nav-icon"></i>View patient info</a>
                 </li>
                 <li>
-                    <a href="/app/patientlist/"><i class="fa fa-calendar sidebar-nav-icon"></i>View timetable</a>
+                    <a href="/app/patientlist"><i class="fa fa-calendar sidebar-nav-icon"></i>View timetable</a>
                 </li>
                 <li>
-                    <a href="/app/timetable/"><i class="fa fa-pencil-square-o sidebar-nav-icon"></i>Create timetable</a>
+                    <a href="/app/timetable"><i class="fa fa-pencil-square-o sidebar-nav-icon"></i>Create timetable</a>
                 </li>
                 {% elif request.user.userprofile.role == 0 %}
                 <li>
@@ -110,15 +110,14 @@
                 </li>
                 {% elif request.user.userprofile.role == 3 %}
                 <li>
-                    <a href="/app/editappointment/bystaff/"><i class="fa fa-users sidebar-nav-icon"></i>Manage Appointment</a>
+                    <a href="/app/editappointment/bystaff"><i class="fa fa-calendar sidebar-nav-icon"></i>Manage appointment</a>
                 </li>
                 <li>
                     <a href="/default/createpatient"><i class="fa fa-plus sidebar-nav-icon"></i>Add patient</a>
                 </li>
                 <li>
-                    <a href="/app/show/bystaff"><i class="fa fa-plus sidebar-nav-icon"></i>Manage Appointment</a>
+                    <a href="/app/show/bystaff"><i class="fa fa-pencil-square-o sidebar-nav-icon"></i>Make appointment</a>
                 </li>
-                
                 {% elif request.user.userprofile.role == 4 %}
                 
                 {% elif request.user.userprofile.role == 5 %}
