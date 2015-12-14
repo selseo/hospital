@@ -17,6 +17,10 @@ from .serializers import DepartmentSerializer
 from django.views.decorators.csrf import csrf_exempt
 from django.core import serializers
 from django.db.models import F
+#for check role
+
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import user_passes_test
 #for restframework
 class DepartmentViewset(viewsets.ModelViewSet):
     queryset = Department.objects.all()
@@ -30,14 +34,56 @@ def getDoctor(user):
     userprofile=getUserProfile(user)
     return Doctor.objects.get(userprofile=userprofile)
 
+#Start check role
+def doctor_check(user):
+    userProfile = getUserProfile(user)
+    if(userProfile.role==1):
+        return True;
+    return False;
+def patient_check(user):
+    userProfile = getUserProfile(user)
+    if(userProfile.role==0):
+        return True;
+    return False;
+
+def officer_check(user):
+    userProfile = getUserProfile(user)
+    if(userProfile.role==3):
+        return True;
+    return False;
+
+def nurse_check(user):
+    userProfile = getUserProfile(user)
+    if(userProfile.role==2):
+        return True;
+    return False;
+
+def pharmacist_check(user):
+    userProfile = getUserProfile(user)
+    if(userProfile.role==4):
+        return True;
+    return False;
+
+def patient_or_officer_check(user):
+    userProfile = getUserProfile(user)
+    if(userProfile.role==3):
+        return True;
+    if(userProfile.role==0):
+        return True;
+    return False;
+#End check role
 
 # Create your views here.
 def index(request):
     return HttpResponse("Hello, world. You're at the polls index.")
 
+@login_required
+@user_passes_test(doctor_check)
 def doctor(request):
     return HttpResponse(json.dumps(['foo', {'bar': ('baz', None, 1.0, 2)}]))
 
+@login_required
+@user_passes_test(patient_check)
 def show(request):
     if request.method == 'POST':
         data = request.POST;
@@ -64,6 +110,8 @@ def show(request):
 
     return render(request, 'appointment/appointment.html', {'form':form})
 
+@login_required
+@user_passes_test(officer_check)
 def appointmentbystaff(request):
     if request.method == 'POST':
         data = request.POST;
@@ -90,7 +138,8 @@ def appointmentbystaff(request):
         form = AppByStaff()
     return render(request, 'appointment/appointmentbystaff.html', {'form': form})
 
-
+@login_required
+@user_passes_test(patient_check)
 def editappointment(request):
     app = Appointment.objects.filter(patient_id=getUserProfile(request.user).pk, timetable_id__date__gte=datetime.date.today()).values(
         'timetable_id__date',
@@ -102,9 +151,13 @@ def editappointment(request):
         ).order_by('timetable_id__date')
     return render(request, 'appointment/edit_appointment.html', {'appointment': app})
 
+@login_required
+@user_passes_test(patient_check)
 def patientsearchforapp(request):
     return render(request, 'appointment/patientsearch.html')
 
+@login_required
+@user_passes_test(officer_check)
 def editappointmentbystaff(request, pid):
     app = Appointment.objects.filter(patient_id=pid, timetable_id__date__gte=datetime.date.today()).values(
         'timetable_id__date',
@@ -116,7 +169,8 @@ def editappointmentbystaff(request, pid):
         ).order_by('-timetable_id__date')
     return render(request, 'appointment/edit_appointmentbystaff.html', {'appointment': app})
 
-
+@login_required
+@user_passes_test(patient_or_officer_check)
 def reschedule(request, aid):
     if request.method == 'POST':
         newapp = request.POST.get('newapp')
@@ -137,7 +191,8 @@ def reschedule(request, aid):
     # timelist = serializers.serialize('json', timelist)
     return render(request, 'appointment/reschedule.html', {'appointment': appointment.first, 'timelist': timelist })
 
-
+@login_required
+@user_passes_test(patient_or_officer_check)
 def cancel(request, aid):
     if request.method == 'POST':
         app = Appointment.objects.get(id=aid)
@@ -154,9 +209,11 @@ def cancel(request, aid):
     # timelist = serializers.serialize('json', timelist)
     return render(request, 'appointment/cancel.html', {'appointment': appointment.first, 'timelist': timelist })
 
-
+@login_required
+@user_passes_test(doctor_check)
 def patientlist(request):
     return render(request, 'appointment/patientlist.html')
+
 
 def getpatientlist(request):
     # this below line should be replaced with session
@@ -220,9 +277,13 @@ def getpatientappointment(request):
 
     return HttpResponse(json.dumps(result), content_type='application/json')    
 
+@login_required
+@user_passes_test(doctor_check)
 def timetable(request):
     return render(request, 'appointment/timetable.html')
 
+@login_required
+@user_passes_test(doctor_check)
 def savetimetable(request):
     availables = json.loads(request.POST.get('availables'))
     year = request.POST.get('year')
